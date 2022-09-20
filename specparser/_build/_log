@@ -1,0 +1,9 @@
+### Starting build.
+Backtrace:
+                      - Failed to build the target applicativemap.ml
+                          - Building applicativemap.ml:
+                              - Failed to build all of these:
+                                  - Building applicativemap.mly
+                                  - Building applicativemap.mlypack
+                                  - Building applicativemap.mll
+# Compilation unsuccessful.

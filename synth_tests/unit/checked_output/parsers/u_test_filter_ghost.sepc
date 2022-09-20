@@ -1,0 +1,33 @@
+fuel : ref int;
+Len : int;
+Tys : [char];
+
+
+createTriple  :  (x : { v : int | true}) ->  
+				 (y : { v : [char] | true}) -> 
+				 (z : {v : [char] | true}) -> 
+				 	{v : pngtriple | length (z) + length (y) == x}; 	
+
+
+length : State {\(h : heap).
+				sel (h, fuel) == 0} 
+				v : { v : int | true} 
+			  	{\(h: heap),(v : int),(h': heap).
+					sel (h', fuel) == v /\
+                    [v > 4] };
+
+
+
+
+goal : State {\(h : heap).
+				sel (h, fuel) == 0} 
+				v : { v : pngtriple | true}
+				{\(h: heap),(v : pngtriple),(h': heap).
+				 \(Len : int), (Tys:[char]), (Con:[char]).
+				  (pnglen (v) = Len /\
+				  pngts (v) = Tys /\
+				  pngdata (v) = Con) => 	
+                            (
+					  		sel (h', fuel) == 0 /\
+				  			Len == length (Z) + length (Y)
+						  )};

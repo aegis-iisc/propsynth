@@ -1,0 +1,42 @@
+a28bf3e866b8d29ef1be7392e88d29992e3c23fd HEAD@{0}: commit: OOPSLA22 artifact
+0ac2b48dc23f93e7345fb70aad9644f3e00c198b HEAD@{1}: commit: Artifact version
+96e49012bfdd5c6f1618ad6eea670cffebb4a4c3 HEAD@{2}: commit: Before the README.md
+8c3961a03f06de2186816a26565858a7c9797c17 HEAD@{3}: commit: Before packaging artifact
+8ffe683c9220509524685819c58e944d07425347 HEAD@{4}: commit: tests for Vocal and spec_synthesis
+5c9c485bb23e06d8f6654980f2a1d1910f96a418 HEAD@{5}: commit (merge): Merge conflict resolved
+df32805cd8a6412aedeac34c56962400c867ca8b HEAD@{6}: commit: README updated
+665f67c992f6aec18a0969ac657ac96996dc8fdb HEAD@{7}: commit: synthesize Sig changed, Args parsing changed
+1e8dab4f6389a693f4c6f31c4d602d422d2df12b HEAD@{8}: commit: before NO-CDCL
+ce556d33b87c37a3ec0a428abcd93e196eda78eb HEAD@{9}: commit: before changes from OOPSLA
+7f3c57fd65a3c1c6fb34f154ccc651907b037c1a HEAD@{10}: commit: Submitted version
+ff437599e2a3cc8d8764b3d15cb6cf8642ff4d38 HEAD@{11}: commit: All benchmarks done without no-CDCL
+247fe6ffffee55269889cbd9f63e999c73cb7dd6 HEAD@{12}: commit: before updating the handshake
+b84413ddad4b6601abd9992c9e467716596aca81 HEAD@{13}: commit: before changing distinguish
+2537512a1113159f921bd6644f86e78e2fc7153f HEAD@{14}: commit: Workng Before Cleaning up the SP and WP
+30072add39f6fc3e8b087d51f9aafc2b02730415 HEAD@{15}: commit: Naive Handshaking implemented
+4c5cee71a728ade8bc082d9e47ad91bee7e80fea HEAD@{16}: commit: Forward handshaking but no backward handshaking
+3785fc7e08bf8f18652689727a54d2ad95c9d14b HEAD@{17}: commit: before adding bfs forward
+53da9e29e90b43cea31ac626313909e22add2034 HEAD@{18}: commit: all benchmarks added, working forward and backward separate
+861f6f31028910a17873f5788a64aa9912515ec5 HEAD@{19}: commit: Synthesis Backward version 0.1
+71504729ac912d75a35847b6cc29f23a087cd9bc HEAD@{20}: commit: added pathTypeMap and constraints for do bindings
+9b5fbeeab63e9564dd34c7781a07f97d4c2525fd HEAD@{21}: commit: before changing the paths for monBind Vars
+dd7909865bc90eff83940e089d27ae3953ca2c3b HEAD@{22}: commit: new bidirectional search algo examples
+1c801c3fd6d2f23afaeabce5795abca44b7521a3 HEAD@{23}: commit: Implemented Type and Effect directed Synthesis with Fun App and Cons App
+322b727f2c47398427bcd33d601ee24df9b670df HEAD@{24}: commit: Multi Argument functions as components
+a9fe8ab97954eaa8d11fefc165edf5a4b22d39b9 HEAD@{25}: commit: Single Argument function Handled
+7fd91b304726904c97150bfc0f02b706b7f3fabe HEAD@{26}: commit: Before cleaning up the code, unSinking
+e02d256ea2865667ec88117f19a089b07c70dfa7 HEAD@{27}: commit: before merging synthesis and learn to remove circular dep
+7882b13bca9cc62cd72870669b7187048c8cbc62 HEAD@{28}: commit: Working 0.1 with CDCL without UIP
+d397bfc7bc5c15ee2853a72c8dd9e425888c7687 HEAD@{29}: reset: moving to HEAD~
+1d654cf19ce317e3d4fca080b86d72f5adbbd0b1 HEAD@{30}: reset: moving to HEAD~
+5e5f0e30f105865d61d1f592ab86f36e7598186e HEAD@{31}: commit: Working 0.1 with CDCL without UIP
+1d654cf19ce317e3d4fca080b86d72f5adbbd0b1 HEAD@{32}: reset: moving to HEAD~
+8087614177a8ae7b67eba7182987c5a0936226ca HEAD@{33}: commit: small
+1d654cf19ce317e3d4fca080b86d72f5adbbd0b1 HEAD@{34}: commit: First version of CDCL explorer
+d397bfc7bc5c15ee2853a72c8dd9e425888c7687 HEAD@{35}: commit: working imprecise choice
+64388ce07fb1391c86c5619196b7d73dd0930ca9 HEAD@{36}: commit: Exploration faster
+04dd85e162dbfd6261994df09927db9c52280688 HEAD@{37}: commit: explored incomplete but working
+8c33604f0b0c03061994c17dede1dc3afdbc9531 HEAD@{38}: commit: Intermediate with working eff8, enumeration breaking
+5801dfd153becd080ac8b2f4448e1469b614206b HEAD@{39}: commit: Working with eSynthBind
+cd09f84aea073f1cbbaf7618cd8d362936553c4c HEAD@{40}: commit: Tag before chanhging the MArrrow definiton
+a2acf45d21210cf6d0256963a0f5443315adb846 HEAD@{41}: commit (initial): first commit

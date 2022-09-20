@@ -1,0 +1,48 @@
+EXPLORED :: pp-path 
+ EXPLORED :: pp-path 
+ Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+  EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x )
+   EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x )
+   Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+    EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  (
+    Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+     EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  (
+     Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+      EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound163 <- apply peek  (
+      Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+       EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound163 <- apply peek  ( ---> do locbound228 <- apply peek  (
+        EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound163 <- apply peek  (
+	Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+	 EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound163 <- apply peek  ( ---> do locbound301 <- apply fresh_el  (
+	  EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound163 <- apply peek  ( ---> do locbound301 <- apply fresh_el  (
+	   EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound163 <- apply peek  (
+	    EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  (
+	    Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+	     EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound440 <- apply fresh_el  (
+	      EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound440 <- apply fresh_el  (
+	      Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+	       EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound440 <- apply fresh_el  ( ---> do locbound504 <- apply peek  (
+	        EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound440 <- apply fresh_el  (
+		Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+		 EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound440 <- apply fresh_el  ( ---> do locbound577 <- apply fresh_el  (
+		  EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound440 <- apply fresh_el  ( ---> do locbound577 <- apply fresh_el  (
+		   EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  ( ---> do locbound440 <- apply fresh_el  (
+		    EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound106 <- apply peek  (
+		     EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  (
+		     Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+		      EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound1076 <- apply fresh_el  (
+		       EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound1076 <- apply fresh_el  (
+		       Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+		        EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound1076 <- apply fresh_el  ( ---> do locbound1132 <- apply peek  (
+			Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+			 EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound1076 <- apply fresh_el  ( ---> do locbound1132 <- apply peek  ( ---> do locbound1197 <- apply peek  (
+			  EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound1076 <- apply fresh_el  ( ---> do locbound1132 <- apply peek  (
+			  Show-EXPLORED ********* NO CDCL :: Trivial DiffPredicate 
+			   EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound1076 <- apply fresh_el  ( ---> do locbound1132 <- apply peek  ( ---> do locbound1254 <- apply add  (, locbound1076 )
+			    EXPLORED :: pp-path  ---> do locbound5 <- apply add  (, x ) ---> do locbound57 <- apply peek  ( ---> do locbound1076 <- apply fresh_el  ( ---> do locbound1132 <- apply peek  ( ---> do locbound1254 <- apply add  (, locbound1076 )
+			    ^C
+
+			    real	3m31.129s
+			    user	2m4.082s
+			    sys	1m26.876s
+

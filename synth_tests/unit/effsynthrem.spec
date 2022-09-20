@@ -1,0 +1,14 @@
+cycle : ( x_1 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [a] | true } {\(h : heap), (v : [a]), (h' : heap). [h' = h]};
+take : ( x_1 : { v : Int | true }) -> ( x_2 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [a] | true } {\(h : heap), (v : [a]), (h' : heap). [h' = h]};
+drop : ( x_1 : { v : Int | true }) -> ( x_2 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [a] | true } {\(h : heap), (v : [a]), (h' : heap). [h' = h]};
+splitAt : ( x_1 : { v : Int | true }) -> ( x_2 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : pairlist | true } {\(h : heap), (v : pairlist), (h' : heap). [h' = h]};
+takeWhile :   ( x_1 : { v : a | true }) -> ( x_2 : { v : Bool | true })   -> ( x_3 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [a] | true } {\(h : heap), (v : [a]), (h' : heap). [h' = h]};
+dropWhile :   ( x_1 : { v : a | true }) -> ( x_2 : { v : Bool | true })   -> ( x_3 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [a] | true } {\(h : heap), (v : [a]), (h' : heap). [h' = h]};
+dropWhileEnd :   ( x_1 : { v : a | true }) -> ( x_2 : { v : Bool | true })   -> ( x_3 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [a] | true } {\(h : heap), (v : [a]), (h' : heap). [h' = h]};
+span :   ( x_1 : { v : a | true }) -> ( x_2 : { v : Bool | true })   -> ( x_3 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : pairlist | true } {\(h : heap), (v : pairlist), (h' : heap). [h' = h]};
+break :   ( x_1 : { v : a | true }) -> ( x_2 : { v : Bool | true })   -> ( x_3 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : pairlist | true } {\(h : heap), (v : pairlist), (h' : heap). [h' = h]};
+inits : ( x_1 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [lista] | true } {\(h : heap), (v : [lista]), (h' : heap). [h' = h]};
+tails : ( x_1 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [lista] | true } {\(h : heap), (v : [lista]), (h' : heap). [h' = h]};
+filter :   ( x_1 : { v : a | true }) -> ( x_2 : { v : Bool | true })   -> ( x_3 : { v : [a] | true }) -> State {\(h : heap). true } v : {v : [a] | true } {\(h : heap), (v : [a]), (h' : heap). [h' = h]};
+partition :   ( x_1 : { v : a | true }) -> ( x_2 : { v : Bool | true })   -> ( x_3 : { v : [a] | true }) ->   ( x_4 : { v : pairlist | true }) State {\(h : heap). true } v : {v : ) | true } {\(h : heap), (v : )), (h' : heap). [h' = h]};
+   ( x_1 : { v : !! | true })   : ( x_2 : { v : [a] | true }) -> ( x_3 : { v : Int | true }) -> State {\(h : heap). true } v : {v : a | true } {\(h : heap), (v : a), (h' : heap). [h' = h]};

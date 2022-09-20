@@ -1,0 +1,24 @@
+EXPLORED :: PATH 
+EXPLORED :: PATH --->c3'
+EXPLORED :: PATH --->c3'
+EXPLORED :: PATH --->c3'--->c3'
+EXPLORED :: PATH --->c3'--->c3'--->c3'
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4--->foo'
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4--->c2'
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4--->c2'
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4--->c2
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4--->c2
+EXPLORED :: PATH --->c3'--->c3'--->c3'--->c4
+EXPLORED :: PATH --->c3'--->c3'--->c3'
+EXPLORED :: PATH --->c3'--->c3'
+EXPLORED :: PATH --->c3'
+EXPLORED :: PATH 
+EXPLORED :: PATH --->foo
+EXPLORED :: PATH --->foo
+EXPLORED :: PATH --->foo--->bar
+EXPLORED :: PATH --->foo--->bar--->baz
+EXPLORED :: PATH --->foo--->bar--->baz
+

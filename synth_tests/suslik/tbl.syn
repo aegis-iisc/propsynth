@@ -1,0 +1,354 @@
+predicate sll(loc x, set s) {
+|  x == 0        => { s == {} ; emp }
+|  not (x == 0)  => { s == {v} ++ s1 ; [x, 2] ** x :-> v ** (x + 1) :-> nxt ** sll(nxt, s1) }
+}
+
+predicate ulist(loc x, set s) {
+|  x == 0        => { s == {} ; emp }
+|  not (x == 0)  => { s == {v} ++ s1 /\ not (v in s1); [x, 2] ** x :-> v ** (x + 1) :-> nxt ** ulist(nxt, s1) }
+}
+
+predicate sll_len(loc x, int len) {
+|  x == 0        => { len == 0 ; emp }
+|  not (x == 0)  => { len == len1 + 1 ;
+                      [x, 2] ** x :-> v ** (x + 1) :-> nxt ** 
+                            sll_len(nxt, len1) }
+}
+
+predicate sll_mem(loc x, int str, set s, bool mem){
+    |  x == 0        => { s == {} && false; emp }
+    |  not (x == 0)  => { s == {v} ++ s1 && (str == v || mem1);
+                          [x, 2] ** x :-> v ** (x + 1) :-> nxt ** 
+                                sll_mem(nxt, str, s1, mem1) }
+
+
+}
+
+{0 <= n /\ 0 <= k /\ k <= 7 ; r :-> k ** srtl(x, n, lo, hi) }
+void srtl_insert (loc x, loc r)
+{n1 == n + 1 /\ lo1 == (k <= lo ? k : lo)  /\ hi1 == (hi <= k ? k : hi) ; r :-> y ** srtl(y, n1, lo1, hi1) }
+
+{r :-> x ** ulist (x, s)}
+void fresh_int (loc r, int toret)
+{not (mem == true); r :-> x ** ulist (x, s) ** sll_mem (x, toret, s, mem)}
+
+
+int freshInt :: t:Tbl -> {Int | (member t _v) == False}
+
+void add(loc r, loc val)
+{0 <= a /\ a <= 10 /\ not (mem == true); r :-> x ** val :-> a ** ulist(x, s) ** sll_mem(x, a, s, mem)}
+{0 <= a /\ a <= 10 /\ mem == true; r :-> y ** val :-> a ** ulist(y, s) ** sll_mem(y, a, s, mem)}
+
+
+
+add :: s:Int -> t: {Tbl | (member _v s) == False} -> {Tbl | (member _v s) == True && size _v == size t + 1} 
+
+
+void remove(loc r, loc val)
+{0 <= a /\ a <= 10; r :-> x ** val :-> a ** ulist(x, s) ** sll_mem(x, a, s, mem)}
+{0 <= a /\ a <= 10 /\ mem == false; r :-> y ** val :-> a ** ulist(y, s) ** sll_mem(y, a, s, mem)}
+
+
+remove :: s:Int -> t: {Tbl | (member _v s) == True} -> {Pair | (member (snd _v) s) == False && size (snd _v) == size t - 1 && fst _v == s} 
+
+
+
+void clear(loc r)
+{r :-> x ** ulist(x, s) ** sll_len (x, n)}
+{s1 == {}; r :-> y ** ulist(y, s1) ** sll_len (y, 0)}
+
+{0 <= a /\ a <= 10 /\ mem == false /\ s1 = s -- {a}; r :-> y ** val :-> a ** ulist(y, s1) ** sll_mem(y, a, s1, mem)}
+
+
+void clear(loc r)
+{ r :-> x ** ulist(x, s) }
+{ true ; r :-> y ** ulist (y, semp }
+{r :-> x ** ulist(x, s) ** sll_mem(x, a, s, mem)}
+{0 <= a /\ a <= 10 /\ mem == false; r :-> y ** val :-> a ** ulist(y, s) ** sll_mem(y, a, s, mem)}
+
+head :: t: {Tbl | (size _v) > 0} -> {Pair | (member (snd _v) (fst _v)) == False && size (snd _v) == size t - 1}
+
+averageLen :: t :{Tbl | size _v >  0} -> {Float | minmax _v}
+
+goal :: s:Int -> t:{Tbl | (member _v s) == True} -> {PairF| minmax (fstPF _v) && size (sndPF _v) == size t + 2 && (member (sndPF _v) s) == True }
+goal = ??
+
+
+
+
+
+
+
+predicate sll(loc x, set s) {
+|  x == 0        => { s == {} ; emp }
+|  not (x == 0)  => { s == {v} ++ s1 ; [x, 2] ** x :-> v ** (x + 1) :-> nxt ** sll(nxt, s1) }
+}
+predicate sll(loc x, int len, int lo, int hi) {
+|  x == 0        => { len == 0  /\  lo == 7  /\  hi == 0 ; emp }
+|  not (x == 0)  => { len == 1 + len1  /\  0 <= len1  /\  lo == (v <= lo1 ? v : lo1)  /\  hi == (hi1 <= v ? v : hi1) /\ 0 <= v /\ v <= 7;
+                      [x, 2] ** x :-> v ** (x + 1) :-> nxt ** sll(nxt, len1, lo1, hi1) }
+}
+
+
+predicate ulist(loc x, set s) {
+|  x == 0        => { s == {} ; emp }
+|  not (x == 0)  => { s == {v} ++ s1 /\ not (v in s1); [x, 2] ** x :-> v ** (x + 1) :-> nxt ** ulist(nxt, s1) }
+}
+
+predicate sll_len(loc x, int len) {
+|  x == 0        => { len == 0 ; emp }
+|  not (x == 0)  => { len == len1 + 1 ;
+                      [x, 2] ** x :-> v ** (x + 1) :-> nxt ** 
+                            sll_len(nxt, len1) }
+}
+
+predicate sll_mem(loc x, int str, set s, bool mem){
+    |  x == 0        => { s == {} && false; emp }
+    |  not (x == 0)  => { s == {v} ++ s1 && (str == v || mem1);
+                          [x, 2] ** x :-> v ** (x + 1) :-> nxt ** 
+                                sll_mem(nxt, str, s1, mem1) }
+
+
+}
+void fresh_int (loc r, loc val)
+{0 <= toret /\ toret <= 10; r :-> x ** val :-> toret ** ulist (x, s) }
+{0 <= toret /\ toret <= 10 /\ not (mem == true); r :-> x ** ulist (x, s) ** sll_mem (x, toret, s, mem)}
+
+
+void add(loc r, int a)
+{not (mem == true); r :-> x ** ulist(x, s) ** sll_mem(x, a, s, mem)}
+{mem == true; r :-> y ** ulist(y, s) ** sll_mem(y, a, s, mem)}
+
+
+void test (loc r, int toret)
+{0 <= toret /\ toret <= 10; r :-> x ** val :-> toret ** ulist (x, s) }
+{0 <= toret /\ toret <= 10 /\ not (mem == true); r :-> x ** ulist (x, s) ** sll_mem (x, toret, s, mem)}
+{
+??
+}
+
+
+**************
+
+predicate sll(loc x, set s) {
+|  x == 0        => { s == {} ; emp }
+|  not (x == 0)  => { s == {v} ++ s1 ; [x, 2] ** x :-> v ** (x + 1) :-> nxt ** sll(nxt, s1) }
+}
+predicate sll(loc x, int len, int lo, int hi) {
+|  x == 0        => { len == 0  /\  lo == 7  /\  hi == 0 ; emp }
+|  not (x == 0)  => { len == 1 + len1  /\  0 <= len1  /\  lo == (v <= lo1 ? v : lo1)  /\  hi == (hi1 <= v ? v : hi1) /\ 0 <= v /\ v <= 7;
+                      [x, 2] ** x :-> v ** (x + 1) :-> nxt ** sll(nxt, len1, lo1, hi1) }
+}
+
+
+predicate array(loc h, int arlen, set s) {
+       not ( h == 0) => {s == s1 /\ arlen == n; h :-> n ** (h + 1) :-> nxt ** sll(nxt, s1) ** sll_len (nxt, n)}
+}
+
+predicate array_len(loc h, int len) {
+      not ( h == 0) => {len == n; h :-> n}
+}
+
+
+predicate ulist(loc x, set s) {
+|  x == 0        => { s == {} ; emp }
+|  not (x == 0)  => { s == {v} ++ s1 /\ not (v in s1); [x, 2] ** x :-> v ** (x + 1) :-> nxt ** ulist(nxt, s1) }
+}
+
+predicate sll_len(loc x, int len) {
+|  x == 0        => { len == 0 ; emp }
+|  not (x == 0)  => { len == len1 + 1 ;
+                      [x, 2] ** x :-> v ** (x + 1) :-> nxt ** 
+                            sll_len(nxt, len1) }
+}
+
+predicate sll_mem(loc x, int str, set s, bool mem){
+    |  x == 0        => { s == {} && false; emp }
+    |  not (x == 0)  => { s == {v} ++ s1 && (str == v || mem1);
+                          [x, 2] ** x :-> v ** (x + 1) :-> nxt ** 
+                                sll_mem(nxt, str, s1, mem1) }
+
+
+}
+
+void remove(loc r, loc val)
+{ r :-> x ** val :-> a ** ulist(x, s) ** sll_mem(x, a, s, mem) ** sll_len (x, n)}
+{ mem == false /\ s1 == s -- {a} /\ n1 == n - 1; r :-> y ** val :-> a ** ulist(y, s1) ** sll_mem(y, a, s1, mem) ** sll_len (y, n1)}
+
+
+void clear(loc r)
+{r :-> x ** ulist(x, s) ** sll_len (x, n)}
+{s1 == {}; r :-> y ** ulist(y, s1) ** sll_len (y, 0)}
+
+void fresh_int (loc r, loc val)
+{ r :-> x ** val :-> toret ** ulist (x, s) ** sll_len (x, n) }
+{ not (mem == true) ; r :-> x ** val :-> toret ** ulist (x, s) ** sll_mem (x, toret, s, mem) **  sll_len (x, n) }
+
+
+void add(loc r, loc val)
+{ not (mem == true); r :-> x ** val :-> a ** ulist(x, s) ** sll_mem(x, a, s, mem) ** sll_len (x, n)}
+{ mem == true /\ s1 == {a} ++ s /\ n1 == n + 1; r :-> y ** val :-> a ** ulist(y, s1) ** sll_mem(y, a, s1, mem) ** sll_len (y, n1)}
+
+
+void mem(loc r, loc val)
+{ r :-> x ** ulist(x, s) ** val :-> a1 ** sll_len (x, n)}
+{ (not (a == true) \/ (mem == true)) /\ (not (a == false) \/ (mem == false)) ; r :-> x ** val :-> a ** ulist(x, s) ** sll_mem(x, a, s, mem) ** sll_len (x, n)}
+
+
+(*I10 the motivational query in the paper and also I4 for Queue*)
+void goal (loc r, loc val)
+{ r :-> x ** val :-> toret ** ulist (x, s) ** sll_len (x, n) }
+{(mem == true) /\ n1 == n + 1 /\ s1 == {toret} ++ s; r :-> y ** ulist (y, s1) ** sll_mem (y, toret, s1, mem) ** sll_len (y, n1)}
+{
+??
+}
+
+
+
+
+The derivation took too long: more than 30000 seconds.
+
+[0mGoals generated: 3564[0m
+[0mGoals expanded: 3342[0m
+[0mAnd-nodes backtracked: 2703[0m
+[0mMaximum worklist size: 236[0m
+[0mMaximum goal depth: 30[0m
+[0mFinal memo size: (2201,0,628)[0m
+[0mFinal size of SMT cache: 1357[0m
+[0mTime spent cycling: 0ms[0m
+[0mExpensive rules:
+PostInconsistent: succeeded 253 times (1914ms), failed 1793 times (11156ms)
+Close: succeeded 516 times (1106ms), failed 141 times (4ms)
+*Partial: succeeded 445 times (392ms), failed 2021 times (531ms)
+SubstR: succeeded 1113 times (650ms), failed 698 times (39ms)
+NilNotLval: succeeded 1 times (13ms), failed 2020 times (306ms)
+[0m
+[0mSMTSolving  12936ms
+            12936ms[0m
+Synthesis failed:
+Failed to synthesise:
+(List(),org.tygus.suslik.util.SynStats@e13cc49)
+
+
+
+(*I9 Conditional Remove *)
+
+void goal (loc r, loc val)
+{ r :-> x ** val :-> toret ** ulist (x, s) ** sll_len (x, n) }
+{not (mem == true) /\ n1 <=  n ; r :-> y ** ulist (y, s1) ** sll_mem (y, toret, s1, mem) ** sll_len (y, n1)}
+{
+??
+}
+
+The derivation took too long: more than 30000 seconds.
+
+[0mGoals generated: 3539[0m
+[0mGoals expanded: 3235[0m
+[0mAnd-nodes backtracked: 2252[0m
+[0mMaximum worklist size: 318[0m
+[0mMaximum goal depth: 30[0m
+[0mFinal memo size: (1785,0,970)[0m
+[0mFinal size of SMT cache: 1058[0m
+[0mTime spent cycling: 0ms[0m
+[0mExpensive rules:
+PostInconsistent: succeeded 305 times (1690ms), failed 1689 times (9467ms)
+Close: succeeded 557 times (1078ms), failed 111 times (0ms)
+*Partial: succeeded 391 times (319ms), failed 1969 times (647ms)
+SubstR: succeeded 998 times (583ms), failed 709 times (16ms)
+NilNotLval: succeeded 1 times (8ms), failed 1968 times (240ms)
+[0m
+[0mSMTSolving  11128ms
+            11128ms[0m
+Synthesis failed:
+Failed to synthesise:
+(List(),org.tygus.suslik.util.SynStats@68abf2ad)
+
+
+
+(*I6 and I1*)
+void goal (loc r, loc val)
+{ (mem == false); r :-> x ** val :-> toret ** ulist (x, s) ** sll_len (x, n) ** sll_mem (x, toret, s, mem)}
+{(mem == true) /\ n1 == n + 1 /\ s1 == {toret} ++ s; r :-> y ** ulist (y, s1) ** sll_mem (y, toret, s1, mem) ** sll_len (y, n1)}
+{
+??
+}
+
+solution:
+void goal (loc r, loc val) {
+  add(r, val);
+  error;
+}
+
+
+(*I11 and also I5*)
+void goal (loc r, loc val)
+{ r :-> x ** val :-> toret ** ulist (x, s) ** sll_len (x, n) }
+{(mem == true) /\ n1 == n + 2 /\ s1 == {toret} ++ s; r :-> y ** ulist (y, s1) ** sll_mem (y, toret, s1, mem) ** sll_len (y, n1)}
+{
+??
+}
+The derivation took too long: more than 30000 seconds.
+
+
+
+
+
+**********
+Simpler
+
+predicate sll(loc x, set s) {
+|  x == 0        => { s == {} ; emp }
+|  not (x == 0)  => { s == {v} ++ s1 ; [x, 2] ** x :-> v ** (x + 1) :-> nxt ** sll(nxt, s1) }
+}
+predicate sll(loc x, int len, int lo, int hi) {
+|  x == 0        => { len == 0  /\  lo == 7  /\  hi == 0 ; emp }
+|  not (x == 0)  => { len == 1 + len1  /\  0 <= len1  /\  lo == (v <= lo1 ? v : lo1)  /\  hi == (hi1 <= v ? v : hi1) /\ 0 <= v /\ v <= 7;
+                      [x, 2] ** x :-> v ** (x + 1) :-> nxt ** sll(nxt, len1, lo1, hi1) }
+}
+
+
+predicate ulist(loc x, set s) {
+|  x == 0        => { s == {} ; emp }
+|  not (x == 0)  => { s == {v} ++ s1 /\ not (v in s1); [x, 2] ** x :-> v ** (x + 1) :-> nxt ** ulist(nxt, s1) }
+}
+
+predicate sll_len(loc x, int len) {
+|  x == 0        => { len == 0 ; emp }
+|  not (x == 0)  => { len == len1 + 1 ;
+                      [x, 2] ** x :-> v ** (x + 1) :-> nxt ** 
+                            sll_len(nxt, len1) }
+}
+
+predicate sll_mem(loc x, int str, set s, bool mem){
+    |  x == 0        => { s == {} && false; emp }
+    |  not (x == 0)  => { s == {v} ++ s1 && (str == v || mem1);
+                          [x, 2] ** x :-> v ** (x + 1) :-> nxt ** 
+                                sll_mem(nxt, str, s1, mem1) }
+
+
+}
+
+void remove(loc r, loc val)
+{ r :-> x ** val :-> a ** ulist(x, s) ** sll_mem(x, a, s, mem) }
+{ mem == false /\ s1 == s -- {a}; r :-> y ** val :-> a ** ulist(y, s1) ** sll_mem(y, a, s1, mem) }
+
+
+void clear(loc r)
+{r :-> x ** ulist(x, s) }
+{s1 == {}; r :-> y ** ulist(y, s1)}
+
+void fresh_int (loc r, loc val)
+{ r :-> x ** ulist (x, s) }
+{ not (mem == true) ; r :-> x ** val :-> a ** ulist (x, s) ** sll_mem (x, a, s, mem) }
+
+
+void add(loc r, loc val)
+{ not (mem == true); r :-> x ** val :-> a ** ulist(x, s) ** sll_mem(x, a, s, mem) }
+{ mem == true /\ s1 == {a} ++ s; r :-> y ** val :-> a ** ulist(y, s1) ** sll_mem(y, a, s1, mem)}
+
+void goal (loc r, loc val)
+{ r :-> x ** val :-> toret ** ulist (x, s)}
+{(mem == true) /\ s1 == {toret} ++ s; r :-> y ** val :-> toret ** ulist (y, s1) ** sll_mem (y, toret, s1, mem)}
+{
+??
+}

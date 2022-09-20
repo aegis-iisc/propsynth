@@ -1,0 +1,13 @@
+### Starting build.
+Backtrace:
+                      - Failed to build the target main/compile.native
+                          - Building main/compile.native:
+                              - Building main/compile.cmx:
+                                  - Failed to build all of these:
+                                      - Building main/compile.ml:
+                                          - Failed to build all of these:
+                                              - Building main/compile.mly
+                                              - Building main/compile.mlypack
+                                              - Building main/compile.mll
+                                      - Building main/compile.mlpack
+# Compilation unsuccessful.

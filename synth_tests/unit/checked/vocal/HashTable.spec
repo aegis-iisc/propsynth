@@ -1,0 +1,215 @@
+
+type key;
+type table;
+qualifier hdom : heap :-> ref table :-> bool;
+qualifier hsel : heap :-> ref table :-> table;
+qualifier hmem : table :-> key :-> bool;
+qualifier hsize : table :-> int;  
+qualifier hvmem : table :-> a :-> bool;
+qualifier hlen : [a] :-> int;
+qualifier keyset : table :-> [key];
+
+create : (n : int) -> 
+         State {\(h : heap). true} 
+			v : ref table 
+		{ \(h : heap), (v : ref table), (h' : heap). 
+				\(H' : table).
+			      hdom (h', v) = true /\
+                  hsel (h', v) = H' /\
+                  hsize (H') = 0};
+
+
+clear : (ht : ref table) -> 
+         State {\(h : heap). hdom (h, ht) = true} 
+			v : {v : unit | true} 
+		{ \(h : heap), (v : unit), (h' : heap). 
+				\(H' : table), (H : table).
+			      hdom (h', ht) = true /\
+                  hsel (h', ht) = H' /\
+                  hsize (H') = 0};
+
+
+
+reset : (ht : ref table) -> 
+         State {\(h : heap). hdom (h, ht) = true} 
+			v : {v : unit | true} 
+		{ \(h : heap), (v : unit), (h' : heap). 
+				\(H' : table), (H : table).
+			      hdom (h', ht) = true /\
+                  hsel (h', ht) = H' /\
+                  hsize (H') = 0};
+
+
+
+
+
+add :  (ht : ref table)  -> 
+       (k : key) ->
+       (val : a) -> 
+       State {\(h : heap).
+                        \(H : table).     
+                        hdom (h, ht) = true /\
+                        (hsel (h, ht) = H => hmem (H, k) = false)} 
+			     v : { v : unit | true} 
+                {\(h : heap), (v : unit), (h' : heap). 
+				 \(H : table), (H' : table). 
+                    hsel (h, ht) = H /\ 
+                    hsel (h', ht) = H' /\
+                    hmem (H', k) = true /\
+                    hvmem (H', val) = true /\
+                    hsize (H') ==  hsize (H) + 1
+                };
+
+
+
+
+copy : (ht1 : ref table) -> 
+            State {\(h : heap).
+                \(H1: table). 
+                        hdom (h, ht1) = true
+                 } 
+			     v : { v : ref table | true} 
+                {\(h : heap), (v : ref table), (h' : heap). 
+				 \(H1: table), (HN : table). 
+                    hdom (h', v) = true /\
+                    hsel (h, ht1) = H1 /\ 
+                    hsel (h', v) = HN /\
+                    hsel (h', ht1) = hsel (h, ht1) /\
+                    hsize (HN) = hsize  (H1) 
+                };
+
+
+
+population: (ht1 : ref table) -> 
+            State {\(h : heap).
+                \(H1: table). 
+                        hdom (h, ht1) = true
+                 } 
+			     v : { v : int | true} 
+                {\(h : heap), (v : int ), (h' : heap). 
+				 \(H1: table). 
+                    hsel (h, ht1) = H1 /\ 
+                    hsel (h', ht1) = hsel (h, ht1) /\
+                    v = hsize (H1)
+                };
+
+length : (ht1 : ref table) -> 
+            State {\(h : heap).
+                \(H1: table). 
+                        hdom (h, ht1) = true
+                 } 
+			     v : { v : int | true} 
+                {\(h : heap), (v : int ), (h' : heap). 
+				 \(H1: table). 
+                    hsel (h, ht1) = H1 /\ 
+                    hsel (h', ht1) = hsel (h, ht1) /\
+                    v = hsize (H1)
+                };
+
+
+iter: (k : key) -> 
+     (f : (val : a) -> unit) -> 
+     (ht : ref table) -> 
+     unit;
+
+fold: (f : (k : key) -> (v : a) -> (i: b) -> b) -> 
+        (ht : ref table) -> 
+        (init : b) -> 
+        {res : b | true};
+
+
+remove :  (ht : ref table)  -> 
+       (k : key) ->
+       State {\(h : heap).
+                           \(H : table).
+                  hdom (h, ht) = true /\
+                  (hsel (h, ht) = H => hmem (H,k) = true)
+                } 
+			     v : { v : unit | true} 
+                {\(h : heap), (v : unit), (h' : heap). 
+				 \(H: table), (H' : table). 
+                    hdom (h', ht) = true /\
+                    hsel (h, ht) = H /\ 
+                    hsel (h', ht) = H' /\
+                    hmem (H', k) = false /\
+                    hsize (H') ==  hsize (H) -- 1
+                };
+
+ mem: (ht : ref table)  -> 
+       (k : key) ->
+       State {\(h : heap).
+                  hdom (h, ht) = true 
+                 } 
+			     v : { v : bool | true} 
+                {\(h : heap), (v : bool), (h' : heap). 
+				 \(H: table), (H' : table). 
+                    hsel (h, ht) = H /\ 
+                    hsel (h', ht) = H' /\
+                    [H' = H] /\
+                    ([v = true] <=> (hmem (H, k) = true)) /\
+                     ([v = false]<=> (hmem (H, k) = false)) 
+                    
+                };
+
+
+goal1 : (ht : ref table)  -> 
+       (k : key) ->
+       (val : a) ->  
+        State {\(h : heap).
+                    \(H : table).
+                  hdom (h, ht) = true /\
+                  hsel (h, ht) = H /\
+                  hmem (H,k) = true
+                 } 
+			     v : { v : unit | true} 
+                {\(h : heap), (v : unit), (h' : heap). 
+				 \(H: table), (H' : table). 
+                    (hsel (h, ht) = H /\ 
+                    hsel (h', ht) = H') => 
+                    (hvmem (H', val) = true /\
+                     hmem (H', k) = true /\
+                     hsize (H') = hsize (H))
+                 
+                };
+
+goal2 : 
+(ht : ref table)  -> 
+       (k : key) ->
+       (val : a) ->  
+        State {\(h : heap).
+                  hdom (h, ht) = true 
+                  } 
+			     v : { v : unit | true} 
+                {\(h : heap), (v : unit), (h' : heap). 
+				 \(H: table), (H' : table). 
+                    (hsel (h, ht) = H /\ 
+                    hsel (h', ht) = H') => 
+                    (hvmem (H', val) = true /\
+                    hmem (H', k) = true)
+                 
+                };
+
+
+
+
+
+goal3 : (ht : ref table)  -> 
+       (k : key) ->
+       (val : a) ->  
+        State {\(h : heap).
+                \(H : table).
+                  hdom (h, ht) = true /\
+                  hsel (h, ht) = H /\
+                  hmem (H, k) = false
+                 } 
+			     v : { v : ref table | true} 
+                {\(h : heap), (v : ref table), (h' : heap). 
+				 \(H: table), (HN : table). 
+                    (hsel (h, ht) = H /\ 
+                    hsel (h', ht) = HN) => 
+                    ( hvmem (HN, val) = true /\
+                    hmem (HN, k) = true /\
+                    hsize (HN) = hsize  (H) 
+                     )
+                 
+                };

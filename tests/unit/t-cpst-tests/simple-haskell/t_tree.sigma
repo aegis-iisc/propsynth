@@ -1,0 +1,11 @@
+type tree = {node:[char]; indent :int; children :[tree]};
+node {node;indent;children} = node;
+indent {node;indent;children} = indent;
+children {node;indent;children} = children;
+
+(*offsideTree*)
+type tree i = { node : [char]; indent : { v : int | v > i} ; children : [tree i]};
+
+
+
+

@@ -1,0 +1,186 @@
+
+ ********************************
+ ./synth_tests/unit/checked/databases/small_query2.spec_cobalt : 3.466862
+ ./synth_tests/unit/checked/databases/small_query2.spec_fw-alone : 19.080625
+ ./synth_tests/unit/checked/databases/small_query2.spec_bw-alone : 1.9493919999999996
+ ./synth_tests/unit/checked/databases/small_query2.spec_no-cdcl : 0.0012110000000014054
+ ********************************
+ ./synth_tests/unit/checked/databases/newsletter_remove.spec_cobalt : 0.00256599999999807
+ ./synth_tests/unit/checked/databases/newsletter_remove.spec_fw-alone : 0.0
+ ./synth_tests/unit/checked/databases/newsletter_remove.spec_bw-alone : 0.00044300000000063733
+ ./synth_tests/unit/checked/databases/newsletter_remove.spec_no-cdcl : 0.0015730000000004907
+ ********************************
+ ./synth_tests/unit/checked/databases/newsletter_read.spec_cobalt : 0.001550999999999192
+ ./synth_tests/unit/checked/databases/newsletter_read.spec_fw-alone : 0.0016199999999990666
+ ./synth_tests/unit/checked/databases/newsletter_read.spec_bw-alone : 0.6539099999999998
+ ./synth_tests/unit/checked/databases/newsletter_read.spec_no-cdcl : 0.0015190000000018244
+ ********************************
+ ./synth_tests/unit/checked/databases/newsletter_read_remove.spec_cobalt : 0.0017190000000013583
+ ./synth_tests/unit/checked/databases/newsletter_read_remove.spec_fw-alone : 0.0016970000000000596
+ ./synth_tests/unit/checked/databases/newsletter_read_remove.spec_bw-alone : 0.08068899999999957
+ ./synth_tests/unit/checked/databases/newsletter_read_remove.spec_no-cdcl : 0.0015289999999978932
+ ********************************
+ ./synth_tests/unit/checked/databases/firewall1.spec_cobalt : 5.827866
+ ./synth_tests/unit/checked/databases/firewall1.spec_fw-alone : 6.205389999999998
+ ./synth_tests/unit/checked/databases/firewall1.spec_bw-alone : 0.06001900000000404
+ ./synth_tests/unit/checked/databases/firewall1.spec_no-cdcl : 0.0010809999999992215
+ ********************************
+ ./synth_tests/unit/checked/databases/firewall2.spec_cobalt : 11.887828999999996
+ ./synth_tests/unit/checked/databases/firewall2.spec_fw-alone : 6.859896000000006
+ ./synth_tests/unit/checked/databases/firewall2.spec_bw-alone : 0.3239509999999939
+ ./synth_tests/unit/checked/databases/firewall2.spec_no-cdcl : 2.7837829999999997
+ ********************************
+ ./synth_tests/unit/checked/databases/firewall4.spec_cobalt : 3.7001420000000067
+ ./synth_tests/unit/checked/databases/firewall4.spec_fw-alone : 3.429955999999997
+ ./synth_tests/unit/checked/databases/firewall4.spec_bw-alone : 0.33520599999999945
+ ./synth_tests/unit/checked/databases/firewall4.spec_no-cdcl : 0.001485000000002401
+ ********************************
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall1.spec_cobalt : 8.714584000000002
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall1.spec_fw-alone : 1.1657510000000002
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall1.spec_bw-alone : 1.0213179999999937
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall1.spec_no-cdcl : 1.0497510000000005
+ ********************************
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall2.spec_cobalt : 6.745541000000003
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall2.spec_fw-alone : 0.9462609999999927
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall2.spec_bw-alone : 0.3937400000000082
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall2.spec_no-cdcl : 0.960054999999997
+ ********************************
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall4.spec_cobalt : 8.089607
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall4.spec_fw-alone : 1.1681430000000006
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall4.spec_bw-alone : 0.3624269999999967
+ ./synth_tests/unit/checked/databases/firewall_if_for_firewall4.spec_no-cdcl : 1.1340859999999964
+ ********************************
+ ./synth_tests/unit/checked/parsers/png_simple.spec_cobalt : 0.021647999999999
+ ./synth_tests/unit/checked/parsers/png_simple.spec_fw-alone : 0.6817740000000043
+ ./synth_tests/unit/checked/parsers/png_simple.spec_bw-alone : 0.009790000000009513
+ ./synth_tests/unit/checked/parsers/png_simple.spec_no-cdcl : 0.0016139999999893462
+ ********************************
+ ./synth_tests/unit/checked/parsers/png_simple2.spec_cobalt : 0.010241000000007716
+ ./synth_tests/unit/checked/parsers/png_simple2.spec_fw-alone : 0.7419119999999992
+ ./synth_tests/unit/checked/parsers/png_simple2.spec_bw-alone : 0.009210999999993419
+ ./synth_tests/unit/checked/parsers/png_simple2.spec_no-cdcl : 0.0016219999999975698
+ ********************************
+ ./synth_tests/unit/checked/parsers/png_simple_if.spec_cobalt : 0.07435900000000117
+ ./synth_tests/unit/checked/parsers/png_simple_if.spec_fw-alone : 0.8184860000000072
+ ./synth_tests/unit/checked/parsers/png_simple_if.spec_bw-alone : 0.06945899999999483
+ ./synth_tests/unit/checked/parsers/png_simple_if.spec_no-cdcl : 0.2890730000000019
+ ********************************
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_query4.spec_cobalt : 0.0016020000000054324
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_query4.spec_fw-alone : 0.0015599999999977854
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_query4.spec_bw-alone : 0.36650899999999353
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_query4.spec_no-cdcl : 0.00047000000000707587
+ ********************************
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_query4_plus.spec_cobalt : 13.757863999999998
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_query4_plus.spec_fw-alone : 7.247325000000004
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_query4_plus.spec_bw-alone : 0.057389999999998054
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_query4_plus.spec_no-cdcl : 0.003337999999999397
+ ********************************
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_remove.spec_cobalt : 0.0018589999999960582
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_remove.spec_fw-alone : 0.0007159999999970523
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_remove.spec_bw-alone : 0.21075000000000443
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_remove.spec_no-cdcl : 0.0015290000000049986
+ ********************************
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_if_query1.spec_cobalt : 0.0006240000000019563
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_if_query1.spec_fw-alone : 0.0006399999999899819
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_if_query1.spec_bw-alone : 0.1914780000000036
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_if_query1.spec_no-cdcl : 0.0026249999999947704
+ ********************************
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_if_query2.spec_cobalt : 0.0
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_if_query2.spec_fw-alone : 0.0021839999999997417
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_if_query2.spec_bw-alone : 0.18734800000000007
+ ./synth_tests/unit/checked/imperative_ds_simple/queue/queue_if_query2.spec_no-cdcl : 0.0008660000000020318
+ ********************************
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input.spec_cobalt : 0.311041000000003
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input.spec_fw-alone : 0.2639949999999942
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input.spec_bw-alone : 0.03295300000000623
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input.spec_no-cdcl : 0.2482430000000022
+ ********************************
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input_plus.spec_cobalt : 9.97629400000001
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input_plus.spec_fw-alone : 8.483318999999995
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input_plus.spec_bw-alone : 0.03309600000000046
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input_plus.spec_no-cdcl : 0.0010399999999890497
+ ********************************
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input_plus_plus.spec_cobalt : 9.538585000000012
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input_plus_plus.spec_fw-alone : 3.3437339999999836
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input_plus_plus.spec_bw-alone : 0.05074899999999616
+ ./synth_tests/unit/checked/imperative_ds_simple/tbl/tbl_insert_input_plus_plus.spec_no-cdcl : 0.0005690000000129203
+ ********************************
+ ./synth_tests/unit/checked/vocal/Vector1.spec_cobalt : 0.4636989999999912
+ ./synth_tests/unit/checked/vocal/Vector1.spec_fw-alone : 0.002090000000009695
+ ./synth_tests/unit/checked/vocal/Vector1.spec_bw-alone : 0.4462949999999921
+ ./synth_tests/unit/checked/vocal/Vector1.spec_no-cdcl : 0.0016329999999982192
+ ********************************
+ ./synth_tests/unit/checked/vocal/Vector2.spec_cobalt : 0.0016620000000102664
+ ./synth_tests/unit/checked/vocal/Vector2.spec_fw-alone : 0.0004390000000000782
+ ./synth_tests/unit/checked/vocal/Vector2.spec_bw-alone : 0.4318140000000028
+ ./synth_tests/unit/checked/vocal/Vector2.spec_no-cdcl : 0.0026489999999910196
+ ********************************
+ ./synth_tests/unit/checked/vocal/Vector3.spec_cobalt : 0.0016080000000044947
+ ./synth_tests/unit/checked/vocal/Vector3.spec_fw-alone : 0.0009959999999864522
+ ./synth_tests/unit/checked/vocal/Vector3.spec_bw-alone : 0.7464700000000164
+ ./synth_tests/unit/checked/vocal/Vector3.spec_no-cdcl : 0.0005669999999895481
+ ********************************
+ ./synth_tests/unit/checked/vocal/RingBuffer1.spec_cobalt : 0.10955300000000534
+ ./synth_tests/unit/checked/vocal/RingBuffer1.spec_fw-alone : 0.08943500000000881
+ ./synth_tests/unit/checked/vocal/RingBuffer1.spec_bw-alone : 0.10487000000000535
+ ./synth_tests/unit/checked/vocal/RingBuffer1.spec_no-cdcl : 0.08824999999998795
+ ********************************
+ ./synth_tests/unit/checked/vocal/RingBuffer2.spec_cobalt : 5.884379999999993
+ ./synth_tests/unit/checked/vocal/RingBuffer2.spec_fw-alone : 4.513682000000017
+ ./synth_tests/unit/checked/vocal/RingBuffer2.spec_bw-alone : 0.07801999999998088
+ ./synth_tests/unit/checked/vocal/RingBuffer2.spec_no-cdcl : 0.0015530000000012478
+ ********************************
+ ./synth_tests/unit/checked/vocal/sll_goal1.spec_cobalt : 10.744481000000007
+ ./synth_tests/unit/checked/vocal/sll_goal1.spec_fw-alone : 6.438756000000012
+ ./synth_tests/unit/checked/vocal/sll_goal1.spec_bw-alone : 0.25016899999999964
+ ./synth_tests/unit/checked/vocal/sll_goal1.spec_no-cdcl : 8.532430999999974
+ ********************************
+ ./synth_tests/unit/checked/vocal/sll_goal2.spec_cobalt : 5.171904000000012
+ ./synth_tests/unit/checked/vocal/sll_goal2.spec_fw-alone : 1.9484030000000132
+ ./synth_tests/unit/checked/vocal/sll_goal2.spec_bw-alone : 0.14065299999998615
+ ./synth_tests/unit/checked/vocal/sll_goal2.spec_no-cdcl : 0.001632000000000744
+ ********************************
+ ./synth_tests/unit/checked/vocal/sll_goal3.spec_cobalt : 6.917833000000002
+ ./synth_tests/unit/checked/vocal/sll_goal3.spec_fw-alone : 3.1262470000000064
+ ./synth_tests/unit/checked/vocal/sll_goal3.spec_bw-alone : 0.15703999999999496
+ ./synth_tests/unit/checked/vocal/sll_goal3.spec_no-cdcl : 3.359708000000012
+ ********************************
+ ./synth_tests/unit/checked/vocal/Queue1.spec_cobalt : 0.0005139999999812517
+ ./synth_tests/unit/checked/vocal/Queue1.spec_fw-alone : 0.0018489999999928841
+ ./synth_tests/unit/checked/vocal/Queue1.spec_bw-alone : 0.19959200000002397
+ ./synth_tests/unit/checked/vocal/Queue1.spec_no-cdcl : 0.002604999999988422
+ ********************************
+ ./synth_tests/unit/checked/vocal/Queue2.spec_cobalt : 0.0017799999999965621
+ ./synth_tests/unit/checked/vocal/Queue2.spec_fw-alone : 0.0004959999999982756
+ ./synth_tests/unit/checked/vocal/Queue2.spec_bw-alone : 0.28343399999999974
+ ./synth_tests/unit/checked/vocal/Queue2.spec_no-cdcl : 0.00048000000001025
+ ********************************
+ ./synth_tests/unit/checked/vocal/Queue3.spec_cobalt : 0.001573000000007596
+ ./synth_tests/unit/checked/vocal/Queue3.spec_fw-alone : 0.0017599999999902138
+ ./synth_tests/unit/checked/vocal/Queue3.spec_bw-alone : 0.0016410000000064429
+ ./synth_tests/unit/checked/vocal/Queue3.spec_no-cdcl : 0.0015750000000025466
+ ********************************
+ ./synth_tests/unit/checked/vocal/PriorityQueue1.spec_cobalt : 0.004856999999987011
+ ./synth_tests/unit/checked/vocal/PriorityQueue1.spec_fw-alone : 0.004806999999999562
+ ./synth_tests/unit/checked/vocal/PriorityQueue1.spec_bw-alone : 0.004785999999995738
+ ./synth_tests/unit/checked/vocal/PriorityQueue1.spec_no-cdcl : 0.005751000000003614
+ ********************************
+ ./synth_tests/unit/checked/vocal/PriorityQueue2.spec_cobalt : 8.868837000000013
+ ./synth_tests/unit/checked/vocal/PriorityQueue2.spec_fw-alone : 3.484593999999987
+ ./synth_tests/unit/checked/vocal/PriorityQueue2.spec_bw-alone : 0.10988199999999892
+ ./synth_tests/unit/checked/vocal/PriorityQueue2.spec_no-cdcl : 0.0016290000000083182
+ ********************************
+ ./synth_tests/unit/checked/vocal/HashTable1.spec_cobalt : 0.4060130000000015
+ ./synth_tests/unit/checked/vocal/HashTable1.spec_fw-alone : 0.0010110000000054242
+ ./synth_tests/unit/checked/vocal/HashTable1.spec_bw-alone : 0.33504800000000046
+ ./synth_tests/unit/checked/vocal/HashTable1.spec_no-cdcl : 0.0015870000000006712
+ ********************************
+ ./synth_tests/unit/checked/vocal/HashTable2.spec_cobalt : 0.3892059999999731
+ ./synth_tests/unit/checked/vocal/HashTable2.spec_fw-alone : 0.0017230000000267864
+ ./synth_tests/unit/checked/vocal/HashTable2.spec_bw-alone : 0.3498309999999947
+ ./synth_tests/unit/checked/vocal/HashTable2.spec_no-cdcl : 0.001125000000001819
+ ********************************
+ ./synth_tests/unit/checked/vocal/HashTable3.spec_cobalt : 2.3807529999999986
+ ./synth_tests/unit/checked/vocal/HashTable3.spec_fw-alone : 0.43813599999998587
+ ./synth_tests/unit/checked/vocal/HashTable3.spec_bw-alone : 0.18706000000000245
+ ./synth_tests/unit/checked/vocal/HashTable3.spec_no-cdcl : 0.4274520000000166

@@ -1,0 +1,37 @@
+ EXPLORED :: PATH 
+ EXPLORED :: PATH --->c3'
+ EXPLORED :: PATH --->c3'
+ EXPLORED :: PATH --->c3'--->c3'
+ EXPLORED :: PATH --->c3'--->c3'--->c3'
+ EXPLORED :: PATH --->c3'--->c3'--->c3'--->foo'
+ EXPLORED :: PATH --->c3'--->c3'--->c3'
+ EXPLORED :: PATH --->c3'--->c3'
+ EXPLORED :: PATH --->c3'--->c3'--->foo'
+ EXPLORED :: PATH --->c3'--->c3'--->foo'
+ EXPLORED :: PATH --->c3'--->c3'
+ EXPLORED :: PATH --->c3'
+ EXPLORED :: PATH --->c3'--->foo'
+ EXPLORED :: PATH --->c3'--->foo'
+ EXPLORED :: PATH --->c3'
+ EXPLORED :: PATH 
+ EXPLORED :: PATH --->foo'
+ EXPLORED :: PATH --->foo'
+ EXPLORED :: PATH 
+ EXPLORED :: PATH --->foo
+ EXPLORED :: PATH --->foo
+ EXPLORED :: PATH --->foo--->c3'
+ EXPLORED :: PATH --->foo--->c3'--->c3'
+ EXPLORED :: PATH --->foo--->c3'--->c3'--->foo'
+ EXPLORED :: PATH --->foo--->c3'--->c3'
+ EXPLORED :: PATH --->foo--->c3'
+ EXPLORED :: PATH --->foo--->c3'--->foo'
+ EXPLORED :: PATH --->foo--->c3'--->foo'
+ EXPLORED :: PATH --->foo--->c3'
+ EXPLORED :: PATH --->foo
+ EXPLORED :: PATH --->foo--->foo'
+ EXPLORED :: PATH --->foo--->foo'
+ EXPLORED :: PATH --->foo
+ EXPLORED :: PATH --->foo--->bar
+ EXPLORED :: PATH --->foo--->bar
+ EXPLORED :: PATH --->foo--->bar--->c3'
+ EXPLORED :: PATH --->foo--->bar--->c3'
