@@ -1,4 +1,4 @@
-# effsynth 
+# propsynth 
 
 # Dependencies:
 1. OCaml (Version >= 4.03)
