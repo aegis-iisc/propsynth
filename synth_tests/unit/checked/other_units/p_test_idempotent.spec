@@ -27,11 +27,14 @@ c3' : State  {\(h : heap). not (sel (h, res) > 8)}
 		sel (h', res) == sel (h, res) + 3};
 
 
+c3'' : State  {\(h : heap). (sel (h, res) > 8)} 
+		v : { v : int | true} 
+		{\(h : heap), (v : int), (h' : heap). 
+		sel (h', res) == sel (h, res) + 2};
+
 goal : State  
         {\(h : heap). sel (h, res) == 0} 
-		
 		v : { v : int | true} 
-		
 		{\(h : heap), (v : int), (h' : heap). 
 		sel (h', res) == 10};
 
