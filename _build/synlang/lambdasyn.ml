@@ -7,6 +7,11 @@ module RefTy = RefinementType
 
 type var = Var.t 
 
+let bvarcount = ref 0 
+let incr_count () = 
+        let count = !bvarcount in 
+        let _ = bvarcount := count + 1 in  
+        count
 
 type caseExp = {constuctor : var;
                 args : var list ;
@@ -18,7 +23,7 @@ and  monExp =
         | Efix of var * typedMonExp 
         | Eapp of monExp * (monExp list) (*Eapp foo [x1, x2, x3,...xn] *)
         | Ematch of typedMonExp * (caseExp list) 
-        | Elet of monExp * typedMonExp * typedMonExp
+        | Elet of monExp * monExp * monExp 
         | Eret of monExp 
         | Ebind of monExp * monExp * monExp
         | Ecapp of var * ( monExp list ) 
@@ -28,6 +33,41 @@ and  monExp =
         | Eskip   
 
 and typedMonExp = {expMon:monExp; ofType:RefTy.t }
+ 
+type bindingtuple = (monExp * monExp)
+
+
+(*Change this function to finally generate OCAML input for Zhe's tool *)
+let visitleaf (leaf_node : monExp) : bindingtuple list = 
+    match leaf_node with 
+        | Evar _ ->  (*let _bvi = leaf *)[(Evar (Var.fromString ("_bv"^(string_of_int (incr_count ())))), leaf_node)]
+        | _ -> raise (IncorrectExp "leaf Node in a funapp must be a ")
+(* *)
+let rec visitnode (applynode : monExp) : bindingtuple list = 
+    match applynode with 
+        | Eapp (fname, args) -> 
+                (*let bvi = fname (i ) *)
+                let bindingtuple_list4args = List.map (fun argi -> visitnode argi) args in 
+                let rhs = Eapp (fname, List.map (fun ltuplei -> fst (List.hd (List.rev (ltuplei)))) bindingtuple_list4args) in 
+                let prefix = List.fold_left (fun prefix btlisti -> List.append prefix btlisti) [] bindingtuple_list4args in 
+                let bindingtuple_node = (Evar (Var.fromString "_bv"^(string_of_int (incr_count ()))), rhs) in 
+                List.append prefix [bindingtuple_node]    
+        | Ecapp (cname, args) -> 
+                let bindingtuple_list4args = List.map (fun argi -> visitnode argi) args in 
+                let rhs = Ecapp (cname,  List.map (fun ltuplei -> fst (List.hd (List.rev (ltuplei)))) bindingtuple_list4args) in 
+                let prefix = List.fold_left (fun prefix btlisti -> List.append prefix btlisti) [] bindingtuple_list4args in 
+                let bindingtuple_node = (Evar (Var.fromString "_bv"^(string_of_int (incr_count ()))), rhs) in 
+                List.append prefix [bindingtuple_node]    
+        | Evar _ -> visitleaf applynode      
+        | _ -> raise (IncorrectExp "Node in a Application Tree Must be either a var or a function ")
+
+
+let exp4tuples (lbtuple : bindingtuple list) : monExp = 
+     assert (List.length lbtuple > 0);
+     List.fold_right (
+                        fun (xi, ei) ej -> 
+                        Elet (xi, ei, ej)
+                    ) lbtuple (fst (List.hd (List.rev (lbtuple)))) 
 
 
 type path =  monExp list 
@@ -88,40 +128,11 @@ let rec doExp (ls : monExp list) : monExp=
     match ls with 
         [] -> Eskip
         | x :: xs -> Edo (x, doExp (xs))
-(*normal form*)
-(*
-type caseIExp = Case of {constuctor : var;
-                args : var list ;
-                exp : monIExp}
-
-
-and  monEExp = 
-        | Evar of var 
-        | Eapp of monEExp * monIExp (*all application will be of the form x I1 I2....*)
-        | Eret of monIExp
-        | Ebind of monExp * monEExp  * monEExp
-        | Elloc of monExp           
-        | Eget of monEExp
-        | Eset of monEExp * monIExp
-                  
-and monIExp = 
-        | Elam of monEExp * monIExp
-        | Efix of var * monIExp
-        | Ematch of monEExp * (caseIExp list) 
-        | Elet of monEExp * monIExp * monIExp
-        | Ecapp of var * ( monIExp list ) 
-        | Ehole (*a hole in place of an expression*)
-        | Edo of monEExp * monIExp (*do E; retrun K*)
-
-and normalMonExp = 
-        | E of monEExp 
-        | I of monIExp 
-and typedNormalExp = {nme:normalMonExp;rt:RefTy.t}            
-*)
 
 let rec monExp_toString (m:monExp) = 
     match m with 
         | Evar v -> (v)
+        | Elet (v, e1, e2) -> ("let "^(monExp_toString v)^" = "^(monExp_toString e1)^" in "^(monExp_toString e2))
         | Eret ret ->  ("return "^(monExp_toString ret))
         | Ebind (mne, mne1, mne2) -> ((monExp_toString mne1)^" \n \t >>= \lambda "^
                                     (monExp_toString mne)^" . \n \t "^

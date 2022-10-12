@@ -27,7 +27,7 @@ let generateNilConstraints (macthedArg) =
       (*len (ls) = 0*)
       let nil_length = 
         P.Rel(RP.NEq 
-              ( RelLang.R (RelLang.instOfRel (RelId.fromString "len"), macthedArg),
+              ( RelLang.R (RelLang.instOfRel (RelId.fromString "slen"), macthedArg),
                 RelLang.relexpr_for_int 0
               )
               )  
@@ -41,25 +41,23 @@ let generateNilConstraints (macthedArg) =
 let generateConsConstraints (macthedArg : Var.t) (arg_x: Var.t) (arg_xs : Var.t) = 
     let cons_length =  P.Rel
       (RP.NEq( 
-        R( (RelLang.instOfRel (RelId.fromString "len")), macthedArg),
+        R( (RelLang.instOfRel (RelId.fromString "slen")), macthedArg),
                         
        ADD(
-          R ( RelLang.instOfRel (RelId.fromString "len"), 
+          R ( RelLang.instOfRel (RelId.fromString "slen"), 
                 arg_xs
               ),
           RelLang.relexpr_for_int 1))
         )  in 
      let cons_length_grt_0 = 
       P.Rel(RP.Grt 
-              ( R (RelLang.instOfRel (RelId.fromString "len"), macthedArg),
+              ( R (RelLang.instOfRel (RelId.fromString "slen"), macthedArg),
                 RelLang.relexpr_for_int 0
               )
               )
       in 
       let cons_length = Predicate.Conj (cons_length, cons_length_grt_0) in 
-  let () = Printf.printf "%s" ("Cons Length "^(Predicate.toString cons_length)) in 
-      
-    cons_length
+      cons_length
 
 
 (*
@@ -121,12 +119,12 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                 (*create the type [actuals/foramls] retTy*)
                 let appType = RefTy.applySubsts subs retTy in 
 
-                 let () = Printf.printf "%s" ("\n AppType "^(RefTy.toString appType)) in 
+                 (* let () = Printf.printf "%s" ("\n AppType "^(RefTy.toString appType)) in  *)
    
                 (*the subtyping check*)
 
                 let vc = VC.fromTypeCheck gamma (delta::delta_extended) (appType, spec) in 
-                let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in  
+                (* let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in   *)
                 
                 (*make a direct call to the SMT solver*)
                 let vcStandard = VC.standardize vc in 
@@ -144,6 +142,141 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                   None
               | _ -> raise (SynthesisException ("Funtype must be t1 -> t2, but found "^(RefTy.toString funType)))
              )        
+      | Ecapp (funName, argsList) ->    
+          
+          let funType = try 
+                 Sigma.find sigma funName 
+                 with 
+                  | e -> raise (SynthesisException "EApp Typechecking : Function Type Missing")
+          in 
+          let _ = Printf.printf "%s" ("\n Capp Type Found "^RefTy.toString funType) in   
+          (match funType with 
+              | RefTy.Base (_,_,_) -> 
+                  (match spec with 
+                    | RefTy.Base (_,_,_) -> 
+                        let vc = VC.fromTypeCheck gamma [delta] (funType, spec) in 
+                        let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in  
+                
+                       (*make a direct call to the SMT solver*)
+                       let vcStandard = VC.standardize vc in 
+                       let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in  
+                       let result = VCE.discharge vcStandard typenames qualifiers  in 
+                       let typechecks = 
+                         match result with 
+                         | VCE.Success -> true
+                         | VCE.Failure -> false
+                         | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                       in 
+                       if (typechecks) then 
+                         Some funType
+                       else 
+                         None                        
+                    | _ -> raise (SynthesisException "The Nullary Constructor must have type Base")
+                  )
+              | RefTy.Arrow ((_,_), _) -> 
+                (*Implements the pure-fun app rule *)
+                
+                let uncurried = RefTy.uncurry_Arrow funType in 
+                let RefTy.Uncurried (formalsList, retTy) = uncurried in
+                if (List.length formalsList > 0) then  
+                
+                    (*create substitution (actuals, foramls)*)
+                    let formals = List.map (fun (vi, ti) -> vi) formalsList in 
+                    (*each arg in argsList will actuall be of the foram Evar 
+                    from the restriction of normal-forms
+                    *)
+                    let actuals = List.map (fun (vi) -> Syn.componentNameForMonExp vi) argsList in 
+                    (*We DO NOT need to check types and lengths for actual and formal 
+                    as these are synthesized and we get it for free from the soundness of the synthesis
+                    *)
+                    let actualsTypes = 
+                        List.map (fun vi -> 
+                          let vi_var = Syn.componentNameForMonExp vi in 
+                          let vi_type = 
+                            try 
+                              Gamma.find gamma (vi_var) 
+                            with 
+                              | e -> raise (SynthesisException "EApp Typechecking : Argument Missing")
+                          in 
+                          let RefTy.Base (nu, tb, phi_i) = vi_type in 
+                          let phi_i_applied = Predicate.applySubst (vi_var, nu) phi_i in 
+                          (vi_var, vi_type, phi_i_applied) 
+                          ) argsList in 
+
+                    let () = List.iter(fun (vi, vi_type, phi_i) ->  
+                              Printf.printf "%s" ("\n Argument "^(vi)^" :: "^(RefTy.toString vi_type)^" | "^(Predicate.toString phi_i) )) actualsTypes in 
+
+                    let delta_extended = List.map (fun (_, _, phi_i) -> phi_i) actualsTypes in 
+
+
+
+                    let subs = List.combine actuals formals in 
+                    (*create the type [actuals/foramls] retTy*)
+                    let appType = RefTy.applySubsts subs retTy in 
+
+                     let () = Printf.printf "%s" ("\n AppType "^(RefTy.toString appType)) in 
+
+                    (*the subtyping check*)
+
+                    let vc = VC.fromTypeCheck gamma (delta::delta_extended) (appType, spec) in 
+                    let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in  
+
+                    (*make a direct call to the SMT solver*)
+                    let vcStandard = VC.standardize vc in 
+                    let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in  
+                    let result = VCE.discharge vcStandard typenames qualifiers  in 
+                    let typechecks = 
+                      match result with 
+                      | VCE.Success -> true
+                      | VCE.Failure -> false
+                      | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                    in 
+                    if (typechecks) then Some appType else None
+                else  
+                      (*Nullary Construtor Application *)
+                      let vc = VC.fromTypeCheck gamma [delta] (retTy, spec) in 
+                      let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in  
+                
+                       (*make a direct call to the SMT solver*)
+                       let vcStandard = VC.standardize vc in 
+                       let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in  
+                       let result = VCE.discharge vcStandard typenames qualifiers  in 
+                       let typechecks = 
+                         match result with 
+                         | VCE.Success -> true
+                         | VCE.Failure -> false
+                         | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                       in 
+                      if (typechecks) then Some retTy else None
+              | _ -> raise (SynthesisException ("Funtype must be t1 -> t2, but found "^(RefTy.toString funType)))
+             )
+
+       (* | Elet (v, e1, e2) -> 
+          (match bind with 
+             | Evar v -> 
+                let type4e1 = e1.ofType in 
+                let gamma = VC.extend_gamma (v, type4e1) gamma in 
+                let type4e2 = synthesizeType gamma sigma delta e2 in 
+                let vc = VC.fromTypeCheck gamma [delta] (type4e2, spec) in 
+                let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in  
+                
+                       (*make a direct call to the SMT solver*)
+                let vcStandard = VC.standardize vc in 
+                let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in  
+                let result = VCE.discharge vcStandard typenames qualifiers  in 
+                let typechecks = 
+                  match result with 
+                  | VCE.Success -> true
+                  | VCE.Failure -> false
+                  | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                in 
+                if (typechecks) then Some retTy else None
+                (type4e2)
+                 
+                 
+             | _ -> raise (SynthesisException "Let bind variable exp must be a var")
+          )
+       *)
 
       | _ -> raise (SynthesisException ("Unhandled typecheck :: "^(Syn.monExp_toString t)))
        

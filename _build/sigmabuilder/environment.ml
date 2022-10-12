@@ -109,13 +109,23 @@ let findCons4retT t retT : ((Var.t*RefinementType.t)list ) =
         | [] -> acc
         | (vi, rti):: xs -> 
                 match rti with 
-                 | RefinementType.Arrow ((v,t1), t2) -> 
-                        if (RefinementType.compare_types t2 retT) then 
+                 | RefinementType.Base (_,_,_) -> 
+                        if (RefinementType.compare_types rti retT) then 
                           let acc = (vi, rti) :: acc in 
                           traversal xs acc 
                         else
                           traversal xs acc
-                 | _ -> raise (IllegalConstructorType "findCons4RetT")  
+                 | RefinementType.Arrow ((_,_),_) -> 
+                        let _uncurriedArrow = RefinementType.uncurry_Arrow rti in 
+                        let RefinementType.Uncurried (_,t2) = _uncurriedArrow in 
+                        if (RefinementType.compare_types t2 retT) then 
+                          
+                          let acc = (vi, rti) :: acc in 
+                          traversal xs acc 
+                        else
+                          traversal xs acc
+
+                 | _ -> raise (IllegalConstructorType ("Constructor "^(vi)^" : "^RefTy.toString rti))  
     )
   in 
  traversal t empty

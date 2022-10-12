@@ -1692,9 +1692,9 @@ struct
         | _ -> Effect.Pure 
 
    let rec toString rty = match rty with 
-        Base(var,td,pred) -> ("Base {" ^ (Var.toString var)^ ":" ^ (TyD.toString td) ^(" | ")^(Predicate.toString pred))^"}" 
+        Base(var,td,pred) -> ("{" ^ (Var.toString var)^ ":" ^ (TyD.toString td) ^(" | ")^(Predicate.toString pred))^"}" 
         | Tuple tupleList -> (List.fold_left (fun acc rti -> acc^", "^(toString rti)) "Tuple [" tupleList)^" ]" 
-        | Arrow ((v1,t1),t2) ->  (" Arrow ( ( "^(Var.toString v1)^" , "^(toString t1)^" ),"^(toString t2)) 
+        | Arrow ((v1,t1),t2) ->  (" Arrow ( ( "^(Var.toString v1)^" : "^(toString t1)^" ) -> "^(toString t2)) 
         | MArrow (eff, p1,(v, t), p2) -> ("MArrrow ( "^(Effect.toString eff)^" \n 
                                                 PRE { \n "^(Predicate.toString p1)^(" \n } \n 
                                                 RET :  ")^(toString t)^" \n { 
@@ -1746,6 +1746,30 @@ struct
 
   (*TODO Relook at this function, what should differentuate between a computation and a function type 
 *       We can drop the dependent function type or can use them for typing pure computations like Constructors*)      
+  
+  let uncurry_Arrow (arrowty) =
+      
+      let rec accumulateArgs (ty: t) (params : (Var.t * t) list)   = 
+        match ty with
+           | Arrow ((argi , argTyi) as argBind, remainingTy)  ->
+              let params = (params@[argBind]) in 
+                accumulateArgs remainingTy params  
+           | _ -> Uncurried (params, ty)
+               
+
+         
+    in 
+    accumulateArgs arrowty []  
+
+  let  curry_Arrow (uncurried) = 
+     let Uncurried (args, ret) =  uncurried  in 
+     let rec uncurry (ut : (Var.t * t) list) : t = 
+      match ut with 
+         | [] -> ret 
+        | x :: xs -> Arrow (x, uncurry xs)
+     in 
+     uncurry args 
+
   let rec fromTyD tyD = 
     let open TyD in 
     match tyD with 
@@ -1759,9 +1783,12 @@ struct
       | Arrow ((v1,t1),t2) -> TyD.Ty_arrow ((toTyD t1), (toTyD t2))
       | MArrow (eff, p1 ,(vtb, tb), p2) -> toTyD tb   
       | Sigma (vi_ti_list) -> Ty_tuple (List.map (fun (v, t) ->  toTyD t) vi_ti_list) 
-      | _ ->  raise (Error "toTyD on Illegal argument") 
+      | Uncurried (_,_) -> toTyD (curry_Arrow (t))
+      | _ ->  raise (Error ("toTyD on Illegal argument "^(toString t))) 
   (*compares Base types*)
   let compare_types (t1:t)  (t2 :t) : bool = 
+        (* let _ = Printf.printf "%s" ("\n Comparing Types "^(toString t1)^" vs "^(toString t2)) in  *)
+        
         match (t1, t2) with 
         | (Base (_,_,_), Base (_,_,_)) ->   TyD.sametype (toTyD t1) (toTyD t2) 
         | (Arrow ((_,_),_), Arrow ((_,_),_)) -> TyD.sametype (toTyD t1) (toTyD t2)
@@ -1816,35 +1843,8 @@ struct
   let newLongVar = fun (var,fld) -> Var.fromString( 
         (Var.toString var)^"."^(Var.toString fld))
     
-           (*
-				     * Decomposes single tuple bind of form v ↦ {x0:T0,x1:T1} to
-				     * multiple binds : [v.x0 ↦ T0, v.x1 ↦ T1]
-				     *)
-  
-  (*let rec decomposeTupleBind (tvar , (Tuple refTyBinds) as tty) =
-     					
-              let  bindss = List.map (fun ((_,refTy) as refTyBind) -> 
-      										match refTy with 
-        											Tuple _ -> decomposeTupleBind refTyBind
-      											| _ -> Vector.new1 refTyBind) 
-     												refTyBinds in 
-     				let binds = List.map (fun (v,ty) -> (newLongVar (tvar,v), ty)) (List.concat bindss) in 
-     		     			binds
-  *)
 
-  let uncurry_Arrow (arrowty) =
-      
-      let rec accumulateArgs (ty: t) (params : (Var.t * t) list)   = 
-        match ty with
-           | Arrow ((argi , argTyi) as argBind, remainingTy)  ->
-              let params = (params@[argBind]) in 
-                accumulateArgs remainingTy params  
-           | _ -> Uncurried (params, ty)
-               
 
-         
-    in 
-    accumulateArgs arrowty []  
 
  let sanitizeMArrow marrow = 
      match marrow with 

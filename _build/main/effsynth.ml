@@ -39,35 +39,35 @@ let () =
 
   (* raise (CompilerExc "Forced"); *)
 
-  let maxPathlength = 5 in 
+  let maxPathlength = 4 in 
   let ast = SEL.parseLSpecFile !spec_file in 
   let string_ast = RelSpec.toString ast in 
   let () = Printf.printf "%s" string_ast in 
   let (gamma, sigma, typenames, quals, goals) = SEL.elaborateEnvs ast in 
   let goal = List.nth goals !goal_number in
   let delta = P.True in 
-  let () = Printf.printf "%s" " INITIAL GAMMA \n " in 
+  let () = Printf.printf "%s" "\n INITIAL GAMMA \n " in 
   let () = List.iter (fun (vi, rti) -> Printf.printf "%s" 
                       ("\n "^(Var.toString vi)^" : "^(RefTy.toString rti))) gamma in 
 
 
-  let () = Printf.printf "%s" " INITIAL SIGMA \n " in 
+  let () = Printf.printf "%s" "\n INITIAL SIGMA \n " in 
   let () = List.iter (fun (vi, rti) -> Printf.printf "%s" 
                       ("\n "^(Var.toString vi)^" : "^(RefTy.toString rti))) sigma in 
 
-  let () = Printf.printf "%s" " TypeNames \n " in 
+  let () = Printf.printf "%s" "\n TypeNames \n " in 
   let () = List.iter (fun tni -> Printf.printf "%s" ("\n "^tni)) typenames in 
   
 
-  let () = Printf.printf "%s" " Qualifiers \n " in 
+  let () = Printf.printf "%s" "\n Qualifiers \n " in 
   let () = List.iter (fun (qi) -> Printf.printf "%s" 
                       ("\n "^(SpecLang.RelSpec.Qualifier.toString qi))) quals in 
 
   let synthterm = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional maxPathlength !effect_filter in   
     (*run the initial environment builder*)    
     match synthterm with 
-        | None -> Printf.originalPrint "%s" "Synthesis returned witout result"
-        | Some t -> Printf.originalPrint "%s" ("Success : "^(Lambda.typedMonExp_toString t))
+        | None -> Printf.originalPrint "%s" "\n Synthesis returned witout result"
+        | Some t -> Printf.originalPrint "%s" ("\n Success : "^(Lambda.typedMonExp_toString t))
    
 (*    
 

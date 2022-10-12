@@ -35,10 +35,3 @@ goal : (s1 : Stack) ->
         {v : Stack | \(u : a).
             (shd (v, u) = true => (shd (s1, u) = true \/ shd (s2, u) = true)) /\
             (smem (v, u) = true <=> (smem (s1, u) = true \/ smem (s2, u) = true))};
-
-
-(*The current implementation fails to find a solution for the else branch*)
-if (is_empty s2) then 
-    s1
-else 
-    ---    

@@ -27,6 +27,7 @@ let lexAndParseLSpec s=
       with 
       | _ -> raise (ParserError "Error in Lexing ")
     in   
+    
     let v = Lexing.lexeme lexbuf in 
     
     let ast = 
@@ -58,6 +59,8 @@ let elaborateEnvs ast =
                                if (String.length name >= 4) then 
                                   let sub_name = String.sub name 0 4 in 
                                   (if sub_name = "goal" then
+                                    let goal_rec = "goal" in 
+                                    let tmap = TEnv.add tmap goal_rec refty in 
                                     tmap 
                                   else
                                     TEnv.add tmap stringName refty
@@ -73,12 +76,13 @@ let elaborateEnvs ast =
                                       | [] ->  consmap
                                       | x :: xs -> 
                                           let Algebraic.Const {name;args} = x in 
-                                          let argTupleTyd = TyD.Ty_tuple args in 
-                                          let argsRefTy = RefTy.fromTyD argTupleTyd in
-
-                                          let consBaseType = TyD.Ty_arrow (argTupleTyd, TyD.fromString typename) in 
-                                          let consRefType = RefTy.fromTyD consBaseType in 
-                                          let consmap = ConsEnv.add consmap name consRefType in 
+                                          let args_RefinedTypesList = List.map (fun ti -> 
+                                                                        (Var.get_fresh_var "_ca", RefTy.fromTyD ti)) args in 
+                                          let resultRefinedType = RefTy.fromTyD (TyD.fromString typename) in 
+                                          let constructorRefinedType = RefTy.curry_Arrow 
+                                                      (RefTy.Uncurried (args_RefinedTypesList, resultRefinedType)) in
+                                          let _ = Printf.printf "%s" (" \n @@@@@@@@@ "^(RefTy.toString constructorRefinedType)) in   
+                                          let consmap = ConsEnv.add consmap name constructorRefinedType in 
                                           addToSigma consmap xs 
 
                                   in    

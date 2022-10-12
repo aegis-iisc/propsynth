@@ -30,7 +30,7 @@ let z3_log = Z3_encode.logz3
 
  
 module Printf = struct 
-  let printf d s = Printf.printf d s
+  let printf d s = Printf.printf d ""
   let originalPrint = Printf.printf 
 end  
 

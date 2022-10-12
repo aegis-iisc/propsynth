@@ -7,3 +7,10 @@ qualifier hsize : table :-> int;
 qualifier hvmem : table :-> a :-> bool;
 qualifier hlen : [a] :-> int;
 qualifier keyset : table :-> [key];
+
+
+
+  val create: int -> 'a t
+  (*@ h = create n
+    requires n >= 0
+    ensures  forall k: key. h.view k = [] *)
