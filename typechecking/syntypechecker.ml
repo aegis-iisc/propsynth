@@ -124,11 +124,11 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                 (*the subtyping check*)
 
                 let vc = VC.fromTypeCheck gamma (delta::delta_extended) (appType, spec) in 
-                (* let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in   *)
-                
+                (* let () = Printf.printf "%s" ("\n  Gamma "^VC.string_gamma gamma) in  
+                 *)
                 (*make a direct call to the SMT solver*)
                 let vcStandard = VC.standardize vc in 
-                let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in  
+                (* let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   *)
                 let result = VCE.discharge vcStandard typenames qualifiers  in 
                 let typechecks = 
                   match result with 
@@ -155,11 +155,11 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                   (match spec with 
                     | RefTy.Base (_,_,_) -> 
                         let vc = VC.fromTypeCheck gamma [delta] (funType, spec) in 
-                        let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in  
+                        (* let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in   *)
                 
                        (*make a direct call to the SMT solver*)
                        let vcStandard = VC.standardize vc in 
-                       let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in  
+                       (* let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   *)
                        let result = VCE.discharge vcStandard typenames qualifiers  in 
                        let typechecks = 
                          match result with 
@@ -219,11 +219,11 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                     (*the subtyping check*)
 
                     let vc = VC.fromTypeCheck gamma (delta::delta_extended) (appType, spec) in 
-                    let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in  
+                    (* let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in   *)
 
                     (*make a direct call to the SMT solver*)
                     let vcStandard = VC.standardize vc in 
-                    let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in  
+                    (* let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   *)
                     let result = VCE.discharge vcStandard typenames qualifiers  in 
                     let typechecks = 
                       match result with 
@@ -235,11 +235,11 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                 else  
                       (*Nullary Construtor Application *)
                       let vc = VC.fromTypeCheck gamma [delta] (retTy, spec) in 
-                      let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in  
+                      (* let () = Printf.printf "%s" ("\n  VC "^VC.string_for_vc_t vc) in   *)
                 
                        (*make a direct call to the SMT solver*)
                        let vcStandard = VC.standardize vc in 
-                       let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in  
+                       (* let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   *)
                        let result = VCE.discharge vcStandard typenames qualifiers  in 
                        let typechecks = 
                          match result with 

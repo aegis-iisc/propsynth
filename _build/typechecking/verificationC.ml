@@ -191,7 +191,8 @@ let string_for_vc_t (vc : t) =
         VC_END") in 
   str
 
-let string_for_vc_stt (vc : standardt) = 
+let string_for_vc_stt (vc : standardt) =
+  
   let T (_tybinds, antevc, consvc) = vc in  
 let str = ("STANDARD VC_BEGIN "^(string_tybinds _tybinds)^"\n \t ANTE "^(vcpredToString antevc)^" \n \t ------------------------\n
 \t CONS "^(vcpredToString consvc)^"\n 
@@ -210,6 +211,8 @@ let string_pc (pcv : pc) =
   let str_preds = List.fold_left (fun acc p -> (acc^" :: "^(string_pred p)^" ::") ) " [ "pcv.preds in 
   (str_gamma^str_preds^" ; END }")
   
+
+
 
 (*alias for Predicate.reduce *)
 let subs_pred  = Predicate.reduce
@@ -359,10 +362,22 @@ let rec havocPred (pred : P.t) : (vtybinds*vc_pred) =
         ([], coercePTtoT pred) (* May need havoc here.*)
 
 
-(*A very simplified version which lowers each RefTy to its base type*)
-let rec havocGamma ( _glist) =
+(*A very simplified version which lowers each RefTy to its base type and 
+reifies the constraints to the program variable 
+e.g. x : Base {v : t | \phi v} produces (phi(x) , x, t)
+for other types x : \Tau Arrow | MArrow it produces (True,  x,  (Trlower (\Tau))
+*)
+
+let constraints_from_gamma _g : (Predicate.t list) = 
+ List.map ( fun (x, refty) -> 
+    match refty with 
+      | RefTy.Base (v, t, pred) -> 
+            Predicate.applySubst (x, v) pred 
+      | _ -> Predicate.True ) _g  
+
+let rec havocGamma (_glist) =
   let open RefTy in 
-   List.map (fun (v , refty) -> (v, RefTy.toTyD refty)) _glist         
+   List.map (fun (x , refty) -> (x, RefTy.toTyD refty)) _glist         
 
 let prepend_preds (preds : predicates) (p : P.t) = 
         List.concat [preds;[p]]
@@ -375,6 +390,7 @@ let lookup_type (v : Var.t) (_gamma : vctybind list) =
 
     with 
      | Not_found -> raise (Error ("Type for var Not found in \Gamma "^v))
+
 
 
 
@@ -498,7 +514,9 @@ let () = Printf.printf "%s" ("\n >>>>>>>>>>>Inferred Type<<<<<<<<<<<<< "^(RefTy.
                
        | (_,_) -> raise (Error ("\n SubTyping "^(RefTy.toString inferred)^(" MISMATCH ")^(RefTy.toString annotated)^" \n")) 
 
-(*TODO *)
+
+
+
 let rec fromTypeCheck (_gamma) _delta (subTy, supTy) =
         let env = {gamma=_gamma;preds=_delta} in 
         match (subTy, supTy) with 
@@ -509,7 +527,10 @@ let rec fromTypeCheck (_gamma) _delta (subTy, supTy) =
             let p2 = P.applySubst (v1,v2) p2 in 
             let _gamma = extend_gamma (v1, subTy) _gamma in 
             let delta_pred = Predicate.list_conjunction _delta in 
-              VC (_gamma, P.Conj(delta_pred,p1), p2) 
+            let gamma_preds = constraints_from_gamma _gamma in
+            let predicate_from_gamma = Predicate.list_conjunction gamma_preds in 
+              VC (_gamma, P.Conj(predicate_from_gamma, 
+                                P.Conj(delta_pred,p1)), p2) 
         | (RefTy.MArrow (_,_,_,_), RefTy.MArrow (_,_,_,_)) ->     
             trans_subtyping env supTy subTy 
         | (_,_) -> 

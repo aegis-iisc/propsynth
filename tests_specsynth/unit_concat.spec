@@ -37,9 +37,3 @@ goal : (s1 : Stack) ->
             (shd (v, u) = true => (shd (s1, u) = true \/ shd (s2, u) = true)) /\
             (smem (v, u) = true <=> (smem (s1, u) = true \/ smem (s2, u) = true))};
 
-
-goal : (s1 : Stack) -> 
-       (s2 : Stack) -> 
-        {v : Stack | \(u : a).
-            (shd (v, u) = true => (shd (s1, u) = true \/ shd (s2, u) = true)) /\
-            (smem (v, u) = true <=> (smem (s1, u) = true \/ smem (s2, u) = true))};

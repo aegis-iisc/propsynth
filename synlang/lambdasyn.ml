@@ -62,14 +62,6 @@ let rec visitnode (applynode : monExp) : bindingtuple list =
         | _ -> raise (IncorrectExp "Node in a Application Tree Must be either a var or a function ")
 
 
-let exp4tuples (lbtuple : bindingtuple list) : monExp = 
-     assert (List.length lbtuple > 0);
-     List.fold_right (
-                        fun (xi, ei) ej -> 
-                        Elet (xi, ei, ej)
-                    ) lbtuple (fst (List.hd (List.rev (lbtuple)))) 
-
-
 type path =  monExp list 
 
 let is_empty_path p = 
@@ -132,7 +124,7 @@ let rec doExp (ls : monExp list) : monExp=
 let rec monExp_toString (m:monExp) = 
     match m with 
         | Evar v -> (v)
-        | Elet (v, e1, e2) -> ("let "^(monExp_toString v)^" = "^(monExp_toString e1)^" in "^(monExp_toString e2))
+        | Elet (v, e1, e2) -> ("\n let "^(monExp_toString v)^" = "^(monExp_toString e1)^" \n in "^(monExp_toString e2))
         | Eret ret ->  ("return "^(monExp_toString ret))
         | Ebind (mne, mne1, mne2) -> ((monExp_toString mne1)^" \n \t >>= \lambda "^
                                     (monExp_toString mne)^" . \n \t "^
@@ -387,3 +379,52 @@ let equalPath p1 p2 =
 
 let pathInList p plist = 
     List.fold_left (fun accBool pi -> (accBool)||( equalPath p pi)) false plist
+
+
+
+let rec expand (blist : bindingtuple list) (flatExp : monExp) : monExp = 
+    match flatExp with 
+        | Eite (g, t, f) -> Eite (expand blist g, 
+                                expand blist t,
+                                expand blist f)
+        | Eapp (fname, args) -> 
+            let args_expanded = List.map (fun ai -> expand blist ai) args in 
+            Eapp (fname, args_expanded)
+        | Evar v -> 
+            if (v.[0] == '_') then 
+                let def = 
+                    try 
+                        List.assoc flatExp blist 
+                    with 
+                      | Not_found -> raise (IncorrectExp ("No Binding for "^(v)))
+                in              
+                expand blist def 
+                
+            else 
+                flatExp    
+        | _ -> flatExp
+             
+let findInBindings (me:monExp) (blist: bindingtuple list) : monExp option = 
+    if (List.length blist == 0) then None 
+    else 
+
+            try 
+                let (foundbv, _) = 
+                    ( List.find (fun tuplei -> 
+                     let (mbindi, mexpi) = tuplei in 
+                     let expanded_me = expand blist me in 
+                     let expanded_mexpi = expand blist mexpi in 
+                    equalMonExp expanded_me expanded_mexpi  
+                    ) blist) in 
+                Some foundbv    
+             with 
+                | Not_found -> None    
+
+
+let exp4tuples (lbtuple : bindingtuple list) : monExp = 
+     assert (List.length lbtuple > 0);
+     List.fold_right (
+                        fun (xi, ei) ej -> 
+                        Elet (xi, ei, ej)
+                    ) lbtuple (fst (List.hd (List.rev (lbtuple)))) 
+

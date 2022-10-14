@@ -39,7 +39,7 @@ let () =
 
   (* raise (CompilerExc "Forced"); *)
 
-  let maxPathlength = 4 in 
+  let maxPathlength = 3 in 
   let ast = SEL.parseLSpecFile !spec_file in 
   let string_ast = RelSpec.toString ast in 
   let () = Printf.printf "%s" string_ast in 
@@ -66,8 +66,8 @@ let () =
   let synthterm = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional maxPathlength !effect_filter in   
     (*run the initial environment builder*)    
     match synthterm with 
-        | None -> Printf.originalPrint "%s" "\n Synthesis returned witout result"
-        | Some t -> Printf.originalPrint "%s" ("\n Success : "^(Lambda.typedMonExp_toString t))
+        | [] -> Printf.originalPrint "%s" "\n Synthesis returned witout result"
+        | t :: _ -> Printf.originalPrint "%s" ("\n Success : "^(Lambda.typedMonExp_toString t))
    
 (*    
 

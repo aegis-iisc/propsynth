@@ -1,1 +1,1 @@
-synlang/lambdasyn.ml: List Printf RefinementType SpecLang Var
+synlang/lambdasyn.ml: List Printf RefinementType SpecLang String Var
