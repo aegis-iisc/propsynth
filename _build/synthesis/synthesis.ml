@@ -492,6 +492,8 @@ let checkFromExperience (h'_wp : Predicate.t) (h_wp : Predicate.t) (gammacap : D
 
 (*The function application synthesis for pure componenent, 
 we can try to replace this with say SYPET/Sunquid*)
+(*Randomize the selection of each choice *)
+
 let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.typedMonExp) list) = 
     
     (*This is a simplified version of the return typed guided component synthesis as in SYPET*)

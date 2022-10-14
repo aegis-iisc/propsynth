@@ -12,6 +12,7 @@ let goal_number = ref 0
 let usage_msg = "effsynth [-cdcl] [-bi] [-effect] <spec-file1> -g <goal-number>"
 let anon_fun specfile = 
     spec_file := specfile
+let maxPathlength = ref 3   
 
 module Printf = struct 
   let printf d s = Printf.printf d s
@@ -23,7 +24,8 @@ end
   [("-effect", Arg.Set effect_filter, "Set the effect-guided filtering to true");
    ("-cdcl", Arg.Set learningON, "Set to CDCL=true");
    ("-bi", Arg.Set bidirectional, "Set bidirectional=true");
-   ("-g", Arg.Set_int goal_number, "Set the #goal number")] 
+   ("-g", Arg.Set_int goal_number, "Set the #goal number");
+   ("-k", Arg.Set_int maxPathlength, "Set the max path length")] 
   
 let () = 
 
@@ -36,10 +38,10 @@ let () =
   let () = Printf.printf "%s" ("\n EXPLORED effect-filter  "^(string_of_bool !effect_filter)) in 
   let () = Printf.printf "%s" ("\n EXPLORED specfile :: "^(!spec_file)) in 
   let () = Printf.printf "%s" ("\n EXPLORED goal Number :: "^(string_of_int (!goal_number))) in 
+  let () = Printf.printf "%s" ("\n EXPLORED Max path length :: "^(string_of_int (!maxPathlength))) in 
 
   (* raise (CompilerExc "Forced"); *)
 
-  let maxPathlength = 3 in 
   let ast = SEL.parseLSpecFile !spec_file in 
   let string_ast = RelSpec.toString ast in 
   let () = Printf.printf "%s" string_ast in 
@@ -63,7 +65,7 @@ let () =
   let () = List.iter (fun (qi) -> Printf.printf "%s" 
                       ("\n "^(SpecLang.RelSpec.Qualifier.toString qi))) quals in 
 
-  let synthterm = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional maxPathlength !effect_filter in   
+  let synthterm = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter in   
     (*run the initial environment builder*)    
     match synthterm with 
         | [] -> Printf.originalPrint "%s" "\n Synthesis returned witout result"
