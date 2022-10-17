@@ -73,6 +73,7 @@ module Bidirectional : sig
 
   val typenames : ((Var.t) list) ref 
   val qualifiers : ((RelSpec.Qualifier.t) list) ref 
+  val currentApp : (Var.t list) ref
 
   type ('a, 'b) result = 
             Success of 'a 
@@ -123,7 +124,7 @@ let bidirectionalOn = ref false
 let max = ref 5
 let maxif_depth = ref 2
 let visited = ref ExploredTerms.empty  
-
+let currentApp = ref ["_"]
 
 let   count_filter = ref 0
 let   count_chosen = ref 0
@@ -285,36 +286,37 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
             match fs with
              | [] -> potentialExps 
              | (vi, rti) :: xs -> 
-                 Message.show ("\n Enumerating a Pure Term "^(Var.toString vi));
-                 Message.show ("\n Type of the Pure Term "^(RefTy.toString rti));
-                  
-                 (** Skip the ghost Vars like [A-Z]**)
-                 let  startCharvar = vi.[0] in 
-                 let upper = Char.uppercase_ascii startCharvar in 
-                 (* if (startCharvar = upper) then
+                 Message.show ("\n Enumerating a Scalar Term "^(Var.toString vi));
+                 Message.show ("\n Type of the Scalar Term "^(RefTy.toString rti));
 
-                    let _ = Message.show ("GHOST") in 
-                    Message.show ("Ghost Var "^(vi));
-                    verifyFound xs potentialExps 
-                 else
-                    let isGhost = false
-                        (*
-                        if (String.length vi > 4) then 
-                            let initial = String.sub vi 0 4 in 
-                            Message.show ("\n Show ::  Initial "^(initial));
-                            if (initial = "var_") then
-                             true
-                            else
-                             false   
+                 let expanded_vi = Syn.expand !lbindings (Syn.Evar vi) in 
+                 (match expanded_vi with 
+                    | Syn.Eapp (fname, _) -> 
+                        if (Var.equal (Syn.componentNameForMonExp fname) (List.hd(!currentApp))) then 
+                            
+                            let _ = Message.show ("################################################") in 
+                            let _ = Message.show ("Skipping Variable "^(Var.toString vi)^" As Outer Function Call is "^(Var.toString(List.hd(!currentApp)))) in 
+                            
+                            verifyFound xs potentialExps 
                         else
-                         false  *)
-                          
-                    in*)
-                  let isGhost = false in   
-                    if (isGhost) then 
-                      verifyFound xs potentialExps 
-                    else                   
-                        (* let () = Message.show ("\n Show ::  Associated Delta "^(Predicate.toString delta)) in *)
+                            let rti_bound_vi = RefTy.alphaRenameToVar rti vi in 
+                            let spec_bound_vi = RefTy.alphaRenameToVar spec vi in 
+                            let vc = VC.fromTypeCheck gamma [delta] (rti_bound_vi, spec_bound_vi) in 
+                            (*make a direct call to the SMT solver*)
+                            let vcStandard = VC.standardize vc in 
+                            (* Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); *)
+                            let result = VCE.discharge vcStandard !typenames !qualifiers in 
+                            (match result with 
+                            | VCE.Success -> 
+                                    let ei = {expMon = (Syn.Evar (vi)); 
+                                                ofType = rti} in 
+                                    verifyFound xs (ei::potentialExps) 
+                            | VCE.Failure -> 
+                                    Message.show ("\n FaileD the subtype check T_vi <: T_goal");
+                                    verifyFound xs potentialExps
+                            | VCE.Undef -> raise (SynthesisException "Failing VC Check for pureEnum")  
+                            )
+                    | _ ->  
                         (*substitute, bound variables in both with the argument variable*)
                         let rti_bound_vi = RefTy.alphaRenameToVar rti vi in 
                         let spec_bound_vi = RefTy.alphaRenameToVar spec vi in 
@@ -323,7 +325,7 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                         let vcStandard = VC.standardize vc in 
                         (* Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); *)
                         let result = VCE.discharge vcStandard !typenames !qualifiers in 
-                        match result with 
+                        (match result with 
                         | VCE.Success -> 
                                 let ei = {expMon = (Syn.Evar (vi)); 
                                             ofType = rti} in 
@@ -332,66 +334,12 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                                 Message.show ("\n FaileD the subtype check T_vi <: T_goal");
                                 verifyFound xs potentialExps
                         | VCE.Undef -> raise (SynthesisException "Failing VC Check for pureEnum")  
+                        )
+                 )          
                         
          in 
          verifyFound foundTypes []
-      (* | RefTy.Arrow ((v, t1), t2) -> 
-         (*this should be dead code * *)
-         raise (SynthesisException "DEAD CODE");
-         let foundTypes = Gamma.enumerateAndFind gamma spec in 
-         let foundTypes = List.filter (fun (vi, _) -> not (Explored.mem explored vi)) foundTypes in 
-         let rec verifyFound fs pote  = 
-            match fs with
-             | [] -> None 
-             | (vi, rti) :: xs -> 
-                (*filter on effects before actuall checking the hoare triples*) 
-            
-                let vc = VC.fromTypeCheck gamma VC.empty_delta (rti, spec) in 
-                (*make a direct call to the SMT solver*)
-                let vcStandard = VC.standardize vc in 
-                let result = VCE.discharge vcStandard  in 
-                match result with 
-                | VCE.Success -> Some ({expMon=(Syn.Evar (vi)); ofType=rti}) 
-                | VCE.Failure -> verifyFound xs
-                | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
-                
-         in 
-         verifyFound foundTypes
-
-     
-
-      | RefTy.MArrow (eff, pre, (v, t), post) -> 
-         let foundTypes = Gamma.enumerateAndFind gamma spec in 
-          (*filter the explored*)
-         let foundTypes = List.filter (fun (vi, _) -> not (Explored.mem explored vi)) foundTypes in  
-                  
-         let rec verifyFound fs  = 
-            match fs with
-             | [] -> None 
-             | (vi, rti) :: xs -> 
-                (*filter on effects before actuall checking the hoare triples*) 
-                let effi = match rti with 
-                    | RefTy.MArrow (eff, _,_,_) -> eff 
-                    | _ -> raise (SynthesisException "Only Effectful Components allowed") 
-                in 
-                    
-
-                if (not (Effect.isSubEffect effi eff))  
-                        then verifyFound xs    
-                else        
-                        let vc = VC.fromTypeCheck gamma VC.empty_delta (rti, spec) in 
-                        (*make a direct call to the SMT solver*)
-                        let vcStandard = VC.standardize vc in 
-                        let result = VCE.discharge vcStandard  in 
-                        match result with 
-                        | VCE.Success -> let retMonExp = Syn.Eret (Syn.Evar (vi)) in 
-                                          Some {expMon = retMonExp; ofType=rti}
-                        | VCE.Failure -> verifyFound xs
-                        | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
-                        
-         in 
-         verifyFound foundTypes *)
-
+      
       | RefTy.Arrow ((_,_),_) -> 
                     Message.show (" Show :: HOF argument required, unhanlded currently thus skipping");
                     [] 
@@ -522,6 +470,10 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
           | (vi, rti) :: xs ->
                 Message.show ("############################################################");
                 Message.show (" Trying Pure Component "^(Var.toString vi));
+                if (Var.equal (List.hd (!currentApp)) vi) then 
+                    choice xs gamma sigma delta 
+                else
+                let _ = currentApp :=  vi::!currentApp in 
                 (* if (ExploredTerms.mem !visited vi) then 
                     let _ = Message.show ("############################################################") in 
                     Message.show (" Skipping Already visited so must be in Scalar ");
@@ -552,6 +504,7 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 Message.show (" Trying Arguments in Scalars ");
                                 let (_g, scalars) = esynthesizeScalar depth _g sigma delta [argtyi;retty] in 
                                 Message.show (" Next Trying Arguments of the form f (ei...) ");
+                                (* let (_g, funapps) = esynthesizePureApp (depth + 1) _g sigma delta [argtyi;retty] in  *)
                                 let (_g, funapps) = esynthesizePureApp (depth + 1) _g sigma delta [argtyi;retty] in 
                                 let acc_of_list_of_pot_args =  List.rev ((List.concat [scalars;funapps])::(pot_arg_list))  in 
                                 (* let _g = VC.extend_gamma (argi, argtyi) _g  in  *)
@@ -559,7 +512,7 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                             ) (gamma, 1, []) args_ty_list  in 
                             
                         Message.show ("##################################################################################");
-                        Message.show ("Gamma "^(VC.string_gamma gamma));    
+                        (* Message.show ("Gamma "^(VC.string_gamma gamma));     *)
                         (*
                         e_potential_args_list returns a list of lists
                         If \forall argi, we can synthesize a term ei, return success *)
@@ -601,12 +554,14 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 
 
                                 (*Randomize the choices of the argument  *)  
-                                (* let possible_args_lists = 
+                                let possible_args_lists = 
                                     if (List.length possible_args_lists > 5) then 
                                         (* rand_select possible_args_lists 10  *)
                                         firstk 5 possible_args_lists
                                     else possible_args_lists     
-                                in                         *)
+                                in                        
+                                Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 
+
                                 let () = List.iter (fun li -> 
                                                     let () = Printf.printf "%s" ("\n Possible Arg Options ") in 
                                                     List.iter (fun ei -> Printf.printf "%s" 
