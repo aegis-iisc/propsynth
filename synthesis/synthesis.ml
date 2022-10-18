@@ -314,7 +314,11 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                             | VCE.Failure -> 
                                     Message.show ("\n FaileD the subtype check T_vi <: T_goal");
                                     verifyFound xs potentialExps
-                            | VCE.Undef -> raise (SynthesisException "Failing VC Check for pureEnum")  
+                            | VCE.Undef -> 
+                                    Message.show ("\n Timedout the subtype check T_vi <: T_goal");
+                                    verifyFound xs potentialExps
+                            
+                            (* raise (SynthesisException "Failing VC Check for pureEnum")   *)
                             )
                     | _ ->  
                         (*substitute, bound variables in both with the argument variable*)
@@ -333,7 +337,12 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                         | VCE.Failure -> 
                                 Message.show ("\n FaileD the subtype check T_vi <: T_goal");
                                 verifyFound xs potentialExps
-                        | VCE.Undef -> raise (SynthesisException "Failing VC Check for pureEnum")  
+                        | VCE.Undef -> 
+                        
+                                Message.show ("\n Timeout the subtype check T_vi <: T_goal");
+                                verifyFound xs potentialExps
+                        
+                        (* raise (SynthesisException "Failing VC Check for pureEnum")   *)
                         )
                  )          
                         
@@ -402,7 +411,14 @@ let rec enumerateEffAndFind explored gamma sigma delta (spec : RefTy.t)  : (Expl
 
                                             Message.show ("***************Selection Failed************"^(Var.toString vi));    
                                             verifyFound explored xs
-                            | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                            | VCE.Undef -> 
+                                            let _ = count_filter := !count_filter + 1 in 
+
+                                            Message.show ("***************Selection Timeout************"^(Var.toString vi));    
+                                            verifyFound explored xs
+                            
+                            
+                            (* raise (SynthesisException "Typechecking Did not terminate")   *)
                             
                              with 
                         VerificationC.Error e -> verifyFound explored xs
@@ -553,6 +569,7 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
 
                                 Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 
 
+
                                 (*Randomize the choices of the argument  *)  
                                 (* let possible_args_lists = 
                                     if (List.length possible_args_lists > 5) then 
@@ -560,7 +577,10 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                         firstk 5 possible_args_lists
                                     else possible_args_lists     
                                 in                         *)
-                                Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 
+                               
+                                List.sort (Syn.compare) 
+
+
 
                                 let () = List.iter (fun li -> 
                                                     let () = Printf.printf "%s" ("\n Possible Arg Options ") in 

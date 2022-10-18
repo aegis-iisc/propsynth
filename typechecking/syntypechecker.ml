@@ -134,7 +134,8 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                   match result with 
                   | VCE.Success -> true
                   | VCE.Failure -> false
-                  | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                  | VCE.Undef ->  false
+                  (* raise (SynthesisException "Typechecking Did not terminate")   *)
                 in 
                 if (typechecks) then 
                   Some appType
@@ -165,7 +166,9 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                          match result with 
                          | VCE.Success -> true
                          | VCE.Failure -> false
-                         | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                         | VCE.Undef -> false
+                         
+                         (* raise (SynthesisException "Typechecking Did not terminate")   *)
                        in 
                        if (typechecks) then 
                          Some funType
@@ -229,7 +232,8 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                       match result with 
                       | VCE.Success -> true
                       | VCE.Failure -> false
-                      | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                      | VCE.Undef ->  false
+                      (* raise (SynthesisException "Typechecking Did not terminate")   *)
                     in 
                     if (typechecks) then Some appType else None
                 else  
@@ -245,7 +249,8 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                          match result with 
                          | VCE.Success -> true
                          | VCE.Failure -> false
-                         | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")  
+                         | VCE.Undef ->  false 
+                         (* raise (SynthesisException "Typechecking Did not terminate")   *)
                        in 
                       if (typechecks) then Some retTy else None
               | _ -> raise (SynthesisException ("Funtype must be t1 -> t2, but found "^(RefTy.toString funType)))

@@ -403,6 +403,28 @@ let rec expand (blist : bindingtuple list) (flatExp : monExp) : monExp =
             else 
                 flatExp    
         | _ -> flatExp
+
+
+(*Assume that everything is fully expanded *)
+let rec size (me : monExp) : int = 
+    match me with 
+        | Eite (g, t, f) -> size g + size t + size f 
+        | Eapp (fname, args) -> 
+            let args_sizes = List.fold_left (fun acc ai -> 
+                                        acc + size (ai) 
+                                        ) 0 args in 
+             args_sizes + 1                              
+        | Evar v -> 1    
+        | _ -> raise (IncorrectExp "Incorrect Size call")
+
+
+let compare t1 t2 : int =
+    let s1 = size t1 in 
+    let s2 = size t2 in 
+    if (s1 == s2) then 0  
+    else if (s1 > s2) then 100 
+    else -100   
+                                
              
 let findInBindings (me:monExp) (blist: bindingtuple list) : monExp option = 
     if (List.length blist == 0) then None 
