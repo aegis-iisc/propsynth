@@ -418,27 +418,31 @@ let rec size (me : monExp) : int =
         | _ -> raise (IncorrectExp "Incorrect Size call")
 
 
-let compare t1 t2 : int =
-    let s1 = size t1 in 
-    let s2 = size t2 in 
+let compare t1_pair t2_pair : int =
+    let (lbv1, tm1) = t1_pair in 
+    let (lbv2, tm2) = t2_pair in 
+    let m1 = tm1.expMon in 
+    let m2 = tm2.expMon in 
+    let s1 = size m1 in 
+    let s2 = size m2 in 
     if (s1 == s2) then 0  
     else if (s1 > s2) then 100 
     else -100   
                                 
              
-let findInBindings (me:monExp) (blist: bindingtuple list) : monExp option = 
+let findInBindings (me:monExp) (blist: bindingtuple list) : (monExp*monExp) option = 
     if (List.length blist == 0) then None 
     else 
 
             try 
-                let (foundbv, _) = 
+                let (foundbv, foundExp) = 
                     ( List.find (fun tuplei -> 
                      let (mbindi, mexpi) = tuplei in 
                      let expanded_me = expand blist me in 
                      let expanded_mexpi = expand blist mexpi in 
                     equalMonExp expanded_me expanded_mexpi  
                     ) blist) in 
-                Some foundbv    
+                Some (foundbv, foundExp)    
              with 
                 | Not_found -> None    
 

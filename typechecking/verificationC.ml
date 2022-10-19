@@ -70,6 +70,7 @@ let rec vcpredToString vcp =
 type t = VC of vctybinds * P.t * P.t
 type standardt = T of vtybinds * vc_pred * vc_pred 
 
+
 (*getters*)
 let gammaVC (vc:t) = let VC (g,_,_) = vc in g 
 
@@ -84,7 +85,13 @@ type pc = {gamma: vctybinds; preds : pred list}
 type predicates = P.t list 
 
 let empty_delta = ([] : pred list)  
-
+let empty_vc = VC ([], P.False, P.True)
+let is_empty_vc t = 
+    let VC (_,p,q) = t in 
+    if (Predicate.isTrue q && Predicate.isFalse p) then true 
+    else 
+      false 
+      
 let vectorAppend (vec,e) = List.concat [vec;[e]]
 let vectorPrepend (e,vec) = List.concat [[e];vec]
 let  vectorFoldrFoldr vec1 vec2 acc f = List.fold_right (fun el1 acc -> List.fold_right (fun el2 acc -> f el1 el2 acc) vec2 acc) vec1 acc 
@@ -524,6 +531,10 @@ let rec fromTypeCheck (_gamma) _delta (subTy, supTy) =
             let () = Printf.printf "%s" ("SubTy "^(RefTy.toString subTy)) in 
             let () = Printf.printf "%s" ("SuperTy "^(RefTy.toString supTy)) in 
             let _ = assert (TyD.sametype t1 t2) in 
+            
+            if (Predicate.isTrue p2) then 
+              empty_vc 
+            else    
             let p2 = P.applySubst (v1,v2) p2 in 
             let _gamma = extend_gamma (v1, subTy) _gamma in 
             let delta_pred = Predicate.list_conjunction _delta in 

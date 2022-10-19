@@ -70,7 +70,7 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
               (qualifiers : SpecLang.RelSpec.Qualifier.t list)
               (t : Syn.monExp) (spec : RefTy.t) : (RefTy.t option) = 
 	  
-    let () = Printf.printf "%s" ("\n Typechecking "^(Syn.monExp_toString t)) in 
+    let () = Printf.printf "%s" ("\n Typechecking the Term "^(Syn.monExp_toString t)) in 
     let () = Printf.printf "%s" ("\n Against "^(RefTy.toString spec)) in 
      match t with 
       | Eapp (funExp, argsList) (*Eapp foo [x1, x2, x3,...xn] *) -> 
@@ -122,25 +122,30 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                  (* let () = Printf.printf "%s" ("\n AppType "^(RefTy.toString appType)) in  *)
    
                 (*the subtyping check*)
-
-                let vc = VC.fromTypeCheck gamma (delta::delta_extended) (appType, spec) in 
-                (* let () = Printf.printf "%s" ("\n  Gamma "^VC.string_gamma gamma) in  
-                 *)
-                (*make a direct call to the SMT solver*)
-                let vcStandard = VC.standardize vc in 
-                (* let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   *)
-                let result = VCE.discharge vcStandard typenames qualifiers  in 
-                let typechecks = 
-                  match result with 
-                  | VCE.Success -> true
-                  | VCE.Failure -> false
-                  | VCE.Undef ->  false
-                  (* raise (SynthesisException "Typechecking Did not terminate")   *)
-                in 
-                if (typechecks) then 
-                  Some appType
+                let RefTy.Base (vs, ts, phis ) = spec in 
+                if (Predicate.isTrue phis) then 
+                    let _ = Printf.printf "%s" ("Skipping  Implies true case") in 
+                    Some appType 
                 else 
-                  None
+                     let vc = VC.fromTypeCheck gamma (delta::delta_extended) (appType, spec) in 
+                    (* let () = Printf.printf "%s" ("\n  Gamma "^VC.string_gamma gamma) in  
+                     *)
+                    (*make a direct call to the SMT solver*)
+                    let vcStandard = VC.standardize vc in 
+                    (* let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   *)
+                    let result = VCE.discharge vcStandard typenames qualifiers  in 
+                    let typechecks = 
+                      match result with 
+                      | VCE.Success -> true
+                      | VCE.Failure -> false
+                      | VCE.Undef ->  false
+                      (* raise (SynthesisException "Typechecking Did not terminate")   *)
+                    in 
+                    (if (typechecks) then 
+                      Some appType
+                    else 
+                      None)
+
               | _ -> raise (SynthesisException ("Funtype must be t1 -> t2, but found "^(RefTy.toString funType)))
              )        
       | Ecapp (funName, argsList) ->    

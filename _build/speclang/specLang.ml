@@ -1189,6 +1189,16 @@ type t = True
          |  Forall of TyDBinds.t * t 
          (* | Let of t * t we model let a = rexpr1 in let b = rexpr2... in let k = reexprk in    
  *)
+let isTrue t = 
+  match t with 
+    | True -> true 
+    | _ -> false
+
+let isFalse t = 
+  match t with 
+    | False -> true 
+    | _ -> false
+
 let list_disjunction (ls: t list)  : t =  
         List.fold_left (fun acct disj -> (Disj (acct, disj))) (False)  ls 
 
