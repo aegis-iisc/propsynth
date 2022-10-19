@@ -578,7 +578,7 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                     else possible_args_lists     
                                 in                         *)
                                
-                                List.sort (Syn.compare) 
+                                List.sort (Syn.compare); 
 
 
 
