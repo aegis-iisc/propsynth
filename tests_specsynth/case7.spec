@@ -23,13 +23,14 @@ cons : (x : int) ->
                      =>
                      (slist (v) = true /\ 
                      slen (v) == slen (xs) + 1 /\
-                     shd (v) == x)}; 
+                     shd (v) == x  /\
+                     slen(v) > 0) }; 
 
 goal : (s : {v : int | true }) -> 
         (x0 : int) -> 
         {v : list |   slist (v) = true  
                       /\ slen (v) == s 
-                      /\ (slen (v) > 0 => 
+                      /\ (slen (v) > 0 <=> 
                             (shd (v) > x0 \/ shd (v) == x0))};
 
 

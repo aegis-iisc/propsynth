@@ -122,17 +122,18 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                  (* let () = Printf.printf "%s" ("\n AppType "^(RefTy.toString appType)) in  *)
    
                 (*the subtyping check*)
-                let RefTy.Base (vs, ts, phis ) = spec in 
+                (* let RefTy.Base (vs, ts, phis ) = spec in 
                 if (Predicate.isTrue phis) then 
                     let _ = Printf.printf "%s" ("Skipping  Implies true case") in 
                     Some appType 
-                else 
+                else  *)
                      let vc = VC.fromTypeCheck gamma (delta::delta_extended) (appType, spec) in 
                     (* let () = Printf.printf "%s" ("\n  Gamma "^VC.string_gamma gamma) in  
                      *)
                     (*make a direct call to the SMT solver*)
                     let vcStandard = VC.standardize vc in 
                     (* let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   *)
+                    
                     let result = VCE.discharge vcStandard typenames qualifiers  in 
                     let typechecks = 
                       match result with 

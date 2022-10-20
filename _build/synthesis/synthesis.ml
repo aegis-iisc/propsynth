@@ -302,17 +302,19 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                             let rti_bound_vi = RefTy.alphaRenameToVar rti vi in 
                             let spec_bound_vi = RefTy.alphaRenameToVar spec vi in 
                             let vc = VC.fromTypeCheck gamma [delta] (rti_bound_vi, spec_bound_vi) in 
-                            if (VC.is_empty_vc vc) then  (*trivial VC case *)
+                            (* if (VC.is_empty_vc vc) then  (*trivial VC case *)
                                     (Message.show ("***************Selection Trivially Successful************"^(Var.toString vi));    
                                      let ei = {expMon = (Syn.Evar (vi)); ofType = rti} in 
                                     verifyFound xs (ei::potentialExps) 
                                     ) 
                             else 
-                            
+                             *)
                                 (*make a direct call to the SMT solver*)
                                 let vcStandard = VC.standardize vc in 
                                 (* Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); *)
                                 let result = VCE.discharge vcStandard !typenames !qualifiers in 
+                                Message.show ("Returned Successfully");
+                                
                                 (match result with 
                                 | VCE.Success -> 
                                         let ei = {expMon = (Syn.Evar (vi)); 
@@ -326,18 +328,19 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                                         verifyFound xs potentialExps
 
                                  )
-                               
+                            
+                            
                     | _ ->  
                         (*substitute, bound variables in both with the argument variable*)
                         let rti_bound_vi = RefTy.alphaRenameToVar rti vi in 
                         let spec_bound_vi = RefTy.alphaRenameToVar spec vi in 
                         let vc = VC.fromTypeCheck gamma [delta] (rti_bound_vi, spec_bound_vi) in 
-                        if (VC.is_empty_vc vc) then  (*trivial VC case *)
+                        (* if (VC.is_empty_vc vc) then  (*trivial VC case *)
                                 (Message.show ("***************Selection Trivially Successful************"^(Var.toString vi));    
                                      let ei = {expMon = (Syn.Evar (vi)); ofType = rti} in 
                                     verifyFound xs (ei::potentialExps) 
                                 )
-                        else 
+                        else  *)
                             (*make a direct call to the SMT solver*)
                             let vcStandard = VC.standardize vc in 
                             (* Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); *)
@@ -406,40 +409,34 @@ let rec enumerateEffAndFind explored gamma sigma delta (spec : RefTy.t)  : (Expl
                         let () =Message.show ("Found after Enumeration "^(RefTy.toString rti)) in 
                         let () =Message.show ("Compared Against Spec "^(RefTy.toString spec)) in 
                          try
-                            let vc = VC.fromTypeCheck gamma delta (rti, spec) in  
-                            if (VC.is_empty_vc vc) then  (*trivial VC case *)
-                                    let explored = vi :: explored in 
-                                    Message.show ("***************Selection Trivially Successful************"^(Var.toString vi));    
-                                    let _ = count_chosen := !count_chosen + 1 in  
-                                    let retMonExp = Syn.Eret (Syn.Evar (vi)) in 
-                                    (explored, Some {expMon = retMonExp; ofType=rti})
-                            else 
+                              let vc = VC.fromTypeCheck gamma delta (rti, spec) in  
+
                             (*make a direct call to the SMT solver*)
-                                let vcStandard = VC.standardize vc in 
-                                (* Message.show (VC.string_for_vc_stt vcStandard);  *)
-                                let result = VCE.discharge vcStandard !typenames !qualifiers in 
-                                match result with 
-                                | VCE.Success -> 
-                                                let explored = vi :: explored in 
-                                                Message.show ("***************Selection Successful************"^(Var.toString vi));    
-                                                let _ = count_chosen := !count_chosen + 1 in  
-                                                let retMonExp = Syn.Eret (Syn.Evar (vi)) in 
-                                                (explored, Some {expMon = retMonExp; ofType=rti})
-                                | VCE.Failure -> 
-                                                let _ = count_filter := !count_filter + 1 in 
-    
-                                                Message.show ("***************Selection Failed************"^(Var.toString vi));    
-                                                verifyFound explored xs
-                                | VCE.Undef -> 
-                                                let _ = count_filter := !count_filter + 1 in 
-    
-                                                Message.show ("***************Selection Timeout************"^(Var.toString vi));    
-                                                verifyFound explored xs
+                            let vcStandard = VC.standardize vc in 
+                            (* Message.show (VC.string_for_vc_stt vcStandard);  *)
+                            let result = VCE.discharge vcStandard !typenames !qualifiers in 
+                            match result with 
+                            | VCE.Success -> 
+                                            let explored = vi :: explored in 
+                                            Message.show ("***************Selection Successful************"^(Var.toString vi));    
+                                            let _ = count_chosen := !count_chosen + 1 in  
+                                            let retMonExp = Syn.Eret (Syn.Evar (vi)) in 
+                                            (explored, Some {expMon = retMonExp; ofType=rti})
+                            | VCE.Failure -> 
+                                            let _ = count_filter := !count_filter + 1 in 
+
+                                            Message.show ("***************Selection Failed************"^(Var.toString vi));    
+                                            verifyFound explored xs
+                            | VCE.Undef -> 
+                                            let _ = count_filter := !count_filter + 1 in 
+
+                                            Message.show ("***************Selection Timeout************"^(Var.toString vi));    
+                                            verifyFound explored xs
                             
                             
                             (* raise (SynthesisException "Typechecking Did not terminate")   *)
                             
-                         with 
+                             with 
                         VerificationC.Error e -> verifyFound explored xs
           in 
          verifyFound explored foundTypes
@@ -597,7 +594,9 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                     else possible_args_lists     
                                 in                         *)
                                
-                                
+                              
+
+
                                 let () = List.iter (fun li -> 
                                                     let () = Printf.printf "%s" ("\n Possible Arg Options ") in 
                                                     List.iter (fun ei -> Printf.printf "%s" 
@@ -614,6 +613,8 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                         match possible_args_combinations with 
                                             | [] -> (_g, applicationExpressions) 
                                             | ei_hds :: ei_tails ->  
+                                                   
+                                                (* let ei_hds = List.map (fun ei_list -> List.hd (ei_list)) es  in  *)
                                                 let monExps_es = List.map (fun ei ->
                                                                                     ei.expMon) ei_hds in 
                                                 let nbvsTypes_es = 
@@ -625,15 +626,31 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                                          | Evar v -> (ei.expMon, ei.ofType)
                                                          | _ -> 
                                                             raise (SynthesisException "Dead 0");
+                                                        
                                                              let bvi = Evar (Var.fromString ("_bv"^(string_of_int (!bvarcount)))) in 
                                                              let _ = bvarcount := !bvarcount + 1 in 
                                                              (bvi,  ei.ofType)) ei_hds in 
 
 
                                                     let varExp4monExp_es = List.map (fun (vi, ti) -> vi) nbvsTypes_es in     
-                                                    
+                                                    (*add to gamma *)
+                                                    (* let _g =  
+                                                            List.fold_left (fun _gl (vi, ti) -> 
+                                                                    let variablei = 
+                                                                        (match vi with 
+                                                                            | Evar v -> v 
+                                                                            | _ -> raise(SynthesisException "Illegal Variable") ) in
+                                                                        VC.extend_gamma (variablei, ti) _gl) _g nbvsTypes_es  in                                   *)
+
+
                                                     let appliedMonExp = Syn.Eapp (Syn.Evar vi, varExp4monExp_es) in  (*apply vi e_arg*)
                                                     let synthesizedExp = appliedMonExp in 
+                                                    (* let lbindingtuples = Syn.visitnode appliedMonExp in 
+                                                    let synthesizedExp = if (List.length lbindingtuples > 2)
+                                                                        then Syn.exp4tuples lbindingtuples 
+                                                                        else appliedMonExp in         
+                                                    Message.show ("Synthesized Exp to be Typechecked "^(Syn.monExp_toString synthesizedExp));
+                                                    *)
                                                     (*If there is already a _lbv eqvivalent to this then return that and skip*)
                                                     Message.show ("Finding Already seen tree for "^(Syn.monExp_toString synthesizedExp));
                                            
@@ -659,10 +676,10 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                                              loop ei_tails _g applicationExpressions                                                                
                                                              
                                                         | None ->   
-                                                            (* let () = Printf.printf "%s" ("\n Typechecking "^(Syn.monExp_toString (Syn.expand (!lbindings) synthesizedExp))) in 
-                                                            let () = Printf.printf "%s" ("\n Against "^(RefTy.toString spec)) in  *)
+                                                            let () = Printf.printf "%s" ("\n Typechecking "^(Syn.monExp_toString (Syn.expand (!lbindings) synthesizedExp))) in 
+                                                            let () = Printf.printf "%s" ("\n Against "^(RefTy.toString spec)) in 
     
-                                                            (* let funAppType =  SynTC.typecheck _g sigma delta !typenames !qualifiers synthesizedExp spec in 
+                                                            let funAppType =  SynTC.typecheck _g sigma delta !typenames !qualifiers synthesizedExp spec in 
                                                             (match funAppType with 
                                                                  | Some type4AppliedMonExp -> 
                                                                        Message.show (" Show *************** TypeChecking Succsessful "^(RefTy.toString type4AppliedMonExp));
@@ -683,79 +700,16 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                                                  | None ->  
                                                                     Message.show (" FAILED Typechecking PURE APP For "^(Syn.monExp_toString synthesizedExp));    
                                                                      loop ei_tails _g applicationExpressions 
-                                                            ) *)
-                                                                       let bvname = Var.fromString ("_lbv"^(string_of_int (!bvarcount))) in 
-                                                                       let _ = bvarcount := !bvarcount + 1 in 
-                                                                       let bvExp = Evar (bvname) in 
-                                                                       (* let _g = VC.extend_gamma (bvname, spec) _g  in                                   *)
-                                                                       Message.show ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                                                                       Message.show ("let "^(bvname)^" = "^(monExp_toString synthesizedExp));
-                                                                       let _ = lbindings := ((bvExp, synthesizedExp) :: !lbindings) in  
-                                                                       Message.show ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                                                                       let applicationExpressions =  {expMon= bvExp; ofType=spec} :: applicationExpressions in 
-                                                                       loop ei_tails _g applicationExpressions                                                                
-
+                                                            )
                                                     )
                                     in            
-                                    let (gamma, potentialExps) = loop possible_args_lists gamma [] in 
-                                    let potentialExps_expansion_pairs = List.map (fun ei -> 
-                                                                                  (ei, {expMon = Syn.expand !lbindings ei.expMon; 
-                                                                                  ofType = ei.ofType})) potentialExps in 
-
-                                  
-                                    let sorted_potentialExps_expansion_pairs = List.sort (Syn.compare) potentialExps_expansion_pairs in 
-                                  
-                                    let sorted_potentialExps_expansion_pairs = List.filter (fun (lbvi, ei) -> (Syn.size ei.expMon <= 7)) sorted_potentialExps_expansion_pairs in   
-                                    
-                                    Message.show (" Sorted Exxpressions");
-                                    let () = List.iter (fun (lbvi, ei) -> Printf.printf "%s" 
-                                                                ("\n Non-Expanded "^(Syn.monExp_toString lbvi.expMon)^"\n Program "^(Syn.monExp_toString (Syn.expand !lbindings  ei.expMon)^" \n Size "^(string_of_int(Syn.size ei.expMon))) ))  
-                                                                    sorted_potentialExps_expansion_pairs in 
-                                
-
-                                                                         
-                                    let sortedpureexps = List.map (fun (lbvi, _) -> lbvi) sorted_potentialExps_expansion_pairs in 
-
-
-                                    let rec correctpureexps gamma sorted correct = 
-                                        match sorted with 
-                                        | [] -> (gamma,correct) 
-                                        | tme :: tme_xs ->
-                                             
-                                            let Evar (bvname) = tme.expMon in  
-                                             let exp4bv = Syn.findInBindings tme.expMon !lbindings in 
-                                             (match exp4bv with 
-                                                | Some (_,me) ->  
-                                                    let () = Printf.printf "%s" ("\n Typechecking "^(Syn.monExp_toString (me))) in 
-                                                    let () = Printf.printf "%s" ("\n Against "^(RefTy.toString spec)) in
-                                                    let funAppType =  SynTC.typecheck gamma sigma delta !typenames !qualifiers (me) spec in 
-                                                      
-                                                    (match funAppType with 
-                                                       | Some type4AppliedMonExp -> 
-                                                           let _ = Message.show (" Show *************** TypeChecking Succsessful "^(RefTy.toString type4AppliedMonExp)) in 
-                                                           let gamma = VC.extend_gamma (bvname, type4AppliedMonExp) gamma  in                                   
-                                                           let correct =  {expMon= tme.expMon; ofType=type4AppliedMonExp} :: correct in 
-                                                            
-                                                           correctpureexps gamma tme_xs correct
-                                                       | None -> correctpureexps gamma tme_xs (correct) 
-                                                    )
-                                                | None -> raise (SynthesisException " All _bv must have a binding ")                
-                                             ) 
-                                             
-                                                         
-                                    in 
-
-                                   
-                                    let (gamma, correctExpressions) = correctpureexps gamma sortedpureexps [] in 
-                                    (* raise (SynthesisException "STOP");
-                                     *)
-                                                  
-                                 
-
+                                    let (gamma, correctExpressions) = loop possible_args_lists gamma [] in 
                                     (match correctExpressions with 
                                         | [] -> (* Nothing found for this function, look for other functions *) 
                                             Message.show (" ###################################################");    
+                                            
                                             Message.show (" The Choice of Function "^(Var.toString vi)^" Was Ill Fated Try Next Choice of function");    
+                                                                    
                                             choice xs gamma sigma delta  
                                         | x :: xs -> 
                                             let _ = visited := ExploredTerms.add !visited vi in
@@ -801,9 +755,9 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                             Message.show ("Synthesized Exp to be Typechecked "^(Syn.monExp_toString synthesizedExp)); *)
                                             Message.show ("Finding Already seen tree for "^(Syn.monExp_toString synthesizedExp));
                                             (match (Syn.findInBindings synthesizedExp !lbindings) with 
-                                                | Some (lbv,_) ->   
+                                                | Some (lbv, _) ->   
                                                     Message.show ("Found "^(Syn.monExp_toString lbv));
-                                                    let eis =  {expMon=lbv; ofType=spec} :: eis in 
+                                                    let eis =  {expMon=lbv; ofType=spec} :: eis in  
                                                     let Evar bvname = lbv in 
                                                     let bvnameType = 
                                                            try 
@@ -819,10 +773,11 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                                     loop es_xs _g eis                                                                
                                                              
                                                 | None ->     
-                                                    (* let funAppType =  SynTC.typecheck _g sigma delta !typenames !qualifiers synthesizedExp spec in 
+                                                    let funAppType =  SynTC.typecheck _g sigma delta !typenames !qualifiers synthesizedExp spec in 
                                                     (match funAppType with 
                                                         | Some type4AppliedMonExp -> 
                                                              Message.show (" Show *************** TypeChecking Succsessful "^(RefTy.toString type4AppliedMonExp));
+                                                             
                                                              let bvname = Var.fromString ("_lbv"^(string_of_int (!bvarcount))) in 
                                                              let _ = bvarcount := !bvarcount + 1 in 
                                                              (* create let lbvi = f (ei) *)
@@ -840,77 +795,18 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                                         | None -> 
                                                             Message.show (" FAILED Typechecking PURE APP For "^(Syn.monExp_toString synthesizedExp));    
                                                             loop es_xs _g eis 
-                                                    )        *)
-                                                         let bvname = Var.fromString ("_lbv"^(string_of_int (!bvarcount))) in 
-                                                         let _ = bvarcount := !bvarcount + 1 in 
-                                                         (* create let lbvi = f (ei) *)
-                                                         let bvExp = Evar (bvname) in 
-                                                         (* let _g = VC.extend_gamma (bvname, spec) _g  in                                   *)
-                                                         let eis =  {expMon= bvExp; ofType=spec} :: eis in 
-                                                         Message.show ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                                                         Message.show ("let "^(bvname)^" = "^(monExp_toString synthesizedExp));
-                                                         let _ = lbindings := ((bvExp, synthesizedExp) :: !lbindings) in  
-                                                         Message.show ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                                                         loop es_xs _g eis  
+                                                    )       
                                             )               
                                   in 
                                   let (gamma, pureappexps) = loop allowed_only_argument_choices gamma [] in 
-
-
-                                  let potentialExps_expansion_pairs = List.map (fun ei -> 
-                                                                                  (ei, {expMon = Syn.expand !lbindings ei.expMon; 
-                                                                                  ofType = ei.ofType})) pureappexps in 
-
-                                  
-                                  
-                                  let sorted_potentialExps_expansion_pairs = List.sort (Syn.compare) potentialExps_expansion_pairs in 
-                                  
-                                  let sorted_potentialExps_expansion_pairs = List.filter (fun (lbvi, ei) -> (Syn.size ei.expMon <= 7)) sorted_potentialExps_expansion_pairs in   
-                                   
-
-                                Message.show (" Sorted Exxpressions");
-                                    let () = List.iter (fun (lbvi, ei) -> Printf.printf "%s" 
-                                                                ("\n Non-Expanded "^(Syn.monExp_toString lbvi.expMon)^"\n Program "^(Syn.monExp_toString (Syn.expand !lbindings  ei.expMon)^" \n Size "^(string_of_int(Syn.size ei.expMon))) ))  
-                                                                    sorted_potentialExps_expansion_pairs in 
-                                
-                                let sortedpureexps = List.map (fun (lbvi, _) -> lbvi) sorted_potentialExps_expansion_pairs in 
-                                
-                                
-                                  let rec correctpureexps gamma sorted correct = 
-                                    match sorted with 
-                                        | [] -> (gamma, correct) 
-                                        | tme :: tme_xs -> 
-                                            let Evar (bvname) = tme.expMon in  
-                                            let exp4bv = Syn.findInBindings tme.expMon !lbindings in 
-                                               (match exp4bv with 
-                                                | Some (_,me) ->  
-                                                    let () = Printf.printf "%s" ("\n Typechecking "^(Syn.monExp_toString (me))) in 
-                                                    let () = Printf.printf "%s" ("\n Against "^(RefTy.toString spec)) in
-                                                    let funAppType =  SynTC.typecheck gamma sigma delta !typenames !qualifiers (me) spec in 
-                                                    
-                                                    (match funAppType with 
-                                                       | Some type4AppliedMonExp -> 
-                                                            let _ = Message.show (" Show *************** TypeChecking Succsessful "^(RefTy.toString type4AppliedMonExp)) in 
-                                                            let gamma = VC.extend_gamma (bvname, type4AppliedMonExp) gamma  in                                   
-                                                            let correct =  {expMon= tme.expMon; ofType=type4AppliedMonExp} :: correct in 
-                                                             
-                                                           correctpureexps gamma tme_xs correct
-                                                       | None -> correctpureexps gamma tme_xs (correct) 
-                                                    )
-                                                | None -> raise (SynthesisException " All _bv must have a binding ")                
-                                             )     
-                                  in 
-                                  let (gamma, pureappexps) = correctpureexps gamma sortedpureexps [] in 
-
-
-                                                   
                                   match pureappexps with 
                                     | [] -> (* Nothing found for this function, look for other functions *) 
                                         Message.show (" ###################################################");    
+                                            
                                         Message.show (" The Choice of Function "^(Var.toString vi)^" Was Ill Fated Try Next Choice of function");    
+                                            
                                         choice xs gamma sigma delta  
                                     | _ :: _ -> 
-                                        
                                         let _ = visited := ExploredTerms.add !visited vi in
                                         (gamma, pureappexps) (*EXT : Even in this case we need to look for all the terms *)
 
@@ -1439,6 +1335,7 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter : (Sy
      maxPathLength := !max;
      typenames := types;
      qualifiers := quals;
+     lbindings := [];
      let sols = synthesize 0 gamma sigma delta spec  in 
      let bindingExp = Syn.exp4tuples (List.rev (!lbindings)) in 
      Message.show (Syn.monExp_toString bindingExp);
@@ -1453,4 +1350,3 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter : (Sy
 
 
 end
-

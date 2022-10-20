@@ -124,26 +124,25 @@ let genTypeName = mkGenName (0,"T")
 let genSetName = mkGenName (0,"set")
 
 let mkDefaultContext () =
-  let cfg = [("model", "true"); ("proof", "true"); ("timeout", "30")(* ;("smt.macro-finder","true") *)] in 
+  let cfg = [("model", "true"); ("proof", "true"); ("timeout", "30000")(* ;("smt.macro-finder","true") *)] in 
   let ctx = mk_context cfg
-  in
-  ctx
+  in ctx
 
 let ctx = ref @@ mkDefaultContext ()  
-
 let solver = ref @@ Solver.mk_solver !ctx None 
 
-let ctx_to_string () = Solver.to_string !solver
 
 let reset () = 
   begin
     ctx := mkDefaultContext ();
     solver := Solver.mk_solver !ctx None;
   end
+
 (*
  * Z3 API for the current ctx
- *)
-
+ 
+let int_sort = Int (mk_int_sort ())  
+let bool_sort = Bool (mk_bool_sort ()) *)
 let mkSym s =  Symbol.mk_string !ctx s 
 let mk_app f args = Expr.mk_app !ctx f args
 let mk_int_sort () = Integer.mk_sort !ctx
@@ -239,16 +238,14 @@ let const_true = AST (truee, Bool (mk_bool_sort ()))
 
 
 
-let int_sort = Int (mk_int_sort ())  
-let bool_sort = Bool (mk_bool_sort ())
 
 
 let mkConst (name,sort) =
   let z3_sort = sortToZ3Sort sort in 
   let const = Expr.mk_const (!ctx) (mkSym name) (z3_sort) in 
- (*  let _ = Printf.printf "%s" ("(declare-const "^(Expr.to_string (const))^" "^(Sort.to_string (z3_sort))^")") in 
-  let _ = Printf.printf "%s" "\n"
-   in*)
+  (* let _ = Printf.printf "%s" ("(declare-const "^(Expr.to_string (const))^" "^(Sort.to_string (z3_sort))^")") in 
+  let _ = Printf.printf "%s" "\n" *)
+   (* in *)
   AST (const, sort)
 (*create a string literal*)
 let mkStr s = 
