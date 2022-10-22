@@ -270,7 +270,7 @@ let effectGuidedFiltering potentialLibs goalPre goalPost =
 let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) list  = 
     (*can enumerate a variable of refined basetype, an arrow type or a effectful component*)
      (* Message.show ("\n Show ::  In enumPureE");         *)
-    Message.show (" Enumeration for \n spec \n "^(RefTy.toString spec));            
+    (* Message.show (" Enumeration for \n spec \n "^(RefTy.toString spec));             *)
     match spec with 
       (*Tvar case*)
       | RefTy.Base (v, t, pred) -> 
@@ -344,7 +344,7 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                         else  *)
                             (*make a direct call to the SMT solver*)
                             let vcStandard = VC.standardize vc in 
-                            Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); 
+                            (* Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard));  *)
                             let result = VCE.discharge vcStandard !typenames !qualifiers in 
                             (match result with 
                             | VCE.Success -> 
@@ -1106,7 +1106,9 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
     let boolSpec = RefTy.Base (v, 
                                 TyD.Ty_bool, 
                                 Predicate.True) in 
-    Message.show ("iSynthesize Boolean "^(RefTy.toString boolSpec));
+    Message.show (" *********************Synthesizing the Guard*******************");
+    Message.show ("iSynthesize Boolean Guard "^(RefTy.toString boolSpec));
+    Message.show (" *********************Synthesizing the Guard*******************");
     
     let (gamma, bi_list) = esynthesizeScalar depth gamma sigma delta [boolSpec] in 
     (*EXT :: loop over all possible choices of the boolean *)
@@ -1117,6 +1119,10 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
         match guardlist with 
             | [] -> (gamma, explist)
             | eb :: eb_xs ->
+                 (* Look for guards of size max 2 *)
+                if (Syn.size (Syn.expand !lbindings eb.expMon) > 2) then 
+                    loop eb_xs gamma explist
+                else
                 (*get the predicate \phi in the If-rule for synthesis*)   
                  (*either a fun-application or *)
                  let eb_expmon = eb.expMon in  

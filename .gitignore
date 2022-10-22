@@ -1,0 +1,7 @@
+*.cmi
+*.native
+*.swp
+*.out
+*.log
+**/_build/**
+./benchmarks/panda**/**	

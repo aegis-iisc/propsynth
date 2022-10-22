@@ -119,7 +119,7 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                 (*create the type [actuals/foramls] retTy*)
                 let appType = RefTy.applySubsts subs retTy in 
 
-                 (* let () = Printf.printf "%s" ("\n AppType "^(RefTy.toString appType)) in  *)
+                 let () = Printf.printf "%s" ("\n AppType Type "^(RefTy.toString appType)) in  
    
                 (*the subtyping check*)
                 (* let RefTy.Base (vs, ts, phis ) = spec in 

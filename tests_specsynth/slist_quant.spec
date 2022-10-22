@@ -1,7 +1,12 @@
+
 qualifier slen : list :-> int;
-qualifier ulist : list :-> bool;
+qualifier slist : list :-> bool;
 qualifier shd : list :-> int;
+qualifier sorder : list :-> int :-> int :-> bool;
 qualifier smem : list :-> int :-> bool;
+
+
+gt_eq_int_gen : (n3: int) -> {v : int | [v > n3] \/ [v=n3]}; 
 
 
 subs : (n : {v : int | true}) ->  {v : int | v == n -- 1};
@@ -10,28 +15,25 @@ nil : {v : list | \(u : int).
                     smem (v, u) = false /\ 
                     not (shd (v) = u) /\
                     slen (v) == 0 /\
-                    ulist (v) = true};
+                    slist (v) = true};
 sizecheck : (s : int) -> 
         {v : bool | [v=true] <=> [s=0] /\ 
                     [v=false] <=> [s>0]};
 
 cons : (x : {v : int | [v>0] \/ [v=0]}) -> 
-       (xs : {v : list | ulist (v) = true}) -> 
+       (xs : {v : list | slist (v) = true}) -> 
                 {v : list | 
                     \(u : int). 
-                        (smem (v, u) = true <=> (smem (xs, u) = true \/ [u = x])) /\
+                        (smem (v, u) = true => (not [x > u])) /\
                         (shd (v) = u <=> [u = x]) /\
                         (shd (v) = u => smem (v, u) = true) /\
                         (slen (v) == slen (xs) + 1) /\
-                        (ulist (v) = true)
+                        (slist (v) = true)
                          }; 
-
-
 
 goal : (s : { v : int | true}) -> 
                 (x0 : {v : int | [v>0] \/ [v=0]}) -> 
                     {v : list | \(u : int). 
                             slen (v) == s /\
-                            ulist (v) = true /\    
-                            (smem (v, u) = true => [u = x0])};
-
+                            slist (v) = true /\    
+                            (smem (v, u) = true => not [x0 > u])};
