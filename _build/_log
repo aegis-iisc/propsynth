@@ -1,0 +1,1071 @@
+### Starting build.
+# Target: main/effsynth.ml.depends, tags: { package(z3), extension:ml, file:main/effsynth.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules main/effsynth.ml > main/effsynth.ml.depends # cached
+# Target: synlang/lambdasyn.ml.depends, tags: { package(z3), extension:ml, file:synlang/lambdasyn.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules synlang/lambdasyn.ml > synlang/lambdasyn.ml.depends # cached
+# Target: speclang/specLang.ml.depends, tags: { package(z3), extension:ml, file:speclang/specLang.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules speclang/specLang.ml > speclang/specLang.ml.depends # cached
+# Target: applicativemap.ml.depends, tags: { package(z3), extension:ml, file:applicativemap.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules applicativemap.ml > applicativemap.ml.depends # cached
+# Target: applicativemap.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:applicativemap.cmo, file:applicativemap.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o applicativemap.cmo applicativemap.ml # cached
+# Target: vector.ml.depends, tags: { package(z3), extension:ml, file:vector.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules vector.ml > vector.ml.depends # cached
+# Target: vector.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:vector.cmo, file:vector.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vector.cmo vector.ml # cached
+# Target: speclang/specLang.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:speclang/specLang.cmo, file:speclang/specLang.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I speclang -I typechecking -I vcencode -I specparser -I synthesis -I sigmabuilder -I synlang -o speclang/specLang.cmo speclang/specLang.ml # cached
+# Target: synlang/lambdasyn.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:synlang/lambdasyn.cmo, file:synlang/lambdasyn.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I synlang -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -o synlang/lambdasyn.cmo synlang/lambdasyn.ml # cached
+# Target: sigmabuilder/specElab.ml.depends, tags: { package(z3), extension:ml, file:sigmabuilder/specElab.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules sigmabuilder/specElab.ml > sigmabuilder/specElab.ml.depends # cached
+# Target: sigmabuilder/environment.ml.depends, tags: { package(z3), extension:ml, file:sigmabuilder/environment.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules sigmabuilder/environment.ml > sigmabuilder/environment.ml.depends # cached
+# Target: sigmabuilder/environment.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:sigmabuilder/environment.cmo, file:sigmabuilder/environment.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I sigmabuilder -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I synlang -o sigmabuilder/environment.cmo sigmabuilder/environment.ml # cached
+# Target: specparser/specLexer.ml.depends, tags: { package(z3), extension:ml, file:specparser/specLexer.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules specparser/specLexer.ml > specparser/specLexer.ml.depends # cached
+# Target: specparser/specParser.mli.depends, tags: { package(z3), extension:mli, file:specparser/specParser.mli, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules specparser/specParser.mli > specparser/specParser.mli.depends # cached
+# Target: specparser/specParser.cmi, tags: { package(z3), byte, compile, extension:mli, file:specparser/specParser.mli, interf, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I specparser -I typechecking -I vcencode -I speclang -I synthesis -I sigmabuilder -I synlang -o specparser/specParser.cmi specparser/specParser.mli # cached
+# Target: specparser/specLexer.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:specparser/specLexer.cmo, file:specparser/specLexer.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I specparser -I typechecking -I vcencode -I speclang -I synthesis -I sigmabuilder -I synlang -o specparser/specLexer.cmo specparser/specLexer.ml # cached
+# Target: sigmabuilder/specElab.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:sigmabuilder/specElab.cmo, file:sigmabuilder/specElab.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I sigmabuilder -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I synlang -o sigmabuilder/specElab.cmo sigmabuilder/specElab.ml # cached
+# Target: synthesis/synthesis.ml.depends, tags: { package(z3), extension:ml, file:synthesis/synthesis.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules synthesis/synthesis.ml > synthesis/synthesis.ml.depends
++ ocamlfind ocamldep -package z3 -modules synthesis/synthesis.ml > synthesis/synthesis.ml.depends
+File "synthesis/synthesis.ml", line 1098, characters 79-81:
+1098 |                 | _ -> raise (SynthesisException "Only Allowed Types Shape is {\forall h v h'}}}")                
+                                                                                      ^^
+Warning 14 [illegal-backslash]: illegal backslash escape in string.
+# Target: sigmabuilder/knowledge.ml.depends, tags: { package(z3), extension:ml, file:sigmabuilder/knowledge.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules sigmabuilder/knowledge.ml > sigmabuilder/knowledge.ml.depends # cached
+# Target: sigmabuilder/knowledge.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:sigmabuilder/knowledge.cmo, file:sigmabuilder/knowledge.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I sigmabuilder -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I synlang -o sigmabuilder/knowledge.cmo sigmabuilder/knowledge.ml # cached
+# Target: typechecking/syntypechecker.ml.depends, tags: { package(z3), extension:ml, file:typechecking/syntypechecker.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules typechecking/syntypechecker.ml > typechecking/syntypechecker.ml.depends
+# Target: vcencode/vcencode.mli.depends, tags: { package(z3), extension:mli, file:vcencode/vcencode.mli, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules vcencode/vcencode.mli > vcencode/vcencode.mli.depends # cached
+# Target: typechecking/verificationC.ml.depends, tags: { package(z3), extension:ml, file:typechecking/verificationC.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules typechecking/verificationC.ml > typechecking/verificationC.ml.depends # cached
+# Target: typechecking/verificationC.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:typechecking/verificationC.cmo, file:typechecking/verificationC.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o typechecking/verificationC.cmo typechecking/verificationC.ml # cached
+# Target: vcencode/vcencode.cmi, tags: { package(z3), byte, compile, extension:mli, file:vcencode/vcencode.mli, interf, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/vcencode.cmi vcencode/vcencode.mli # cached
+# Target: typechecking/syntypechecker.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:typechecking/syntypechecker.cmo, file:typechecking/syntypechecker.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o typechecking/syntypechecker.cmo typechecking/syntypechecker.ml
++ ocamlfind ocamlc -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o typechecking/syntypechecker.cmo typechecking/syntypechecker.ml
+File "typechecking/syntypechecker.ml", lines 106-108, characters 22-54:
+106 | ......................let RefTy.Base (nu, tb, phi_i) = vi_type in 
+107 |                       let phi_i_applied = Predicate.applySubst (vi_var, nu) phi_i in 
+108 |                       (vi_var, vi_type, phi_i_applied).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 87-150, characters 16-27:
+ 87 | ................let RefTy.Uncurried (formalsList, retTy) = uncurried in
+ 88 |                 (*create substitution (actuals, foramls)*)
+ 89 |                 let formals = List.map (fun (vi, ti) -> vi) formalsList in 
+ 90 |                 (*each arg in argsList will actuall be of the foram Evar 
+ 91 |                 from the restriction of normal-forms
+...
+147 |                     (if (typechecks) then 
+148 |                       Some appType
+149 |                     else 
+150 |                       None)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "typechecking/syntypechecker.ml", lines 77-153, characters 10-14:
+ 77 | ..........let Evar funName = funExp in 
+ 78 |           let funType = try 
+ 79 |                  Gamma.find gamma funName 
+ 80 |                  with 
+ 81 |                   | e -> raise (SynthesisException "EApp Typechecking : Function Type Missing")
+...
+150 |                       None)
+151 | 
+152 |               | _ -> raise (SynthesisException ("Funtype must be t1 -> t2, but found "^(RefTy.toString funType)))
+153 |              )........
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "typechecking/syntypechecker.ml", lines 212-214, characters 26-58:
+212 | ..........................let RefTy.Base (nu, tb, phi_i) = vi_type in 
+213 |                           let phi_i_applied = Predicate.applySubst (vi_var, nu) phi_i in 
+214 |                           (vi_var, vi_type, phi_i_applied).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 191-263, characters 16-63:
+191 | ................let RefTy.Uncurried (formalsList, retTy) = uncurried in
+192 |                 if (List.length formalsList > 0) then  
+193 |                 
+194 |                     (*create substitution (actuals, foramls)*)
+195 |                     let formals = List.map (fun (vi, ti) -> vi) formalsList in 
+...
+260 |                          | VCE.Undef ->  false 
+261 |                          (* raise (SynthesisException "Typechecking Did not terminate")   *)
+262 |                        in 
+263 |                       if (typechecks) then Some retTy else None
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "typechecking/syntypechecker.ml", lines 560-570, characters 26-76:
+560 | ..........................let RefTy.MArrow (eff, pre, (v,t), post) = appType in 
+561 |                           let predApplied = Predicate.applySubsts subs pre in 
+562 |                           
+563 |                           let postApplied = Predicate.applySubsts subs post in 
+564 |                           (*Some bug in the RefTy applySubs, missied the application, 
+...
+567 |                   
+568 |                           let (acc_gamma, acc_delta, acc_type) = 
+569 |                           mon_bind acc_delta acc_gamma acc_type appType bvar in
+570 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 544-570, characters 26-76:
+544 | ..........................let RefTy.Uncurried (formalsList, retTy) = uncurried in 
+545 |                            (*create substitution (actuals, foramls)*)
+546 |                           let formals = List.map (fun (vi, ti) -> vi) formalsList in 
+547 |                           let actuals = List.map (fun (vi) -> Syn.componentNameForMonExp vi) argsList in 
+548 |                           (*We DO NOT need to check types and lengths for actual and formal 
+...
+567 |                   
+568 |                           let (acc_gamma, acc_delta, acc_type) = 
+569 |                           mon_bind acc_delta acc_gamma acc_type appType bvar in
+570 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "typechecking/syntypechecker.ml", lines 537-571, characters 19-22:
+537 | ...................(match funType with 
+538 |                      | RefTy.MArrow (_,_,(_,_),_) ->
+539 |                         let (acc_gamma, acc_delta, acc_type) = 
+540 |                           mon_bind acc_delta acc_gamma acc_type funType bvar in
+541 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+...
+568 |                           let (acc_gamma, acc_delta, acc_type) = 
+569 |                           mon_bind acc_delta acc_gamma acc_type appType bvar in
+570 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+571 |                      ).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 529-571, characters 18-22:
+529 | ..................let Evar funName = lambda in
+530 |                   let funType = 
+531 |                     try  
+532 |                       Gamma.find gamma funName 
+533 |                      with 
+...
+568 |                           let (acc_gamma, acc_delta, acc_type) = 
+569 |                           mon_bind acc_delta acc_gamma acc_type appType bvar in
+570 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+571 |                      ).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "typechecking/syntypechecker.ml", lines 524-575, characters 10-11:
+524 | ..........let Syn.Evar bvar = bvarMonExp in 
+525 |           (*TODO :: HERE is the bug, we need to map the actual to the formal*)
+526 |           (*Note to future self , this breaks the u_fun_param1.spec *)
+527 |           (match monExp with 
+528 |             | Syn.Eapp (lambda, argsList) -> 
+...
+572 |                                   
+573 |             
+574 |             | _ -> raise (SynthesisException "Illegal do , allowed only do x <- apply f (?args)")
+575 |           )..
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "typechecking/syntypechecker.ml", lines 581-600, characters 10-103:
+581 | ..........match retVarMonExp with 
+582 |             | Syn.Evar (v_ret) ->  
+583 |               (*implement the P v: t Q >>= return v_ret*)
+584 |               let type_v_ret = 
+585 |                  try  
+...
+597 |               mon_bind delta acc_gamma acc_type liftedType v_skip
+598 |             | Syn.Eapp (funName, args) -> 
+599 |                 
+600 |                 raise (SynthesisException ("return F (A) not Allowed "^(Syn.monExp_toString funName)));
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Ematch (_, _)|Elet (_, _, _)|Eret _|
+Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite _)
+File "typechecking/syntypechecker.ml", lines 522-600, characters 6-103:
+522 | ......match ei with 
+523 |         | Edo (bvarMonExp, monExp) -> 
+524 |           let Syn.Evar bvar = bvarMonExp in 
+525 |           (*TODO :: HERE is the bug, we need to map the actual to the formal*)
+526 |           (*Note to future self , this breaks the u_fun_param1.spec *)
+...
+597 |               mon_bind delta acc_gamma acc_type liftedType v_skip
+598 |             | Syn.Eapp (funName, args) -> 
+599 |                 
+600 |                 raise (SynthesisException ("return F (A) not Allowed "^(Syn.monExp_toString funName)));
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Evar _|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|
+Elet (_, _, _)|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Eite _)
+File "typechecking/syntypechecker.ml", lines 617-646, characters 10-52:
+617 | ..........let RefTy.MArrow (_, pre,  (_,_), post) = spec in 
+618 |           let initial_effect = Effect.Pure in 
+619 |           let retResult = Var.get_fresh_var "v" in 
+620 |           let unKnownType = RefTy.Base (retResult, TyD.Ty_unknown , Predicate.True) in 
+621 |           let bv_h = Var.get_fresh_var "h" in 
+...
+643 |               accumulatePathType path gamma delta initial_type   
+644 |            in 
+645 |            let ptypeMap = PTypeMap.add ptypeMap path path_type in 
+646 |            (gammaMap, deltPred, ptypeMap, path_type)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 665-694, characters 1-83:
+665 | .let RefTy.MArrow (effi, _,(vpath, tpath),_) = path_type in 
+666 | 	 
+667 |   let basePath = RefTy.toTyD tpath in 
+668 |   let baseSpec = RefTy.toTyD tspec in 
+669 |  
+...
+691 | 	        | VCE.Failure ->
+692 | 
+693 | 	                   (false,ptypeMap, gammacap, path_type) 
+694 | 	        | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")..
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 664-694, characters 1-83:
+664 | .let RefTy.MArrow (eff, _,(vspecp, tspec),_) = spec in 
+665 | 	let RefTy.MArrow (effi, _,(vpath, tpath),_) = path_type in 
+666 | 	 
+667 |   let basePath = RefTy.toTyD tpath in 
+668 |   let baseSpec = RefTy.toTyD tspec in 
+...
+691 | 	        | VCE.Failure ->
+692 | 
+693 | 	                   (false,ptypeMap, gammacap, path_type) 
+694 | 	        | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")..
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 756-764, characters 8-20:
+756 | ........let P.Forall (bvs_prespec,_) = pre_spec in 
+757 |         let (h1, t1) = List.nth bvs_prespec 0 in 
+758 | 
+759 |         let p'_pred =  P.applySubst (h1, h2') p'_pred in 
+760 |         let out = P.Forall ([(h1, Ty_heap)], p'_pred) in 
+761 | 
+762 |         let p'_q = RefTy.MArrow (eff, out, (v, t), post_spec) in 
+763 | 
+764 |        (gamma, p'_q).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(True|False|Base _|Rel _|Exists (_, _)|Not _|Conj (_, _)|If (_, _)|
+Iff (_, _)|Disj (_, _)|Dot (_, _))
+File "typechecking/syntypechecker.ml", lines 748-764, characters 8-20:
+748 | ........let P.Forall (bvs_p', p'_pred) = p' in 
+749 |         let (h2,_)  = List.nth bvs_p' 0 in 
+750 |         let (v2, t2) = List.nth bvs_p' 1 in 
+751 |         let (h2', t2') = List.nth bvs_p' 2 in 
+752 |         
+...
+761 | 
+762 |         let p'_q = RefTy.MArrow (eff, out, (v, t), post_spec) in 
+763 | 
+764 |        (gamma, p'_q).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(True|False|Base _|Rel _|Exists (_, _)|Not _|Conj (_, _)|If (_, _)|
+Iff (_, _)|Disj (_, _)|Dot (_, _))
+File "typechecking/syntypechecker.ml", line 623, characters 14-18:
+623 |           let bv_x = Var.get_fresh_var "x" in 
+                    ^^^^
+Warning 26 [unused-var]: unused variable bv_x.
+File "typechecking/syntypechecker.ml", line 631, characters 14-24:
+631 |           let pre_h_v_h' = VC.apply pre_h' [(bv_h', Ty_heap)] in 
+                    ^^^^^^^^^^
+Warning 26 [unused-var]: unused variable pre_h_v_h'.
+File "typechecking/syntypechecker.ml", line 706, characters 8-16:
+706 |     let sigmaMap = DPred.getSigma gammacap in 
+              ^^^^^^^^
+Warning 26 [unused-var]: unused variable sigmaMap.
+# Target: synthesis/synthesis.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:synthesis/synthesis.cmo, file:synthesis/synthesis.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I synthesis -I typechecking -I vcencode -I specparser -I speclang -I sigmabuilder -I synlang -o synthesis/synthesis.cmo synthesis/synthesis.ml
++ ocamlfind ocamlc -c -thread -package z3 -I synthesis -I typechecking -I vcencode -I specparser -I speclang -I sigmabuilder -I synlang -o synthesis/synthesis.cmo synthesis/synthesis.ml
+File "synthesis/synthesis.ml", line 1098, characters 79-81:
+1098 |                 | _ -> raise (SynthesisException "Only Allowed Types Shape is {\forall h v h'}}}")                
+                                                                                      ^^
+Warning 14 [illegal-backslash]: illegal backslash escape in string.
+File "synthesis/synthesis.ml", lines 223-245, characters 24-49:
+223 | ........................let RefTy.MArrow (_, pre_lib, (_, _), post_lib) = retty in 
+224 |                         (* let  () = List.iter (fun e -> Printf.printf "%s" ("\n Lib Rels PRE "^(RelId.toString e))) (Predicate.getRelation pre_lib) in  *)
+225 |                         let qualifier_lib_pre = Quals.of_list(Predicate.getRelation pre_lib) in 
+226 |                         
+227 |                         (* let  () = List.iter (fun e -> Printf.printf "%s" ("\n Lib Rels POST "^(RelId.toString e))) (Predicate.getRelation post_lib) in  *)
+...
+242 |                         
+243 |                         let diff = Quals.diff qualifier_intersection (Quals.singleton "sel") in     
+244 |                         let () = Quals.iter (fun e -> Printf.printf "%s" ("\n Show DIFF "^(RelId.toString e))) diff in  
+245 |                         not (Quals.is_empty diff)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 222-245, characters 24-49:
+222 | ........................let RefTy.Uncurried (args_ty_list, retty) = uncurried in 
+223 |                         let RefTy.MArrow (_, pre_lib, (_, _), post_lib) = retty in 
+224 |                         (* let  () = List.iter (fun e -> Printf.printf "%s" ("\n Lib Rels PRE "^(RelId.toString e))) (Predicate.getRelation pre_lib) in  *)
+225 |                         let qualifier_lib_pre = Quals.of_list(Predicate.getRelation pre_lib) in 
+226 |                         
+...
+242 |                         
+243 |                         let diff = Quals.diff qualifier_intersection (Quals.singleton "sel") in     
+244 |                         let () = Quals.iter (fun e -> Printf.printf "%s" ("\n Show DIFF "^(RelId.toString e))) diff in  
+245 |                         not (Quals.is_empty diff)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "synthesis/synthesis.ml", lines 219-263, characters 19-28:
+219 | ...................match ti with 
+220 |                     | RefTy.Arrow ((varg, argty), _) -> 
+221 |                         let uncurried = RefTy.uncurry_Arrow ti in 
+222 |                         let RefTy.Uncurried (args_ty_list, retty) = uncurried in 
+223 |                         let RefTy.MArrow (_, pre_lib, (_, _), post_lib) = retty in 
+...
+260 |                         not (Quals.is_empty diff)
+261 |                         
+262 |                     | RefTy.Base  (_,_, predicate_lib) -> 
+263 |                         true
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", line 636, characters 60-95:
+636 |                                                             raise (SynthesisException "Dead 0");
+                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 21 [nonreturning-statement]: this statement never returns (or has an unsound type.)
+File "synthesis/synthesis.ml", lines 672-684, characters 60-100:
+672 | ............................................................let Evar bvname = lbv in 
+673 |                                                             let bvnameType = 
+674 |                                                                     try 
+675 |                                                                         Some (Gamma.find _g bvname) 
+676 |                                                                     with 
+...
+681 |                                                                     | Some _ -> _g
+682 |                                                                     | None  ->  VC.extend_gamma (bvname, spec) _g  
+683 |                                                              in                                  
+684 |                                                              loop ei_tails _g applicationExpressions................................................................
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "synthesis/synthesis.ml", line 747, characters 56-89:
+747 |                                                         raise (SynthesisException "Dead");
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 21 [nonreturning-statement]: this statement never returns (or has an unsound type.)
+File "synthesis/synthesis.ml", lines 769-781, characters 52-69:
+769 | ....................................................let Evar bvname = lbv in 
+770 |                                                     let bvnameType = 
+771 |                                                            try 
+772 |                                                                Some (Gamma.find _g bvname) 
+773 |                                                            with 
+...
+778 |                                                            | Some _ -> _g
+779 |                                                            | None  ->  VC.extend_gamma (bvname, spec) _g  
+780 |                                                     in                                  
+781 |                                                     loop es_xs _g eis................................................................
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "synthesis/synthesis.ml", lines 523-821, characters 24-25:
+523 | ........................let RefTy.Uncurried (args_ty_list, retty) = uncurried in 
+524 | 
+525 |                         (*Currently the argument is always a scalar/Base Refinement*)
+526 |                         Message.show (" *************** Synthesizing Args ei : ti for ************"^(Var.toString vi));
+527 |                         
+...
+818 |                                         let _ = visited := ExploredTerms.add !visited vi in
+819 |                                         (gamma, pureappexps) (*EXT : Even in this case we need to look for all the terms *)
+820 | 
+821 |                         )...........
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "synthesis/synthesis.ml", lines 867-908, characters 24-28:
+867 | ........................let RefTy.Uncurried (consargs,consret) = RefTy.uncurry_Arrow rti in 
+868 |                         
+869 |                         let consArgs = List.map (fun (_,ti) -> ti) consargs in 
+870 |                         Message.show (" Show *************** Synthesizing Arguments ei for the Constructor Application for ************"^(Var.toString vi));
+871 | 
+...
+905 |                                                         Some {expMon= appliedConsMonExp; ofType=spec}                                  
+906 |                                                    | None ->  
+907 |                                                       choice xs gamma sigma delta 
+908 |                            ).........
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "synthesis/synthesis.ml", lines 837-914, characters 4-48:
+837 | ....let RefTy.Base (v, t, pred) = spec in 
+838 |     let exploredCons = Sigma.empty in 
+839 |     (*find a C \in Sigma with shape C : (xi:\tau:i) -> t *)
+840 |         (*find a C \in Sigma with shape C : (xi:\tau:i) -> t *)
+841 |     let potentialChoices = Sigma.findCons4retT sigma spec in 
+...
+911 |        in 
+912 |        Message.show ("********************** HERE BEFORE ");
+913 |        
+914 |        choice potentialChoices gamma sigma delta.
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 966-1028, characters 4-12:
+ 966 | ....let RefTy.Base(_, argBase, argBasePhi) = matchingArgType in 
+ 967 |      
+ 968 |     Message.show ("Show :: List "^(TyD.toString argBase));
+ 969 |            
+ 970 |     (*list constructor case, work on the genaral case later*)   
+...
+1025 |             None  
+1026 |     | _ ->   
+1027 |         Message.show "Show :: Non List Case";
+1028 |         None
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 1060-1072, characters 24-46:
+1060 | ........................let Predicate.Forall (bvs, predBool) = postBool in     
+1061 |                         Message.show ("RefTy "^(RefTy.toString t));
+1062 |                         Message.show ("Post "^(Predicate.toString postBool));
+1063 |                         let newvar = Var.get_fresh_var "v" in 
+1064 |                         let newvarString =Var.toString newvar in 
+...
+1069 |                                         Predicate.applySubst (newvar, vn)  predBool) in 
+1070 |                         let gamma = VC.extend_gamma (newvar, tn) gamma  in 
+1071 |                       
+1072 |                         (gamma, truep, falsep)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(True|False|Base _|Rel _|Exists (_, _)|Not _|Conj (_, _)|If (_, _)|
+Iff (_, _)|Disj (_, _)|Dot (_, _))
+File "synthesis/synthesis.ml", line 1101, characters 14-15:
+1101 |             | _ -> raise (SynthesisException "Case must be handled in Pure Effect");   
+                     ^
+Warning 11 [redundant-case]: this match case is unused.
+File "synthesis/synthesis.ml", lines 1083-1101, characters 8-84:
+1083 | ........match spType with  
+1084 |             | MArrow (_, _, (_, _), sp) -> 
+1085 |              
+1086 |                 match sp with 
+1087 |                 | Forall (bvs, sp_Pred) -> 
+...
+1098 |                 | _ -> raise (SynthesisException "Only Allowed Types Shape is {\forall h v h'}}}")                
+1099 |                         
+1100 |                                     
+1101 |             | _ -> raise (SynthesisException "Case must be handled in Pure Effect");...
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 1237-1248, characters 14-97:
+1237 | ..............let RefTy.Base (v0, td0, pred0) = decreasing_Type in 
+1238 |               let decreasing_pred = (*len (decreasing_Var) > len (v0) *)
+1239 |                               let instExpression = 
+1240 |                                       RelLang.RInst { sargs = []; 
+1241 |                                               targs = []; 
+...
+1245 |                               let measure_new_var = RelLang.R (instExpression, v0) in                
+1246 |                               Predicate.Rel (P.RelPredicate.Grt ( measure_old_var, measure_new_var)) in 
+1247 |               Message.show ("Calculated Decreasing Predicate "^(Predicate.toString decreasing_pred)) ;
+1248 |               (new_decreasing_Var, RefTy.Base (v0, td0, Predicate.Conj (pred0, decreasing_pred))).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 1274-1279, characters 14-97:
+1274 | ..............let RefTy.Base (v0, td0, pred0) = decreasing_Type in 
+1275 |               let decreasing_pred = (*len (decreasing_Var) > len (v0) *)
+1276 |                               Predicate.Base (P.BasePredicate.Gt ( P.BasePredicate.Var (decreasing_Var), 
+1277 |                                                                    P.BasePredicate.Var (v0))) in 
+1278 |               Message.show ("Calculated Decreasing Predicate "^(Predicate.toString decreasing_pred)) ;
+1279 |               (new_decreasing_Var, RefTy.Base (v0, td0, Predicate.Conj (pred0, decreasing_pred))).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 1207-1315, characters 2-22:
+1207 | ..let RefTy.Uncurried ( fargs_type_list, retT) = uncurried_spec  in
+1208 |   Message.show ("Show "^RefTy.toString uncurried_spec); 
+1209 |   (*extend gamma*)
+1210 |   (*first try a match case, if it does not succeed, try the non-matching case*)
+1211 |   let gamma_extended = Gamma.append  gamma fargs_type_list in 
+...
+1312 |                 []
+1313 |             | e :: e_xs ->
+1314 |                 Message.show (" Found a If Then Else solution"); 
+1315 |                 if_exp
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "synthesis/synthesis.ml", line 626, characters 52-62:
+626 |                                                 let monExps_es = List.map (fun ei ->
+                                                          ^^^^^^^^^^
+Warning 26 [unused-var]: unused variable monExps_es.
+File "synthesis/synthesis.ml", line 838, characters 8-20:
+838 |     let exploredCons = Sigma.empty in 
+              ^^^^^^^^^^^^
+Warning 26 [unused-var]: unused variable exploredCons.
+File "synthesis/synthesis.ml", line 1082, characters 8-22:
+1082 |     let createPreSpeci (spType : RefTy.t)  = 
+               ^^^^^^^^^^^^^^
+Warning 26 [unused-var]: unused variable createPreSpeci.
+File "synthesis/synthesis.ml", line 1176, characters 38-46:
+1176 |                                   let eite_exp = Syn.Eite (eb_expmon, monexp_t_true, monexp_t_false) in 
+                                             ^^^^^^^^
+Warning 26 [unused-var]: unused variable eite_exp.
+# Target: main/effsynth.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:main/effsynth.cmo, file:main/effsynth.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I main -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o main/effsynth.cmo main/effsynth.ml
+# Target: applicativemap.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:applicativemap.cmx, file:applicativemap.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o applicativemap.cmx applicativemap.ml # cached
+# Target: vector.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:vector.cmx, file:vector.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vector.cmx vector.ml # cached
+# Target: speclang/specLang.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:speclang/specLang.cmx, file:speclang/specLang.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I speclang -I typechecking -I vcencode -I specparser -I synthesis -I sigmabuilder -I synlang -o speclang/specLang.cmx speclang/specLang.ml # cached
+# Target: synlang/lambdasyn.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:synlang/lambdasyn.cmx, file:synlang/lambdasyn.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I synlang -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -o synlang/lambdasyn.cmx synlang/lambdasyn.ml # cached
+# Target: sigmabuilder/environment.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:sigmabuilder/environment.cmx, file:sigmabuilder/environment.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I sigmabuilder -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I synlang -o sigmabuilder/environment.cmx sigmabuilder/environment.ml # cached
+# Target: specparser/specParser.ml.depends, tags: { package(z3), extension:ml, file:specparser/specParser.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules specparser/specParser.ml > specparser/specParser.ml.depends # cached
+# Target: specparser/specParser.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:specparser/specParser.cmx, file:specparser/specParser.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I specparser -I typechecking -I vcencode -I speclang -I synthesis -I sigmabuilder -I synlang -o specparser/specParser.cmx specparser/specParser.ml # cached
+# Target: specparser/specLexer.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:specparser/specLexer.cmx, file:specparser/specLexer.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I specparser -I typechecking -I vcencode -I speclang -I synthesis -I sigmabuilder -I synlang -o specparser/specLexer.cmx specparser/specLexer.ml # cached
+# Target: sigmabuilder/specElab.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:sigmabuilder/specElab.cmx, file:sigmabuilder/specElab.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I sigmabuilder -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I synlang -o sigmabuilder/specElab.cmx sigmabuilder/specElab.ml # cached
+# Target: sigmabuilder/knowledge.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:sigmabuilder/knowledge.cmx, file:sigmabuilder/knowledge.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I sigmabuilder -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I synlang -o sigmabuilder/knowledge.cmx sigmabuilder/knowledge.ml # cached
+# Target: vcencode/vcencode.ml.depends, tags: { package(z3), extension:ml, file:vcencode/vcencode.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules vcencode/vcencode.ml > vcencode/vcencode.ml.depends # cached
+# Target: vcencode/constMap.ml.depends, tags: { package(z3), extension:ml, file:vcencode/constMap.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules vcencode/constMap.ml > vcencode/constMap.ml.depends # cached
+# Target: vcencode/z3_encode.ml.depends, tags: { package(z3), extension:ml, file:vcencode/z3_encode.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules vcencode/z3_encode.ml > vcencode/z3_encode.ml.depends # cached
+# Target: layout.ml.depends, tags: { package(z3), extension:ml, file:layout.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules layout.ml > layout.ml.depends # cached
+# Target: layout.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:layout.cmo, file:layout.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o layout.cmo layout.ml # cached
+# Target: vcencode/z3_encode.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:vcencode/z3_encode.cmo, file:vcencode/z3_encode.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/z3_encode.cmo vcencode/z3_encode.ml # cached
+# Target: vcencode/constMap.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:vcencode/constMap.cmo, file:vcencode/constMap.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/constMap.cmo vcencode/constMap.ml # cached
+# Target: layout.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:layout.cmx, file:layout.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o layout.cmx layout.ml # cached
+# Target: vcencode/z3_encode.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:vcencode/z3_encode.cmx, file:vcencode/z3_encode.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/z3_encode.cmx vcencode/z3_encode.ml # cached
+# Target: vcencode/constMap.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:vcencode/constMap.cmx, file:vcencode/constMap.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/constMap.cmx vcencode/constMap.ml # cached
+# Target: vcencode/relMap.ml.depends, tags: { package(z3), extension:ml, file:vcencode/relMap.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules vcencode/relMap.ml > vcencode/relMap.ml.depends # cached
+# Target: vcencode/relMap.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:vcencode/relMap.cmo, file:vcencode/relMap.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/relMap.cmo vcencode/relMap.ml # cached
+# Target: vcencode/relMap.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:vcencode/relMap.cmx, file:vcencode/relMap.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/relMap.cmx vcencode/relMap.ml # cached
+# Target: vcencode/tyMap.ml.depends, tags: { package(z3), extension:ml, file:vcencode/tyMap.ml, ocaml, ocamldep, quiet, thread }
+ocamlfind ocamldep -package z3 -modules vcencode/tyMap.ml > vcencode/tyMap.ml.depends # cached
+# Target: vcencode/tyMap.cmo, tags: { package(z3), byte, compile, extension:cmo, extension:ml, file:vcencode/tyMap.cmo, file:vcencode/tyMap.ml, implem, ocaml, quiet, thread }
+ocamlfind ocamlc -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/tyMap.cmo vcencode/tyMap.ml # cached
+# Target: vcencode/tyMap.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:vcencode/tyMap.cmx, file:vcencode/tyMap.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/tyMap.cmx vcencode/tyMap.ml # cached
+# Target: typechecking/verificationC.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:typechecking/verificationC.cmx, file:typechecking/verificationC.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o typechecking/verificationC.cmx typechecking/verificationC.ml # cached
+# Target: vcencode/vcencode.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:vcencode/vcencode.cmx, file:vcencode/vcencode.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I vcencode -I typechecking -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o vcencode/vcencode.cmx vcencode/vcencode.ml # cached
+# Target: typechecking/syntypechecker.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:typechecking/syntypechecker.cmx, file:typechecking/syntypechecker.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o typechecking/syntypechecker.cmx typechecking/syntypechecker.ml
++ ocamlfind ocamlopt -c -thread -package z3 -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o typechecking/syntypechecker.cmx typechecking/syntypechecker.ml
+File "typechecking/syntypechecker.ml", lines 106-108, characters 22-54:
+106 | ......................let RefTy.Base (nu, tb, phi_i) = vi_type in 
+107 |                       let phi_i_applied = Predicate.applySubst (vi_var, nu) phi_i in 
+108 |                       (vi_var, vi_type, phi_i_applied).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 87-150, characters 16-27:
+ 87 | ................let RefTy.Uncurried (formalsList, retTy) = uncurried in
+ 88 |                 (*create substitution (actuals, foramls)*)
+ 89 |                 let formals = List.map (fun (vi, ti) -> vi) formalsList in 
+ 90 |                 (*each arg in argsList will actuall be of the foram Evar 
+ 91 |                 from the restriction of normal-forms
+...
+147 |                     (if (typechecks) then 
+148 |                       Some appType
+149 |                     else 
+150 |                       None)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "typechecking/syntypechecker.ml", lines 77-153, characters 10-14:
+ 77 | ..........let Evar funName = funExp in 
+ 78 |           let funType = try 
+ 79 |                  Gamma.find gamma funName 
+ 80 |                  with 
+ 81 |                   | e -> raise (SynthesisException "EApp Typechecking : Function Type Missing")
+...
+150 |                       None)
+151 | 
+152 |               | _ -> raise (SynthesisException ("Funtype must be t1 -> t2, but found "^(RefTy.toString funType)))
+153 |              )........
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "typechecking/syntypechecker.ml", lines 212-214, characters 26-58:
+212 | ..........................let RefTy.Base (nu, tb, phi_i) = vi_type in 
+213 |                           let phi_i_applied = Predicate.applySubst (vi_var, nu) phi_i in 
+214 |                           (vi_var, vi_type, phi_i_applied).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 191-263, characters 16-63:
+191 | ................let RefTy.Uncurried (formalsList, retTy) = uncurried in
+192 |                 if (List.length formalsList > 0) then  
+193 |                 
+194 |                     (*create substitution (actuals, foramls)*)
+195 |                     let formals = List.map (fun (vi, ti) -> vi) formalsList in 
+...
+260 |                          | VCE.Undef ->  false 
+261 |                          (* raise (SynthesisException "Typechecking Did not terminate")   *)
+262 |                        in 
+263 |                       if (typechecks) then Some retTy else None
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "typechecking/syntypechecker.ml", lines 560-570, characters 26-76:
+560 | ..........................let RefTy.MArrow (eff, pre, (v,t), post) = appType in 
+561 |                           let predApplied = Predicate.applySubsts subs pre in 
+562 |                           
+563 |                           let postApplied = Predicate.applySubsts subs post in 
+564 |                           (*Some bug in the RefTy applySubs, missied the application, 
+...
+567 |                   
+568 |                           let (acc_gamma, acc_delta, acc_type) = 
+569 |                           mon_bind acc_delta acc_gamma acc_type appType bvar in
+570 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 544-570, characters 26-76:
+544 | ..........................let RefTy.Uncurried (formalsList, retTy) = uncurried in 
+545 |                            (*create substitution (actuals, foramls)*)
+546 |                           let formals = List.map (fun (vi, ti) -> vi) formalsList in 
+547 |                           let actuals = List.map (fun (vi) -> Syn.componentNameForMonExp vi) argsList in 
+548 |                           (*We DO NOT need to check types and lengths for actual and formal 
+...
+567 |                   
+568 |                           let (acc_gamma, acc_delta, acc_type) = 
+569 |                           mon_bind acc_delta acc_gamma acc_type appType bvar in
+570 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "typechecking/syntypechecker.ml", lines 537-571, characters 19-22:
+537 | ...................(match funType with 
+538 |                      | RefTy.MArrow (_,_,(_,_),_) ->
+539 |                         let (acc_gamma, acc_delta, acc_type) = 
+540 |                           mon_bind acc_delta acc_gamma acc_type funType bvar in
+541 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+...
+568 |                           let (acc_gamma, acc_delta, acc_type) = 
+569 |                           mon_bind acc_delta acc_gamma acc_type appType bvar in
+570 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+571 |                      ).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 529-571, characters 18-22:
+529 | ..................let Evar funName = lambda in
+530 |                   let funType = 
+531 |                     try  
+532 |                       Gamma.find gamma funName 
+533 |                      with 
+...
+568 |                           let (acc_gamma, acc_delta, acc_type) = 
+569 |                           mon_bind acc_delta acc_gamma acc_type appType bvar in
+570 |                           accumulatePathType cs acc_gamma acc_delta acc_type
+571 |                      ).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "typechecking/syntypechecker.ml", lines 524-575, characters 10-11:
+524 | ..........let Syn.Evar bvar = bvarMonExp in 
+525 |           (*TODO :: HERE is the bug, we need to map the actual to the formal*)
+526 |           (*Note to future self , this breaks the u_fun_param1.spec *)
+527 |           (match monExp with 
+528 |             | Syn.Eapp (lambda, argsList) -> 
+...
+572 |                                   
+573 |             
+574 |             | _ -> raise (SynthesisException "Illegal do , allowed only do x <- apply f (?args)")
+575 |           )..
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "typechecking/syntypechecker.ml", lines 581-600, characters 10-103:
+581 | ..........match retVarMonExp with 
+582 |             | Syn.Evar (v_ret) ->  
+583 |               (*implement the P v: t Q >>= return v_ret*)
+584 |               let type_v_ret = 
+585 |                  try  
+...
+597 |               mon_bind delta acc_gamma acc_type liftedType v_skip
+598 |             | Syn.Eapp (funName, args) -> 
+599 |                 
+600 |                 raise (SynthesisException ("return F (A) not Allowed "^(Syn.monExp_toString funName)));
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Ematch (_, _)|Elet (_, _, _)|Eret _|
+Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite _)
+File "typechecking/syntypechecker.ml", lines 522-600, characters 6-103:
+522 | ......match ei with 
+523 |         | Edo (bvarMonExp, monExp) -> 
+524 |           let Syn.Evar bvar = bvarMonExp in 
+525 |           (*TODO :: HERE is the bug, we need to map the actual to the formal*)
+526 |           (*Note to future self , this breaks the u_fun_param1.spec *)
+...
+597 |               mon_bind delta acc_gamma acc_type liftedType v_skip
+598 |             | Syn.Eapp (funName, args) -> 
+599 |                 
+600 |                 raise (SynthesisException ("return F (A) not Allowed "^(Syn.monExp_toString funName)));
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Evar _|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|
+Elet (_, _, _)|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Eite _)
+File "typechecking/syntypechecker.ml", lines 617-646, characters 10-52:
+617 | ..........let RefTy.MArrow (_, pre,  (_,_), post) = spec in 
+618 |           let initial_effect = Effect.Pure in 
+619 |           let retResult = Var.get_fresh_var "v" in 
+620 |           let unKnownType = RefTy.Base (retResult, TyD.Ty_unknown , Predicate.True) in 
+621 |           let bv_h = Var.get_fresh_var "h" in 
+...
+643 |               accumulatePathType path gamma delta initial_type   
+644 |            in 
+645 |            let ptypeMap = PTypeMap.add ptypeMap path path_type in 
+646 |            (gammaMap, deltPred, ptypeMap, path_type)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 665-694, characters 1-83:
+665 | .let RefTy.MArrow (effi, _,(vpath, tpath),_) = path_type in 
+666 | 	 
+667 |   let basePath = RefTy.toTyD tpath in 
+668 |   let baseSpec = RefTy.toTyD tspec in 
+669 |  
+...
+691 | 	        | VCE.Failure ->
+692 | 
+693 | 	                   (false,ptypeMap, gammacap, path_type) 
+694 | 	        | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")..
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 664-694, characters 1-83:
+664 | .let RefTy.MArrow (eff, _,(vspecp, tspec),_) = spec in 
+665 | 	let RefTy.MArrow (effi, _,(vpath, tpath),_) = path_type in 
+666 | 	 
+667 |   let basePath = RefTy.toTyD tpath in 
+668 |   let baseSpec = RefTy.toTyD tspec in 
+...
+691 | 	        | VCE.Failure ->
+692 | 
+693 | 	                   (false,ptypeMap, gammacap, path_type) 
+694 | 	        | VCE.Undef -> raise (SynthesisException "Typechecking Did not terminate")..
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "typechecking/syntypechecker.ml", lines 756-764, characters 8-20:
+756 | ........let P.Forall (bvs_prespec,_) = pre_spec in 
+757 |         let (h1, t1) = List.nth bvs_prespec 0 in 
+758 | 
+759 |         let p'_pred =  P.applySubst (h1, h2') p'_pred in 
+760 |         let out = P.Forall ([(h1, Ty_heap)], p'_pred) in 
+761 | 
+762 |         let p'_q = RefTy.MArrow (eff, out, (v, t), post_spec) in 
+763 | 
+764 |        (gamma, p'_q).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(True|False|Base _|Rel _|Exists (_, _)|Not _|Conj (_, _)|If (_, _)|
+Iff (_, _)|Disj (_, _)|Dot (_, _))
+File "typechecking/syntypechecker.ml", lines 748-764, characters 8-20:
+748 | ........let P.Forall (bvs_p', p'_pred) = p' in 
+749 |         let (h2,_)  = List.nth bvs_p' 0 in 
+750 |         let (v2, t2) = List.nth bvs_p' 1 in 
+751 |         let (h2', t2') = List.nth bvs_p' 2 in 
+752 |         
+...
+761 | 
+762 |         let p'_q = RefTy.MArrow (eff, out, (v, t), post_spec) in 
+763 | 
+764 |        (gamma, p'_q).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(True|False|Base _|Rel _|Exists (_, _)|Not _|Conj (_, _)|If (_, _)|
+Iff (_, _)|Disj (_, _)|Dot (_, _))
+File "typechecking/syntypechecker.ml", line 623, characters 14-18:
+623 |           let bv_x = Var.get_fresh_var "x" in 
+                    ^^^^
+Warning 26 [unused-var]: unused variable bv_x.
+File "typechecking/syntypechecker.ml", line 631, characters 14-24:
+631 |           let pre_h_v_h' = VC.apply pre_h' [(bv_h', Ty_heap)] in 
+                    ^^^^^^^^^^
+Warning 26 [unused-var]: unused variable pre_h_v_h'.
+File "typechecking/syntypechecker.ml", line 706, characters 8-16:
+706 |     let sigmaMap = DPred.getSigma gammacap in 
+              ^^^^^^^^
+Warning 26 [unused-var]: unused variable sigmaMap.
+# Target: synthesis/synthesis.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:synthesis/synthesis.cmx, file:synthesis/synthesis.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I synthesis -I typechecking -I vcencode -I specparser -I speclang -I sigmabuilder -I synlang -o synthesis/synthesis.cmx synthesis/synthesis.ml
++ ocamlfind ocamlopt -c -thread -package z3 -I synthesis -I typechecking -I vcencode -I specparser -I speclang -I sigmabuilder -I synlang -o synthesis/synthesis.cmx synthesis/synthesis.ml
+File "synthesis/synthesis.ml", line 1098, characters 79-81:
+1098 |                 | _ -> raise (SynthesisException "Only Allowed Types Shape is {\forall h v h'}}}")                
+                                                                                      ^^
+Warning 14 [illegal-backslash]: illegal backslash escape in string.
+File "synthesis/synthesis.ml", lines 223-245, characters 24-49:
+223 | ........................let RefTy.MArrow (_, pre_lib, (_, _), post_lib) = retty in 
+224 |                         (* let  () = List.iter (fun e -> Printf.printf "%s" ("\n Lib Rels PRE "^(RelId.toString e))) (Predicate.getRelation pre_lib) in  *)
+225 |                         let qualifier_lib_pre = Quals.of_list(Predicate.getRelation pre_lib) in 
+226 |                         
+227 |                         (* let  () = List.iter (fun e -> Printf.printf "%s" ("\n Lib Rels POST "^(RelId.toString e))) (Predicate.getRelation post_lib) in  *)
+...
+242 |                         
+243 |                         let diff = Quals.diff qualifier_intersection (Quals.singleton "sel") in     
+244 |                         let () = Quals.iter (fun e -> Printf.printf "%s" ("\n Show DIFF "^(RelId.toString e))) diff in  
+245 |                         not (Quals.is_empty diff)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 222-245, characters 24-49:
+222 | ........................let RefTy.Uncurried (args_ty_list, retty) = uncurried in 
+223 |                         let RefTy.MArrow (_, pre_lib, (_, _), post_lib) = retty in 
+224 |                         (* let  () = List.iter (fun e -> Printf.printf "%s" ("\n Lib Rels PRE "^(RelId.toString e))) (Predicate.getRelation pre_lib) in  *)
+225 |                         let qualifier_lib_pre = Quals.of_list(Predicate.getRelation pre_lib) in 
+226 |                         
+...
+242 |                         
+243 |                         let diff = Quals.diff qualifier_intersection (Quals.singleton "sel") in     
+244 |                         let () = Quals.iter (fun e -> Printf.printf "%s" ("\n Show DIFF "^(RelId.toString e))) diff in  
+245 |                         not (Quals.is_empty diff)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "synthesis/synthesis.ml", lines 219-263, characters 19-28:
+219 | ...................match ti with 
+220 |                     | RefTy.Arrow ((varg, argty), _) -> 
+221 |                         let uncurried = RefTy.uncurry_Arrow ti in 
+222 |                         let RefTy.Uncurried (args_ty_list, retty) = uncurried in 
+223 |                         let RefTy.MArrow (_, pre_lib, (_, _), post_lib) = retty in 
+...
+260 |                         not (Quals.is_empty diff)
+261 |                         
+262 |                     | RefTy.Base  (_,_, predicate_lib) -> 
+263 |                         true
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", line 636, characters 60-95:
+636 |                                                             raise (SynthesisException "Dead 0");
+                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 21 [nonreturning-statement]: this statement never returns (or has an unsound type.)
+File "synthesis/synthesis.ml", lines 672-684, characters 60-100:
+672 | ............................................................let Evar bvname = lbv in 
+673 |                                                             let bvnameType = 
+674 |                                                                     try 
+675 |                                                                         Some (Gamma.find _g bvname) 
+676 |                                                                     with 
+...
+681 |                                                                     | Some _ -> _g
+682 |                                                                     | None  ->  VC.extend_gamma (bvname, spec) _g  
+683 |                                                              in                                  
+684 |                                                              loop ei_tails _g applicationExpressions................................................................
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "synthesis/synthesis.ml", line 747, characters 56-89:
+747 |                                                         raise (SynthesisException "Dead");
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 21 [nonreturning-statement]: this statement never returns (or has an unsound type.)
+File "synthesis/synthesis.ml", lines 769-781, characters 52-69:
+769 | ....................................................let Evar bvname = lbv in 
+770 |                                                     let bvnameType = 
+771 |                                                            try 
+772 |                                                                Some (Gamma.find _g bvname) 
+773 |                                                            with 
+...
+778 |                                                            | Some _ -> _g
+779 |                                                            | None  ->  VC.extend_gamma (bvname, spec) _g  
+780 |                                                     in                                  
+781 |                                                     loop es_xs _g eis................................................................
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Eskip|Elam (_, _)|Efix (_, _)|Eapp (_, _)|Ematch (_, _)|Elet (_, _, _)|
+Eret _|Ebind (_, _, _)|Ecapp (_, _)|Ehole _|Edo (_, _)|Eite (_, _, _))
+File "synthesis/synthesis.ml", lines 523-821, characters 24-25:
+523 | ........................let RefTy.Uncurried (args_ty_list, retty) = uncurried in 
+524 | 
+525 |                         (*Currently the argument is always a scalar/Base Refinement*)
+526 |                         Message.show (" *************** Synthesizing Args ei : ti for ************"^(Var.toString vi));
+527 |                         
+...
+818 |                                         let _ = visited := ExploredTerms.add !visited vi in
+819 |                                         (gamma, pureappexps) (*EXT : Even in this case we need to look for all the terms *)
+820 | 
+821 |                         )...........
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "synthesis/synthesis.ml", lines 867-908, characters 24-28:
+867 | ........................let RefTy.Uncurried (consargs,consret) = RefTy.uncurry_Arrow rti in 
+868 |                         
+869 |                         let consArgs = List.map (fun (_,ti) -> ti) consargs in 
+870 |                         Message.show (" Show *************** Synthesizing Arguments ei for the Constructor Application for ************"^(Var.toString vi));
+871 | 
+...
+905 |                                                         Some {expMon= appliedConsMonExp; ofType=spec}                                  
+906 |                                                    | None ->  
+907 |                                                       choice xs gamma sigma delta 
+908 |                            ).........
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "synthesis/synthesis.ml", lines 837-914, characters 4-48:
+837 | ....let RefTy.Base (v, t, pred) = spec in 
+838 |     let exploredCons = Sigma.empty in 
+839 |     (*find a C \in Sigma with shape C : (xi:\tau:i) -> t *)
+840 |         (*find a C \in Sigma with shape C : (xi:\tau:i) -> t *)
+841 |     let potentialChoices = Sigma.findCons4retT sigma spec in 
+...
+911 |        in 
+912 |        Message.show ("********************** HERE BEFORE ");
+913 |        
+914 |        choice potentialChoices gamma sigma delta.
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 966-1028, characters 4-12:
+ 966 | ....let RefTy.Base(_, argBase, argBasePhi) = matchingArgType in 
+ 967 |      
+ 968 |     Message.show ("Show :: List "^(TyD.toString argBase));
+ 969 |            
+ 970 |     (*list constructor case, work on the genaral case later*)   
+...
+1025 |             None  
+1026 |     | _ ->   
+1027 |         Message.show "Show :: Non List Case";
+1028 |         None
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 1060-1072, characters 24-46:
+1060 | ........................let Predicate.Forall (bvs, predBool) = postBool in     
+1061 |                         Message.show ("RefTy "^(RefTy.toString t));
+1062 |                         Message.show ("Post "^(Predicate.toString postBool));
+1063 |                         let newvar = Var.get_fresh_var "v" in 
+1064 |                         let newvarString =Var.toString newvar in 
+...
+1069 |                                         Predicate.applySubst (newvar, vn)  predBool) in 
+1070 |                         let gamma = VC.extend_gamma (newvar, tn) gamma  in 
+1071 |                       
+1072 |                         (gamma, truep, falsep)
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(True|False|Base _|Rel _|Exists (_, _)|Not _|Conj (_, _)|If (_, _)|
+Iff (_, _)|Disj (_, _)|Dot (_, _))
+File "synthesis/synthesis.ml", line 1101, characters 14-15:
+1101 |             | _ -> raise (SynthesisException "Case must be handled in Pure Effect");   
+                     ^
+Warning 11 [redundant-case]: this match case is unused.
+File "synthesis/synthesis.ml", lines 1083-1101, characters 8-84:
+1083 | ........match spType with  
+1084 |             | MArrow (_, _, (_, _), sp) -> 
+1085 |              
+1086 |                 match sp with 
+1087 |                 | Forall (bvs, sp_Pred) -> 
+...
+1098 |                 | _ -> raise (SynthesisException "Only Allowed Types Shape is {\forall h v h'}}}")                
+1099 |                         
+1100 |                                     
+1101 |             | _ -> raise (SynthesisException "Case must be handled in Pure Effect");...
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 1237-1248, characters 14-97:
+1237 | ..............let RefTy.Base (v0, td0, pred0) = decreasing_Type in 
+1238 |               let decreasing_pred = (*len (decreasing_Var) > len (v0) *)
+1239 |                               let instExpression = 
+1240 |                                       RelLang.RInst { sargs = []; 
+1241 |                                               targs = []; 
+...
+1245 |                               let measure_new_var = RelLang.R (instExpression, v0) in                
+1246 |                               Predicate.Rel (P.RelPredicate.Grt ( measure_old_var, measure_new_var)) in 
+1247 |               Message.show ("Calculated Decreasing Predicate "^(Predicate.toString decreasing_pred)) ;
+1248 |               (new_decreasing_Var, RefTy.Base (v0, td0, Predicate.Conj (pred0, decreasing_pred))).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 1274-1279, characters 14-97:
+1274 | ..............let RefTy.Base (v0, td0, pred0) = decreasing_Type in 
+1275 |               let decreasing_pred = (*len (decreasing_Var) > len (v0) *)
+1276 |                               Predicate.Base (P.BasePredicate.Gt ( P.BasePredicate.Var (decreasing_Var), 
+1277 |                                                                    P.BasePredicate.Var (v0))) in 
+1278 |               Message.show ("Calculated Decreasing Predicate "^(Predicate.toString decreasing_pred)) ;
+1279 |               (new_decreasing_Var, RefTy.Base (v0, td0, Predicate.Conj (pred0, decreasing_pred))).
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _|Uncurried (_, _))
+File "synthesis/synthesis.ml", lines 1207-1315, characters 2-22:
+1207 | ..let RefTy.Uncurried ( fargs_type_list, retT) = uncurried_spec  in
+1208 |   Message.show ("Show "^RefTy.toString uncurried_spec); 
+1209 |   (*extend gamma*)
+1210 |   (*first try a match case, if it does not succeed, try the non-matching case*)
+1211 |   let gamma_extended = Gamma.append  gamma fargs_type_list in 
+...
+1312 |                 []
+1313 |             | e :: e_xs ->
+1314 |                 Message.show (" Found a If Then Else solution"); 
+1315 |                 if_exp
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Base (_, _, _)|Tuple _|Arrow ((_, _), _)|MArrow (_, _, (_, _), _)|Sigma _)
+File "synthesis/synthesis.ml", line 626, characters 52-62:
+626 |                                                 let monExps_es = List.map (fun ei ->
+                                                          ^^^^^^^^^^
+Warning 26 [unused-var]: unused variable monExps_es.
+File "synthesis/synthesis.ml", line 838, characters 8-20:
+838 |     let exploredCons = Sigma.empty in 
+              ^^^^^^^^^^^^
+Warning 26 [unused-var]: unused variable exploredCons.
+File "synthesis/synthesis.ml", line 1082, characters 8-22:
+1082 |     let createPreSpeci (spType : RefTy.t)  = 
+               ^^^^^^^^^^^^^^
+Warning 26 [unused-var]: unused variable createPreSpeci.
+File "synthesis/synthesis.ml", line 1176, characters 38-46:
+1176 |                                   let eite_exp = Syn.Eite (eb_expmon, monexp_t_true, monexp_t_false) in 
+                                             ^^^^^^^^
+Warning 26 [unused-var]: unused variable eite_exp.
+# Target: main/effsynth.cmx, tags: { package(z3), compile, extension:cmx, extension:ml, file:main/effsynth.cmx, file:main/effsynth.ml, implem, native, ocaml, quiet, thread }
+ocamlfind ocamlopt -c -thread -package z3 -I main -I typechecking -I vcencode -I specparser -I speclang -I synthesis -I sigmabuilder -I synlang -o main/effsynth.cmx main/effsynth.ml
+# Target: main/effsynth.native, tags: { package(z3), dont_link_with, extension:native, file:main/effsynth.native, link, native, ocaml, program, quiet, thread }
+ocamlfind ocamlopt -linkpkg -thread -package z3 -I speclang -I synlang -I sigmabuilder -I specparser -I typechecking -I vcencode -I synthesis -I main applicativemap.cmx vector.cmx layout.cmx speclang/specLang.cmx synlang/lambdasyn.cmx sigmabuilder/environment.cmx sigmabuilder/knowledge.cmx specparser/specParser.cmx specparser/specLexer.cmx sigmabuilder/specElab.cmx typechecking/verificationC.cmx vcencode/z3_encode.cmx vcencode/constMap.cmx vcencode/relMap.cmx vcencode/tyMap.cmx vcencode/vcencode.cmx typechecking/syntypechecker.cmx synthesis/synthesis.cmx main/effsynth.cmx -o main/effsynth.native
++ ocamlfind ocamlopt -linkpkg -thread -package z3 -I speclang -I synlang -I sigmabuilder -I specparser -I typechecking -I vcencode -I synthesis -I main applicativemap.cmx vector.cmx layout.cmx speclang/specLang.cmx synlang/lambdasyn.cmx sigmabuilder/environment.cmx sigmabuilder/knowledge.cmx specparser/specParser.cmx specparser/specLexer.cmx sigmabuilder/specElab.cmx typechecking/verificationC.cmx vcencode/z3_encode.cmx vcencode/constMap.cmx vcencode/relMap.cmx vcencode/tyMap.cmx vcencode/vcencode.cmx typechecking/syntypechecker.cmx synthesis/synthesis.cmx main/effsynth.cmx -o main/effsynth.native
+ld: warning: directory not found for option '-L/opt/local/lib'
+# Compilation successful.

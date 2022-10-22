@@ -27,7 +27,7 @@ exception VCEex of string
 let ignore = fun _ -> ()
 
 let z3_log = Z3E.logz3
-
+let query_number = ref 0;
  
 module Printf = struct 
   let printf d s = Printf.printf d ""
@@ -37,19 +37,27 @@ end
 
 
       
-
-
 let syscall cmd =
-  let ic, oc = Unix.open_process cmd in
-  let buf = Buffer.create 16 in
-  (try
-     while true do
-       Buffer.add_channel buf ic 1
-     done
-   with End_of_file -> ());
-  let _ = Unix.close_process (ic, oc) in
-  let pid = process_pid (ic, oc) in 
-  (Buffer.contents buf)
+   
+
+  (* match Unix.fork () with 
+    | 0 -> *) 
+        let ic, oc = Unix.open_process cmd in 
+        let pid = Unix.process_pid (ic, oc) in 
+        let _  = Printf.printf "%s" ("\n $$$$$$HERE$$$$$$$$") in 
+        let buf = Buffer.create 16 in
+        (try
+           while true do
+             Buffer.add_channel buf ic 1
+           done
+         with End_of_file -> ());
+       let _ = Unix.close_process (ic, oc) in
+
+        (Buffer.contents buf)
+   
+          
+
+                 
 
 
 
@@ -999,12 +1007,14 @@ let discharge (VC.T (tydbinds, anteP, conseqP) as vc)
       let () = Printf.originalPrint "%s" ("\n PARAM  \n "^(Z3.Params.ParamDescrs.to_string pdesc )) in  *)
       
       let z3_channel = open_out "z3query.z" in
-      Printf.fprintf z3_channel "%s\n" ((Solver.to_string solverDischarged)^"\n (check-sat)");
+      let qnstring = string_of_int !query_number in 
+      let _ = query_number := !query_number + 1 in 
+      Printf.fprintf z3_channel "%s\n" (";; "^(qnstring)^"\n"^(Solver.to_string solverDischarged)^"\n (check-sat)");
       (* write something *)
       close_out z3_channel;
       (* let _ = run_command  "z3 testz3.z" "" in  *)
 
-      let outbuf = syscall  "z3 -t:30000 z3query.z" in 
+      let outbuf = syscall  "z3 -T:40 z3query.z" in 
       
       let () = Printf.originalPrint "%s" ("\n OutBuf:"^outbuf^":"^outbuf) in   
       let res = 
@@ -1012,7 +1022,7 @@ let discharge (VC.T (tydbinds, anteP, conseqP) as vc)
             Solver.UNSATISFIABLE
           else if (String.equal outbuf "sat\n") then 
             Solver.SATISFIABLE 
-          else if (String.equal outbuf "unknown\n") then 
+          else if (String.equal outbuf "unknown\n" || String.equal outbuf "timeout\n") then 
             Solver.UNKNOWN
           else 
               raise (VCEex "SOLVER RETURNED AN ILLEGAL VALUE")

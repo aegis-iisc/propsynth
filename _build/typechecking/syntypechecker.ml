@@ -132,7 +132,9 @@ let typecheck (gamma : Gamma.t) (sigma:Sigma.t) (delta : Predicate.t)
                      *)
                     (*make a direct call to the SMT solver*)
                     let vcStandard = VC.standardize vc in 
-                    (* let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   *)
+                    let () = Printf.printf "%s" ("\n Normal VC "^VC.string_for_vc_t vc) in   
+                    
+                    let () = Printf.printf "%s" ("\n Standardized VC "^VC.string_for_vc_stt vcStandard) in   
                     
                     let result = VCE.discharge vcStandard typenames qualifiers  in 
                     let typechecks = 

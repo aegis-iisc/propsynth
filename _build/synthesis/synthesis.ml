@@ -311,7 +311,9 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                              *)
                                 (*make a direct call to the SMT solver*)
                                 let vcStandard = VC.standardize vc in 
-                                (* Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); *)
+                                Message.show ("Normal VC "^(VC.string_for_vc_t vc)); 
+                                
+                                Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); 
                                 let result = VCE.discharge vcStandard !typenames !qualifiers in 
                                 Message.show ("Returned Successfully");
                                 
@@ -343,7 +345,9 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                         else  *)
                             (*make a direct call to the SMT solver*)
                             let vcStandard = VC.standardize vc in 
-                            (* Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); *)
+                            Message.show ("Normal VC "^(VC.string_for_vc_t vc)); 
+
+                            Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); 
                             let result = VCE.discharge vcStandard !typenames !qualifiers in 
                             (match result with 
                             | VCE.Success -> 
@@ -413,7 +417,7 @@ let rec enumerateEffAndFind explored gamma sigma delta (spec : RefTy.t)  : (Expl
 
                             (*make a direct call to the SMT solver*)
                             let vcStandard = VC.standardize vc in 
-                            (* Message.show (VC.string_for_vc_stt vcStandard);  *)
+                             Message.show (VC.string_for_vc_stt vcStandard);  
                             let result = VCE.discharge vcStandard !typenames !qualifiers in 
                             match result with 
                             | VCE.Success -> 
@@ -478,7 +482,7 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
     
     (*This is a simplified version of the return typed guided component synthesis as in SYPET*)
 
-    Message.show (" Pure Fun Application: esynthesizePureApp ");
+    Message.show (" Entering Pure Fun Application: esynthesizePureApp ");
     if (depth >= !max) then 
        (gamma, [])
     else    
@@ -501,7 +505,8 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
              (*no more effectful components try pure function/constructor application*)
           | (vi, rti) :: xs ->
                 Message.show ("############################################################");
-                Message.show (" Trying Pure Component "^(Var.toString vi));
+                Message.show (" Synthesizing the Function application Pure Component "^(Var.toString vi));
+                Message.show ("############################################################");
                 if (Var.equal (List.hd (!currentApp)) vi) then 
                     choice xs gamma sigma delta 
                 else
@@ -535,7 +540,10 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 Message.show (" Synthesizing the "^(string_of_int i)^"th argument for Function "^(Var.toString vi));
                                 Message.show (" Trying Arguments in Scalars ");
                                 let (_g, scalars) = esynthesizeScalar depth _g sigma delta [argtyi;retty] in 
+                                Message.show ("##################################################################################");
                                 Message.show (" Next Trying Arguments of the form f (ei...) ");
+                                Message.show ("##################################################################################");
+                                
                                 (* let (_g, funapps) = esynthesizePureApp (depth + 1) _g sigma delta [argtyi;retty] in  *)
                                 let (_g, funapps) = esynthesizePureApp (depth + 1) _g sigma delta [argtyi;retty] in 
                                 let acc_of_list_of_pot_args =  List.rev ((List.concat [scalars;funapps])::(pot_arg_list))  in 
@@ -1022,7 +1030,9 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
    *)
   
  and isynthesizeIf depth gamma sigma delta spec : Syn.typedMonExp list = 
+    Message.show ("**********************************************");
     Message.show ("iSynthesize If-THEN-ELSE "^(RefTy.toString spec));
+    Message.show ("**********************************************");
     
     (*val createGammai Gamma, t : (Gamma *ptrue * pfalse)*)
     let createGammai gamma t  = 
@@ -1116,8 +1126,8 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
                  (*type for the eb_expmon*)
                  let eb_type = eb.ofType in 
                  let refTy4bi = eb_type in 
-                 Message.show ("Show :: iSynthesize Boolean Successful "^(Syn.monExp_toString eb_expmon));
-                 Message.show ("Show :: iSynthesize Boolean Successful "^(RefTy.toString eb_type));
+                 Message.show ("Show :: Synthesizing The IF-THEN-ELSE for Next Boolean Guard "^(Syn.monExp_toString (Syn.expand !lbindings eb_expmon)));
+                 (* Message.show ("Show :: iSynthesize Boolean Successful "^(RefTy.toString eb_type)); *)
                 (*create true predicate = \phi /\ [v= true] & false predicate = \phi /\ [v=false]*)
 
                  let (gamma, true_pred4bi, false_pred4bi) = createGammai gamma refTy4bi in 
@@ -1136,13 +1146,16 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
                     | [] -> Message.show ("Failed Synthesizing any True Branch exp for the selected guard"^(Syn.monExp_toString eb_expmon)^"\n Try Next guard");
                             loop eb_xs gamma explist 
                     | exp_true :: exp_true_xs -> 
+                          let _ = currentApp := [""] in 
+                          Message.show ("*********************************************");
                           Message.show ("True Branch :: Successfully Synthesisized");
                           Message.show ("*********************************************");
                           Message.show ("if "^(Syn.monExp_toString (Syn.expand (!lbindings) eb_expmon))^"\n \t then ");
                           let _ = List.iter(fun tmi -> let tmi = Syn.expand (!lbindings) tmi.expMon in 
                                     Message.show ("***********\n "^(Syn.monExp_toString tmi))) t_true in 
      
-                          Message.show ("************If Else False Branch**************");
+                          Message.show ("*********************************************");
+                          Message.show ("************ Synthesize False Branch**************");
                           Message.show ("*********************************************");
 
                           Message.show ("False Branch :: Trying False Branch");
