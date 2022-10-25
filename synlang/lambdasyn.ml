@@ -505,9 +505,9 @@ let rec rewrite (m:monExp) : (string) =
         
         | Elam (fargs, body) ->  
                 let fargsString = 
-                    List.fold_left (fun accstr ai -> (accstr^"  "^(rewrite ai.expMon))) " " fargs in  
+                    List.fold_left (fun accstr ai -> (accstr^"  ("^(rewrite ai.expMon)^" : "^(TyD.toString (RefTy.toTyD ai.ofType))^")")) " " fargs in  
                 
-                ("let rec goal "^(fargsString)^" = \n \t "^(rewrite body.expMon)) 
+                ("let rec goal "^(fargsString)^" : ("^(TyD.toString (RefTy.toTyD body.ofType))^") = \n \t "^(rewrite body.expMon)) 
         | _ -> raise (IncorrectExp "Undefined Rewrite Rules")  
 
 

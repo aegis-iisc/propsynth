@@ -315,11 +315,11 @@ type t =
  let rec toString t = 
       match t with
         | Ty_unknown -> "Ty_unknown" 
-        | Ty_alpha tvar -> ("Ty_alpha"^Tyvar.toString tvar)
+        | Ty_alpha tvar ->  "int "^(Tyvar.toString tvar)
         | Ty_unit -> "Ty_unit"
         | Ty_ref  t -> ("Ty_ref "^(toString t)) 
         | Ty_list  t -> ("Ty_list "^(toString t))
-        | Ty_int -> "Ty_int"
+        | Ty_int -> "int"
         | Ty_bool -> "Ty_bool"
         | Ty_char -> "Ty_char"        
         | Ty_heap  -> "Ty_heap"
