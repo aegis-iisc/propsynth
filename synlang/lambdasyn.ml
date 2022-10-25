@@ -164,47 +164,6 @@ and caseExp_toString (t : caseExp) : string =
     ("CASE "^(Var.toString t.constuctor)^" ( "^(argsToString)^" ) -> "^(typedMonExp_toString t.exp))
 
 
-let rec rewrite (m:monExp) : string = 
-    match m with         
-        | Evar v -> 
-                if (String.equal v "Cons") then "::"
-                else if (String.equal v "Nil") then "[]"
-                else (v)
-        | Elet (v, e1, e2) -> ("\n let "^(rewrite v)^" = "^(rewrite e1)^" in "^(rewrite e2))
-        | Ecapp (cname, argls) -> (cname)^" "^(
-                                List.fold_left (fun accstr ai -> 
-                                                accstr^" "^(rewrite ai)) "" argls
-
-                                                ) 
-        | Ematch (matchingArg, caselist) -> 
-                let caselist_toString = 
-                    List.fold_left (fun accstr casei -> (accstr^" \n | "^(caseexp_rewrite casei))) " " caselist 
-                in 
-                ("\n \t match "^(monExp_toString matchingArg.expMon)^" with "^caselist_toString)
-        | Eapp (fun1, arglist) -> 
-            if not (String.equal (rewrite fun1) "::" || String.equal (rewrite fun1) "[]") then 
-                (" ( "^(rewrite fun1)^" "^
-                (List.fold_left 
-                    (fun accStr argi -> accStr^" "^(rewrite argi)) ""  arglist))^" ) "        
-            else
-                (assert (List.length arglist == 2);
-                let funName = rewrite fun1 in
-                (List.fold_left 
-                    (fun accStr argi -> accStr^" "^(funName)^" "^(rewrite argi)) (rewrite (List.hd arglist))  
-                                (List.tl arglist))
-                )                        
-            
-
-
-        | Eite (bi, ttr, tfl) -> 
-                ("if ( "^(rewrite bi)^" ) \n then \n \t "^(rewrite ttr)^" \n else \n \t"^(rewrite tfl))
-        | _ -> raise (IncorrectExp "Undefined Rewrite Rules")  
-
-
-and caseexp_rewrite (t : caseExp) : string = 
-    let argsToString = List.fold_left (fun accstr argi -> (accstr^" "^(Var.toString argi))) " " t.args in 
-    ((Var.toString t.constuctor)^"  "^(argsToString)^" -> "^(rewrite) t.exp.expMon)
-
 
 let rec componentNameForMonExp mExp = 
         match mExp with 
@@ -446,6 +405,12 @@ let rec expand (blist : bindingtuple list) (flatExp : monExp) : monExp =
                 
             else 
                 flatExp    
+        | Elam (fargs, body) -> 
+            Elam ((List.map (fun ai -> { expMon= 
+                                         expand blist ai.expMon; 
+                                         ofType = ai.ofType}) fargs),
+                   { expMon = expand blist body.expMon;
+                    ofType = body.ofType})  
         | _ -> flatExp
 
 
@@ -499,3 +464,53 @@ let exp4tuples (lbtuple : bindingtuple list) : monExp =
                         Elet (xi, ei, ej)
                     ) lbtuple (fst (List.hd (List.rev (lbtuple)))) 
 
+
+
+
+let rec rewrite (m:monExp) : (string) = 
+    match m with         
+        | Evar v -> 
+                if (String.equal v "Cons") then "::"
+                else if (String.equal v "Nil") then "[]"
+                else 
+                (v)
+        | Elet (v, e1, e2) -> ("\n let "^(rewrite v)^" = "^(rewrite e1)^" in "^(rewrite e2))
+        | Ecapp (cname, argls) -> (cname)^" "^(
+                                List.fold_left (fun accstr ai -> 
+                                                accstr^" "^(rewrite ai)) "" argls
+
+                                                ) 
+        | Ematch (matchingArg, caselist) -> 
+                let caselist_toString = 
+                    List.fold_left (fun accstr casei -> (accstr^" \n | "^(caseexp_rewrite casei))) " " caselist 
+                in 
+                ("\n \t match "^(monExp_toString matchingArg.expMon)^" with "^caselist_toString)
+        | Eapp (fun1, arglist) -> 
+            if not (String.equal (rewrite fun1) "::" || String.equal (rewrite fun1) "[]") then 
+                (" ( "^(rewrite fun1)^" "^
+                (List.fold_left 
+                    (fun accStr argi -> accStr^" "^(rewrite argi)) ""  arglist))^" ) "        
+            else
+                (assert (List.length arglist == 2);
+                let funName = rewrite fun1 in
+                (List.fold_left 
+                    (fun accStr argi -> accStr^" "^(funName)^" "^(rewrite argi)) (rewrite (List.hd arglist))  
+                                (List.tl arglist))
+                )                        
+            
+
+
+        | Eite (bi, ttr, tfl) -> 
+                ("if ( "^(rewrite bi)^" ) \n then \n \t "^(rewrite ttr)^" \n else \n \t"^(rewrite tfl))
+        
+        | Elam (fargs, body) ->  
+                let fargsString = 
+                    List.fold_left (fun accstr ai -> (accstr^"  "^(rewrite ai.expMon))) " " fargs in  
+                
+                ("let rec goal "^(fargsString)^" = \n \t "^(rewrite body.expMon)) 
+        | _ -> raise (IncorrectExp "Undefined Rewrite Rules")  
+
+
+and caseexp_rewrite (t : caseExp) : string = 
+    let argsToString = List.fold_left (fun accstr argi -> (accstr^" "^(Var.toString argi))) " " t.args in 
+    ((Var.toString t.constuctor)^"  "^(argsToString)^" -> "^(rewrite) t.exp.expMon)

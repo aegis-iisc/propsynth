@@ -1333,23 +1333,29 @@ and isynthesizeFun depth gamma sigma delta spec : Syn.typedMonExp list=
   (*Given disjunctions in the spec we can directly try match*)
   Message.show ("Show Trying :: Top-level Match"); 
   let match_expression = isynthesizeMatch depth gamma_extended sigma delta argToMatch retT in 
-  match match_expression with 
-    | Some e_match -> 
-       Message.show ("EXPLORED :: Show Found Match match x with ... solution"); 
-       [e_match]
-    | None -> 
-         Message.show ("Match-case failed :: Try Top-level If-then-else "); 
-         let if_exp = isynthesizeIf depth gamma_extended sigma delta retT in 
-         match if_exp with 
-            | [] ->
-                Message.show (" If then else Failed :: Try CDCL without subdivision\n "); 
-                []
-            | e :: e_xs ->
-                Message.show (" Found a If Then Else solution"); 
-                if_exp
+  let bodies = 
+    (match match_expression with 
+        | Some e_match -> 
+            Message.show ("EXPLORED :: Show Found Match match x with ... solution"); 
+            [e_match]
+        | None -> 
+             Message.show ("Match-case failed :: Try Top-level If-then-else "); 
+            let if_exp = isynthesizeIf depth gamma_extended sigma delta retT in 
+            match if_exp with 
+                | [] ->
+                    Message.show (" If then else Failed :: Try CDCL without subdivision\n "); 
+                    []
+                | e :: e_xs ->
+                    Message.show (" Found a If Then Else solution"); 
+                    if_exp
             
-              
-    
+    )          
+   in
+   let typedArgs = List.map (fun (ai, rti) -> {Syn.expMon = Syn.Evar ai; Syn.ofType = rti} ) fargs_type_list in 
+   List.map (fun tmei -> {Syn.expMon = Syn.Elam (typedArgs, tmei); 
+                            Syn.ofType = spec}) bodies
+
+
     
 (*The main entry for the synthesize*)
 (*In some cases the input spec can be more than the RefinementType*)
@@ -1389,9 +1395,10 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter : (Sy
      let _ = List.iter 
             (fun tmi -> 
 
-                (* let tmi = Syn.expand (!lbindings) tmi.expMon in  *)
-                let tmi = tmi.expMon in 
-                Message.show ("***********\n "^(Syn.rewrite bindingExp)^"\n"^(Syn.rewrite tmi))) sols in 
+                let tmi = Syn.expand (!lbindings) tmi.expMon in 
+                (* let tmi = tmi.expMon in  *)
+                (* Message.show ("***********\n "^(Syn.rewrite bindingExp)^"\n"^(Syn.rewrite tmi))) sols in  *)
+                Message.show ("***********\n"^(Syn.rewrite tmi))) sols in 
      sols       
         
     

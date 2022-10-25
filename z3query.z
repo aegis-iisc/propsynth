@@ -1,5 +1,5 @@
 ;; 173
-(declare-sort T745 0)
+(declare-sort T745)
 (declare-fun set1070 (Bool) Bool)
 (declare-fun var_u331 () Int)
 (declare-fun set1071 (Int) Bool)
@@ -19,9 +19,9 @@
 (declare-fun x0 () Int)
 (declare-fun var_v254 () Bool)
 (declare-fun _lbv8 () T745)
-(declare-fun s0 () Int)
+(declare-fun size () Int)
 (declare-fun _lbv6 () Int)
-(declare-fun s01 () Int)
+(declare-fun size1 () Int)
 (declare-fun var_v3 () Bool)
 (declare-fun _lbv5 () Bool)
 (declare-fun _lbv1 () Int)
@@ -62,13 +62,14 @@
 (assert (forall ((var_u334 Int) (var_u333 Int) (var_u332 Int) (var_u331 Int))
   (let ((a!1 (not (forall ((bv0 Int)) (= (shd Nil bv0) (set1071 bv0)))))
         (a!2 (= (= _lbv2 true) (and (= x0 |0|) (= (= _lbv2 false) (> x0 |0|)))))
-        (a!3 (= (= _lbv3 true) (and (= s0 |0|) (= (= _lbv3 false) (> s0 |0|)))))
+        (a!3 (= (= _lbv3 true)
+                (and (= size |0|) (= (= _lbv3 false) (> size |0|)))))
         (a!4 (= (= _lbv4 true)
                 (and (= _lbv1 |0|) (= (= _lbv4 false) (> _lbv1 |0|)))))
         (a!5 (= (= _lbv5 true)
                 (and (= _lbv0 |0|) (= (= _lbv5 false) (> _lbv0 |0|)))))
         (a!6 (= (= var_v3 true)
-                (and (= s0 |0|) (= (= var_v3 false) (> s0 |0|)))))
+                (and (= size |0|) (= (= var_v3 false) (> size |0|)))))
         (a!7 (= (= var_v254 true)
                 (and (= x0 |0|) (= (= var_v254 false) (> x0 |0|)))))
         (a!8 (=> (forall ((bv0 Bool))
@@ -83,17 +84,17 @@
          (= (slen Nil) 0)
          (forall ((bv0 Bool)) (= (slist Nil bv0) (set1072 bv0)))
          (= _lbv0 (- x0 1))
-         (= _lbv1 (- s0 1))
+         (= _lbv1 (- size 1))
          a!2
          a!3
          a!4
          a!5
          a!6
          a!7
-         (> s0 s01)
+         (> size size1)
          (or (> _lbv6 |0|) (= _lbv6 |0|))
          (or (> x0 |0|) (= x0 |0|))
-         (= (slen _lbv8) s0)
+         (= (slen _lbv8) size)
          (forall ((bv0 Bool)) (= (slist _lbv8 bv0) (set1073 bv0)))
          a!8
          (= (slen v) _lbv0)
@@ -112,7 +113,7 @@
              (let ((a!1 (=> (forall ((bv0 Bool))
                               (= (smem v var_u335 bv0) (set1080 bv0)))
                             (not (> x0 var_u335)))))
-               (and (= (slen v) s0)
+               (and (= (slen v) size)
                     (forall ((bv0 Bool)) (= (slist v bv0) (set1079 bv0)))
                     a!1)))))
   (not a!1)))

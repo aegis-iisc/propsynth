@@ -31,9 +31,9 @@ Cons : (x : {v : int | [v>0] \/ [v=0]}) ->
                         (slist (v) = true)
                          }; 
 
-goal : (s0 : { v : int | true}) -> 
+goal : (size : { v : int | true}) -> 
                 (x0 : {v : int | [v>0] \/ [v=0]}) -> 
                     {v : list | \(u : int). 
-                            slen (v) == s0 /\
+                            slen (v) == size /\
                             slist (v) = true /\    
                             (smem (v, u) = true => not [x0 > u])};
