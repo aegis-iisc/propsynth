@@ -62,6 +62,7 @@ let rec visitnode (applynode : monExp) : bindingtuple list =
         | _ -> raise (IncorrectExp "Node in a Application Tree Must be either a var or a function ")
 
 
+
 type path =  monExp list 
 
 let is_empty_path p = 
@@ -161,6 +162,36 @@ and typedMonExp_toString (t:typedMonExp) : string =
 and caseExp_toString (t : caseExp) : string = 
     let argsToString = List.fold_left (fun accstr argi -> (accstr^" ,"^(Var.toString argi))) " " t.args in 
     ("CASE "^(Var.toString t.constuctor)^" ( "^(argsToString)^" ) -> "^(typedMonExp_toString t.exp))
+
+
+let rec rewrite (m:monExp) : string = 
+    match m with         
+        | Evar v -> (v)
+        | Elet (v, e1, e2) -> ("\n let "^(rewrite v)^" = "^(rewrite e1)^" in "^(rewrite e2))
+        | Ecapp (cname, argls) -> (cname)^" "^(
+                                List.fold_left (fun accstr ai -> 
+                                                accstr^" "^(rewrite ai)) "" argls
+
+                                                ) 
+        | Ematch (matchingArg, caselist) -> 
+                let caselist_toString = 
+                    List.fold_left (fun accstr casei -> (accstr^" \n | "^(caseexp_rewrite casei))) " " caselist 
+                in 
+                ("\n \t match "^(monExp_toString matchingArg.expMon)^" with "^caselist_toString)
+        | Eapp (fun1, arglsit) -> 
+            (" ( "^(rewrite fun1)^" "^
+                (List.fold_left 
+                    (fun accStr argi -> accStr^" "^(rewrite argi)) ""  arglsit))^" ) "        
+        
+        | Eite (bi, ttr, tfl) -> 
+                ("if ( "^(rewrite bi)^" ) \n then \n \t "^(rewrite ttr)^" \n else \n \t"^(rewrite tfl))
+        | _ -> raise (IncorrectExp "Undefined Rewrite Rules")  
+
+
+and caseexp_rewrite (t : caseExp) : string = 
+    let argsToString = List.fold_left (fun accstr argi -> (accstr^" "^(Var.toString argi))) " " t.args in 
+    ((Var.toString t.constuctor)^"  "^(argsToString)^" -> "^(rewrite) t.exp.expMon)
+
 
 let rec componentNameForMonExp mExp = 
         match mExp with 
@@ -403,6 +434,7 @@ let rec expand (blist : bindingtuple list) (flatExp : monExp) : monExp =
             else 
                 flatExp    
         | _ -> flatExp
+
 
 
 (*Assume that everything is fully expanded *)

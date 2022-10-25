@@ -74,6 +74,7 @@ module Bidirectional : sig
   val typenames : ((Var.t) list) ref 
   val qualifiers : ((RelSpec.Qualifier.t) list) ref 
   val currentApp : (Var.t list) ref
+  val formals : (Var.t list) ref  
 
   type ('a, 'b) result = 
             Success of 'a 
@@ -125,9 +126,9 @@ let max = ref 5
 let maxif_depth = ref 2
 let visited = ref ExploredTerms.empty  
 let currentApp = ref ["_"]
-
-let   count_filter = ref 0
-let   count_chosen = ref 0
+let formals = ref []
+let count_filter = ref 0
+let count_chosen = ref 0
 
 let typenames = ref []
 let qualifiers = ref []
@@ -288,9 +289,15 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
              | (vi, rti) :: xs -> 
                  Message.show ("\n Enumerating a Scalar Term "^(Var.toString vi));
                  Message.show ("\n Type of the Scalar Term "^(RefTy.toString rti));
-
-                 let expanded_vi = Syn.expand !lbindings (Syn.Evar vi) in 
-                 (match expanded_vi with 
+                 if (List.mem vi !formals) then 
+                    let _ = Message.show ("################################################") in 
+                    let _ = Message.show ("Skipping Variable "^(Var.toString vi)^" As this a  Formal Parameter to the current function Call") in 
+                    let _ = Message.show ("################################################") in 
+                    verifyFound xs potentialExps 
+                            
+                else
+                    let expanded_vi = Syn.expand !lbindings (Syn.Evar vi) in 
+                    (match expanded_vi with 
                     | Syn.Eapp (fname, _) -> 
                         if (Var.equal (Syn.componentNameForMonExp fname) (List.hd(!currentApp))) then 
                             
@@ -312,7 +319,7 @@ let enumPureE explored gamma sigma delta (spec : RefTy.t) : (Syn.typedMonExp) li
                                 (*make a direct call to the SMT solver*)
                                 let vcStandard = VC.standardize vc in 
                                 
-                                Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard)); 
+                                (* Message.show ("standardized VC "^(VC.string_for_vc_stt vcStandard));  *)
                                 let result = VCE.discharge vcStandard !typenames !qualifiers in 
                                 Message.show ("Returned Successfully");
                                 
@@ -481,12 +488,14 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
 
     Message.show (" Entering Pure Fun Application: esynthesizePureApp ");
     if (depth >= !max) then 
+        let _ = Message.show ("############################################################") in 
+        Message.show ("Max depth reached");
+        Message.show ("############################################################");
+       
        (gamma, [])
     else    
     let spec = List.hd specs_path in 
-    (*Currently only looking for a single step functon: filter pure functions
-    To find paths in the library, we need to revise this to any function which can be called
-    EXTEND*)
+   
     let potentialChoices = Gamma.lambdas4RetType gamma spec in 
     
     
@@ -518,7 +527,9 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                         Message.show (" *************** Trying Arrow Component ************"^(Var.toString vi)^" : "^(RefTy.toString rti));
                         let uncurried = RefTy.uncurry_Arrow rti in 
                         let RefTy.Uncurried (args_ty_list, retty) = uncurried in 
-
+                        let formal_args =  List.map (fun (ai,_) -> ai) args_ty_list in 
+                        let outer_formals = !formals in 
+                        let _ = formals := formal_args in    
                         (*Currently the argument is always a scalar/Base Refinement*)
                         Message.show (" *************** Synthesizing Args ei : ti for ************"^(Var.toString vi));
                         
@@ -543,12 +554,24 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 
                                 (* let (_g, funapps) = esynthesizePureApp (depth + 1) _g sigma delta [argtyi;retty] in  *)
                                 let (_g, funapps) = esynthesizePureApp (depth + 1) _g sigma delta [argtyi;retty] in 
-                                let acc_of_list_of_pot_args =  List.rev ((List.concat [scalars;funapps])::(pot_arg_list))  in 
-                                (* let _g = VC.extend_gamma (argi, argtyi) _g  in  *)
+                                
+                                let acc_of_list_of_pot_args =  ((List.concat [scalars;funapps])::(pot_arg_list))  in 
+                                let _ = 
+                                List.iter 
+                                (fun ei -> Printf.printf "%s" 
+                                ("\n >>>>>>>>>>>>>>>>>>> "^(string_of_int i)^"th Args option for "^(Var.toString vi)^" : "^(Syn.monExp_toString (Syn.expand (!lbindings) (ei.expMon) )))) (List.concat [scalars;funapps]) in 
+                                let _ = Message.show (" DEPTH vs MAX  "^(string_of_int depth)^" vs "^(string_of_int !max)) in 
+                                
+                                let _g = VC.extend_gamma (argi, argtyi) _g  in  
                                 (_g, (i+1), acc_of_list_of_pot_args)
                             ) (gamma, 1, []) args_ty_list  in 
                             
                         Message.show ("##################################################################################");
+                        
+                        let _ = formals := outer_formals in   
+                        let e_potential_args_list = List.rev (e_potential_args_list) in 
+                                
+                        
                         (* Message.show ("Gamma "^(VC.string_gamma gamma));     *)
                         (*
                         e_potential_args_list returns a list of lists
@@ -579,6 +602,11 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 So for more practical pursposes, we try all the second arguments if there are two args,
                                 *)
 
+                                let () = List.iter (fun li -> 
+                                                    let () = Printf.printf "%s" ("\n Ith Argument Options for "^(vi)) in 
+                                                    List.iter (fun ei -> Printf.printf "%s" 
+                                                                ("\n EI "^(Syn.monExp_toString 
+                                                                            (Syn.expand (!lbindings) (ei.expMon) )))) li) es in 
                                 
 
                                 let chooseArgs (argsListEach : ((Syn.typedMonExp) list ) list) : (Syn.typedMonExp list) list   = 
@@ -605,7 +633,8 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 let () = List.iter (fun li -> 
                                                     let () = Printf.printf "%s" ("\n Possible Arg Options ") in 
                                                     List.iter (fun ei -> Printf.printf "%s" 
-                                                                ("\n EI "^(Syn.monExp_toString ei.expMon) )) li) possible_args_lists in 
+                                                                ("\n EI "^(Syn.monExp_toString 
+                                                                            (Syn.expand (!lbindings) (ei.expMon) )))) li) possible_args_lists in 
                                 
                                 
                                 
@@ -778,6 +807,8 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                                     loop es_xs _g eis                                                                
                                                              
                                                 | None ->     
+                                                    let () = Printf.printf "%s" ("\n Typechecking "^(Syn.monExp_toString (Syn.expand (!lbindings) synthesizedExp))) in 
+                                                    let () = Printf.printf "%s" ("\n Against "^(RefTy.toString spec)) in 
                                                     let funAppType =  SynTC.typecheck _g sigma delta !typenames !qualifiers synthesizedExp spec in 
                                                     (match funAppType with 
                                                         | Some type4AppliedMonExp -> 
@@ -821,7 +852,7 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
 
        in 
        choice potentialChoices gamma sigma delta 
-
+       
 
 and esynthesizeConsApp depth gamma sigma delta specs_path : Syn.typedMonExp option  = 
 
@@ -1354,12 +1385,12 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter : (Sy
      lbindings := [];
      let sols = synthesize 0 gamma sigma delta spec  in 
      let bindingExp = Syn.exp4tuples (List.rev (!lbindings)) in 
-     Message.show (Syn.monExp_toString bindingExp);
+     Message.show (Syn.rewrite bindingExp);
      let _ = List.iter 
             (fun tmi -> 
 
                 let tmi = Syn.expand (!lbindings) tmi.expMon in 
-                Message.show ("***********\n "^(Syn.monExp_toString tmi))) sols in 
+                Message.show ("***********\n "^(Syn.rewrite tmi))) sols in 
      sols       
         
     

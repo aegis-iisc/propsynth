@@ -11,7 +11,7 @@ gt_eq_int_gen : (n3: int) -> {v : int | [v > n3] \/ [v=n3]};
 
 subs : (n : {v : int | true}) ->  {v : int | v == n -- 1};
 
-nil : {v : list | \(u : int).
+Nil : {v : list | \(u : int).
                     smem (v, u) = false /\ 
                     not (shd (v) = u) /\
                     slen (v) == 0 /\
@@ -20,7 +20,7 @@ sizecheck : (s : int) ->
         {v : bool | [v=true] <=> [s=0] /\ 
                     [v=false] <=> [s>0]};
 
-cons : (x : {v : int | [v>0] \/ [v=0]}) -> 
+Cons : (x : {v : int | [v>0] \/ [v=0]}) -> 
        (xs : {v : list | slist (v) = true}) -> 
                 {v : list | 
                     \(u : int). 
@@ -31,9 +31,9 @@ cons : (x : {v : int | [v>0] \/ [v=0]}) ->
                         (slist (v) = true)
                          }; 
 
-goal : (s : { v : int | true}) -> 
+goal : (s0 : { v : int | true}) -> 
                 (x0 : {v : int | [v>0] \/ [v=0]}) -> 
                     {v : list | \(u : int). 
-                            slen (v) == s /\
+                            slen (v) == s0 /\
                             slist (v) = true /\    
                             (smem (v, u) = true => not [x0 > u])};
