@@ -1,5 +1,5 @@
 ;; 173
-(declare-sort T745)
+(declare-sort T745 0)
 (declare-fun set1070 (Bool) Bool)
 (declare-fun var_u331 () Int)
 (declare-fun set1071 (Int) Bool)

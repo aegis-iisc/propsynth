@@ -1389,8 +1389,9 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter : (Sy
      let _ = List.iter 
             (fun tmi -> 
 
-                let tmi = Syn.expand (!lbindings) tmi.expMon in 
-                Message.show ("***********\n "^(Syn.rewrite tmi))) sols in 
+                (* let tmi = Syn.expand (!lbindings) tmi.expMon in  *)
+                let tmi = tmi.expMon in 
+                Message.show ("***********\n "^(Syn.rewrite bindingExp)^"\n"^(Syn.rewrite tmi))) sols in 
      sols       
         
     
