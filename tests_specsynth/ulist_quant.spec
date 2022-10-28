@@ -35,3 +35,5 @@ goal : (s : { v : int | true}) ->
                             ulist (v) = true /\    
                             (smem (v, u) = true => [u = x0])};
 
+
+                                                 

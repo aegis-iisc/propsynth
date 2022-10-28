@@ -13,10 +13,12 @@ let usage_msg = "effsynth [-cdcl] [-bi] [-effect] <spec-file1> -g <goal-number>"
 let anon_fun specfile = 
     spec_file := specfile
 let maxPathlength = ref 3   
+let nestedif = ref 1
 
 module Printf = struct 
   let printf d s = Printf.printf d s
   let originalPrint = Printf.printf 
+  let fprintf = Printf.fprintf
 end  
 
 
@@ -25,7 +27,8 @@ end
    ("-cdcl", Arg.Set learningON, "Set to CDCL=true");
    ("-bi", Arg.Set bidirectional, "Set bidirectional=true");
    ("-g", Arg.Set_int goal_number, "Set the #goal number");
-   ("-k", Arg.Set_int maxPathlength, "Set the max path length")] 
+   ("-k", Arg.Set_int maxPathlength, "Set the max path length");
+   ("-nested", Arg.Set_int nestedif, "Allow generating nested if statements")] 
   
 let () = 
 
@@ -39,6 +42,7 @@ let () =
   let () = Printf.printf "%s" ("\n EXPLORED specfile :: "^(!spec_file)) in 
   let () = Printf.printf "%s" ("\n EXPLORED goal Number :: "^(string_of_int (!goal_number))) in 
   let () = Printf.printf "%s" ("\n EXPLORED Max path length :: "^(string_of_int (!maxPathlength))) in 
+  let () = Printf.printf "%s" ("\n EXPLORED Nested If :: "^(string_of_int (!nestedif))) in 
 
   (* raise (CompilerExc "Forced"); *)
 
@@ -65,12 +69,27 @@ let () =
   let () = List.iter (fun (qi) -> Printf.printf "%s" 
                       ("\n "^(SpecLang.RelSpec.Qualifier.toString qi))) quals in 
 
-  let synthterm = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter in   
+  let (outstring, synthterm) = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter !nestedif in   
     (*run the initial environment builder*)    
     match synthterm with 
-        | [] -> Printf.originalPrint "%s" "\n Synthesis returned witout result"
-        | t :: _ -> Printf.originalPrint "%s" ("\n Success : "^(Lambda.typedMonExp_toString t))
-   
+        | [] -> 
+          
+            let _ = Printf.originalPrint "%s" ("\n *************************") in 
+            let _ = Printf.originalPrint "%s" ("\n Failed without Result : ") in 
+            Printf.originalPrint "%s" ("\n ************************* : ") 
+        | _ :: _ -> 
+            let outchannel = open_out ("output/"^(!spec_file)) in
+            Printf.fprintf outchannel "%s\n" ("(*generated using Cobalt *) \n"^(outstring));
+            (* write something *)
+            close_out outchannel;
+            let _ = Printf.originalPrint "%s" ("\n *************************") in 
+            let _ = Printf.originalPrint "%s" ("\n Success : ") in 
+            let _ = Printf.originalPrint "%s" ("\n ************************* : ") in 
+            
+            ()
+            
+            (* let _ = run_command  "z3 testz3.z" "" in  *)
+              
 (*    
 
   let num_args = (Array.length Sys.argv) - 1 in 

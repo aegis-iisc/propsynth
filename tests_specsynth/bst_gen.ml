@@ -56,5 +56,19 @@ node : (root : int) -> (sizel : {v : int | ([v>0] \/ [v=0])} ->
                        {v: tree | \(u : int). (tmem (v, u) => (u > (soot -- sizel) /\ root > u -- sizer)) 
                                   /\ sortedtree (v) = true    
                       
-goal : (diff : int) -> (lo : int) -> (hi : int ) -> 
-            {v : int | }                      
+             
+                                  
+let bst_gen_v1 =
+  let (lo : [%over: int]) = (true : [%v: int]) in
+  let (hi : [%over: int]) = (lo <= v : [%v: int]) in
+  (len v 0 : [%v: int tree])
+
+let[@inv? n when 0] bst_gen_v2 =
+  let (d : [%over: int]) = (0 <= v : [%v: int]) in
+  let (lo : [%over: int]) = (true : [%v: int]) in
+  let (hi : [%over: int]) = (v == lo + d : [%v: int]) in
+  (fun (u : [%forall: int]) ->
+     implies (mem v u) (lo < u && u < hi)
+     && sorted v
+     && implies (u < d) (len v u)
+    : [%v: int tree])

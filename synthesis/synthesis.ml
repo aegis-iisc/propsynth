@@ -75,7 +75,7 @@ module Bidirectional : sig
   val qualifiers : ((RelSpec.Qualifier.t) list) ref 
   val currentApp : (Var.t list) ref
   val formals : (Var.t list) ref  
-
+  val seenguards : (string list) ref
   type ('a, 'b) result = 
             Success of 'a 
             | Fail of 'b
@@ -89,7 +89,7 @@ module Bidirectional : sig
  
  val isynthesizeMatch : int -> VC.vctybinds -> Sigma.t -> Predicate.t -> (Var.t * RefTy.t) -> RefTy.t ->  Syn.typedMonExp option 
  val isynthesizeFun : int -> VC.vctybinds -> Sigma.t -> Predicate.t -> RefTy.t  -> Syn.typedMonExp list
- val toplevel :  VC.vctybinds -> Sigma.t -> Predicate.t-> (Var.t list) -> (RelSpec.Qualifier.t list) ->  RefTy.t -> bool -> bool -> int -> bool ->   Syn.typedMonExp list  
+ val toplevel :  VC.vctybinds -> Sigma.t -> Predicate.t-> (Var.t list) -> (RelSpec.Qualifier.t list) ->  RefTy.t -> bool -> bool -> int -> bool -> int ->   (string * Syn.typedMonExp list)  
  val synthesize : int ->  VC.vctybinds -> Sigma.t -> Predicate.t-> RefTy.t -> Syn.typedMonExp list 
 
 
@@ -123,13 +123,13 @@ let efilterOn = ref false
 let learningOn = ref false 
 let bidirectionalOn = ref false 
 let max = ref 5
-let maxif_depth = ref 2
+let maxif_depth = ref 1
 let visited = ref ExploredTerms.empty  
 let currentApp = ref ["_"]
 let formals = ref []
 let count_filter = ref 0
 let count_chosen = ref 0
-
+let seenguards = ref [] 
 let typenames = ref []
 let qualifiers = ref []
 
@@ -504,7 +504,7 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
     Message.show ("Show Potential Functions");
     Message.show (List.fold_left (fun acc (vi, _) -> acc^", \n "^Var.toString vi) " " potentialChoices);
    
-
+    let incoming_currentApp = !currentApp in     
     let rec choice potentialChoices gamma sigma delta = 
         match potentialChoices with 
           | [] -> (gamma, []) 
@@ -601,14 +601,16 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 be costly.
                                 So for more practical pursposes, we try all the second arguments if there are two args,
                                 *)
-
+                                let i = ref 0 in 
                                 let () = List.iter (fun li -> 
-                                                    let () = Printf.printf "%s" ("\n Ith Argument Options for "^(vi)) in 
+                                                    let _ = i := !i + 1 in 
+                                                    let () = Printf.printf "%s" ("\n "^(string_of_int !i)^" th Argument Options for "^(vi)) in 
                                                     List.iter (fun ei -> Printf.printf "%s" 
                                                                 ("\n EI "^(Syn.monExp_toString 
                                                                             (Syn.expand (!lbindings) (ei.expMon) )))) li) es in 
                                 
-
+                                (* assert (i == List.length es);     *)
+                                let _ = i := 0 in     
                                 let chooseArgs (argsListEach : ((Syn.typedMonExp) list ) list) : (Syn.typedMonExp list) list   = 
                                     n_cartesian_product argsListEach        
                                 
@@ -617,19 +619,17 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 let possible_args_lists = chooseArgs es in 
 
                                 Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 
-
+                                Message.show ("HERE");    
 
                                 (*Randomize the choices of the argument  *)  
                                 (* let possible_args_lists = 
-                                    if (List.length possible_args_lists > 5) then 
-                                        (* rand_select possible_args_lists 10  *)
-                                        firstk 5 possible_args_lists
+                                    if (List.length possible_args_lists > 20) then 
+                                        (* (raise (SynthesisException "STOP"); *)
+                                        rand_select possible_args_lists 5  
                                     else possible_args_lists     
-                                in                         *)
-                               
-                              
-
-
+                                in       *)
+                                Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 
+                   
                                 let () = List.iter (fun li -> 
                                                     let () = Printf.printf "%s" ("\n Possible Arg Options ") in 
                                                     List.iter (fun ei -> Printf.printf "%s" 
@@ -851,7 +851,10 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
 
 
        in 
-       choice potentialChoices gamma sigma delta 
+       
+       let res = choice potentialChoices gamma sigma delta in 
+       let _ = currentApp := incoming_currentApp in 
+       res
        
 
 and esynthesizeConsApp depth gamma sigma delta specs_path : Syn.typedMonExp option  = 
@@ -967,18 +970,25 @@ and esynthesizeScalar depth gamma sigma delta specs_path  : (Gamma.t * (Syn.type
                               Message.show ("Show :: Found a Few Macthing Scalars "); 
                               (gamma, foundbyEnum)   
                    | [] ->
-                           Message.show (">>>>>>>>>>>>>>>>>> No Scalar found in Environment, Trying esynthesizePureApp <<<<<<<<<<<<<<<<<< "); 
-                           let (gamma, appterms) = esynthesizePureApp (depth+1) gamma sigma delta specs_path in 
-                            (match appterms with 
+                            Message.show (">>>>>>>>>>>>>>>>>> No Scalar found in Environment, Trying Nested Ifs <<<<<<<<<<<<<<<<<< "); 
+                            (* raise (SynthesisException "FORCED"); *)
+                            let (gamma, ifterms) = isynthesizeIf (depth) gamma sigma delta leaf_spec in 
+                            (match ifterms with 
                                 | [] -> 
-                                    Message.show (">>>>>>>>>>>>>>>>>>  No pureApp found, Call esynthesizeConsApp <<<<<<<<<<<<<< "); 
-                                    let consAppterm = esynthesizeConsApp (depth+1) gamma sigma delta specs_path in 
-                                    (match consAppterm with 
-                                      | Some t2 ->  (gamma, [t2])
-                                      | None -> (gamma, [])
-                                    )  
-                                | _::_ -> (gamma, appterms)
-                            )
+                                    Message.show (">>>>>>>>>>>>>>>>>> No If-term found at allowed defth found in Environment, Trying esynthesizePureApp <<<<<<<<<<<<<<<<<< "); 
+                                    let (gamma, appterms) = esynthesizePureApp (depth+1) gamma sigma delta specs_path in 
+                                    (match appterms with 
+                                        | [] -> 
+                                            Message.show (">>>>>>>>>>>>>>>>>>  No pureApp found, Call esynthesizeConsApp <<<<<<<<<<<<<< "); 
+                                            let consAppterm = esynthesizeConsApp (depth+1) gamma sigma delta specs_path in 
+                                             (match consAppterm with 
+                                                | Some t2 ->  (gamma, [t2])
+                                                | None -> (gamma, [])
+                                             )  
+                                        | _::_ -> (gamma, appterms)
+                                    )
+                                | _::_ -> (gamma, ifterms) 
+                            )           
 
                  )           
             |  RefTy.Arrow ((_,_),_) -> (gamma, [])
@@ -1057,11 +1067,14 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
        (*  synthesize gamma sigma delta spec learnConst !bidirectional !maxPathLength
    *)
   
- and isynthesizeIf depth gamma sigma delta spec : Syn.typedMonExp list = 
+ and isynthesizeIf depth gamma sigma delta spec : (Gamma.t * Syn.typedMonExp list) = 
     Message.show ("**********************************************");
     Message.show ("iSynthesize If-THEN-ELSE "^(RefTy.toString spec));
     Message.show ("**********************************************");
-    
+    if (!maxif_depth == 0) then 
+        (gamma, []) 
+    else
+    let _ = maxif_depth := !maxif_depth - 1 in 
     (*val createGammai Gamma, t : (Gamma *ptrue * pfalse)*)
     let createGammai gamma t  = 
         match t with 
@@ -1141,7 +1154,7 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
     Message.show ("iSynthesize Boolean Guard "^(RefTy.toString boolSpec));
     Message.show (" *********************Synthesizing the Guard*******************");
     
-    let (gamma, bi_list) = esynthesizeScalar depth gamma sigma delta [boolSpec] in 
+    let (gamma, bi_list) = esynthesizeScalar (depth+1) gamma sigma delta [boolSpec] in 
     (*EXT :: loop over all possible choices of the boolean *)
     (*for each option synthesize a list of terms and return all possible expressions *)
     (* let bi_list = List.rev (bi_list) in  *)
@@ -1154,12 +1167,18 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
                 if (Syn.size (Syn.expand !lbindings eb.expMon) > 2) then 
                     loop eb_xs gamma explist
                 else
+                   
                 (*get the predicate \phi in the If-rule for synthesis*)   
                  (*either a fun-application or *)
                  let eb_expmon = eb.expMon in  
                  (*type for the eb_expmon*)
                  let eb_type = eb.ofType in 
                  let refTy4bi = eb_type in 
+                let guardName = Syn.componentNameForMonExp eb_expmon in    
+                if (List.mem  guardName !seenguards) then     
+                    loop eb_xs gamma explist
+                else 
+                 let _ = seenguards := (Syn.componentNameForMonExp eb_expmon) :: !seenguards in 
                  Message.show ("Show :: Synthesizing The IF-THEN-ELSE for Next Boolean Guard "^(Syn.monExp_toString (Syn.expand !lbindings eb_expmon)));
                  (* Message.show ("Show :: iSynthesize Boolean Successful "^(RefTy.toString eb_type)); *)
                 (*create true predicate = \phi /\ [v= true] & false predicate = \phi /\ [v=false]*)
@@ -1197,40 +1216,44 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
                           (*\Gamma, [v=false]\phi |- spec ~~~> t_false*)
                            Message.show ("Show :: Synthesizing the false branch");
                            Message.show ("Show :: False Predicate "^(Predicate.toString false_pred4bi));
+                         let (_g, t_ifs_nested) = isynthesizeIf (depth) gamma sigma delta_false spec in 
+                         let t_false = 
+                            match t_ifs_nested with 
+                                | [] -> synthesize (depth) gamma sigma delta_false spec 
+                                | x::xs -> 
+                                 (match (t_false) with 
+                                 | [] -> Message.show ("Show :: Failed Synthesis of any False Branch ");
+                                         loop eb_xs gamma explist
 
-                          let t_false = synthesize (depth) gamma sigma delta_false spec  in 
-                          (match (t_false) with 
-                           | [] -> Message.show ("Show :: Failed Synthesis of any False Branch ");
-                                   loop eb_xs gamma explist
-
-                           | exp_false :: exp_false_xs -> 
-                                  Message.show ("Show :: Successfully Synthesisized False Branch ");
-                                  let monexp_t_true = exp_true.expMon in 
-                                  let monexp_t_false = exp_false.expMon in 
-                                  let eite_exp = Syn.Eite (eb_expmon, monexp_t_true, monexp_t_false) in 
-                                  (* (e_true, e_false) list *)
-                                  let m_n_binarylist_list = n_cartesian_product [t_true;t_false] in 
-                                  let m_n_pair_list = List.map (fun l -> 
-                                                        assert (List.length l == 2);
-                                                        let f = List.hd (l) in 
-                                                        let s = List.hd (List.rev l) in 
-                                                        (f, s)
-                                                        ) m_n_binarylist_list in 
-                                  let m_n_ite_typed_mon_exps = 
-                                    List.map (fun (e_true, e_false) -> 
-                                                {Syn.expMon = Syn.Eite (eb_expmon, e_true.expMon, e_false.expMon);
-                                                 Syn.ofType = spec}
-                                             ) m_n_pair_list in 
-                                  assert (List.length m_n_ite_typed_mon_exps == ((List.length t_true) * (List.length t_false)));           
-                                  let explist = List.append explist m_n_ite_typed_mon_exps in   
-                                  loop eb_xs gamma explist
-                            )        
+                                 | exp_false :: exp_false_xs -> 
+                                        Message.show ("Show :: Successfully Synthesisized False Branch ");
+                                        let monexp_t_true = exp_true.expMon in 
+                                        let monexp_t_false = exp_false.expMon in 
+                                        let eite_exp = Syn.Eite (eb_expmon, monexp_t_true, monexp_t_false) in 
+                                        (* (e_true, e_false) list *)
+                                        let m_n_binarylist_list = n_cartesian_product [t_true;t_false] in 
+                                        let m_n_pair_list = List.map (fun l -> 
+                                                              assert (List.length l == 2);
+                                                              let f = List.hd (l) in 
+                                                              let s = List.hd (List.rev l) in 
+                                                              (f, s)
+                                                              ) m_n_binarylist_list in 
+                                        let m_n_ite_typed_mon_exps = 
+                                          List.map (fun (e_true, e_false) -> 
+                                                      {Syn.expMon = Syn.Eite (eb_expmon, e_true.expMon, e_false.expMon);
+                                                       Syn.ofType = spec}
+                                                   ) m_n_pair_list in 
+                                        assert (List.length m_n_ite_typed_mon_exps == ((List.length t_true) * (List.length t_false)));           
+                                        let explist = List.append explist m_n_ite_typed_mon_exps in   
+                                        loop eb_xs gamma explist
+                                  )
+                            |               
                 ) 
                 
     in 
     
-    let (_,ifsols) = loop bi_list gamma [] in 
-    ifsols            
+    let (gamma,ifsols) = loop bi_list gamma [] in 
+    (gamma, ifsols)            
                
 
 (*Top level syntheis goals for Lambda, same as the traditional syntehsis rules
@@ -1339,8 +1362,8 @@ and isynthesizeFun depth gamma sigma delta spec : Syn.typedMonExp list=
             Message.show ("EXPLORED :: Show Found Match match x with ... solution"); 
             [e_match]
         | None -> 
-             Message.show ("Match-case failed :: Try Top-level If-then-else "); 
-            let if_exp = isynthesizeIf depth gamma_extended sigma delta retT in 
+            Message.show ("Match-case failed :: Try Top-level If-then-else "); 
+            let (_, if_exp) = isynthesizeIf depth gamma_extended sigma delta retT in 
             match if_exp with 
                 | [] ->
                     Message.show (" If then else Failed :: Try CDCL without subdivision\n "); 
@@ -1379,7 +1402,7 @@ and  synthesize depth gamma sigma delta spec : Syn.typedMonExp list =
 
 
 
-let toplevel gamma sigma delta types quals spec learning bi maxVal efilter : (Syn.typedMonExp list) = 
+let toplevel gamma sigma delta types quals spec learning bi maxVal efilter nested : (string * Syn.typedMonExp list) = 
      (*set the global parameters *)
      learningOn := learning;
      bidirectionalOn := bi;
@@ -1389,19 +1412,20 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter : (Sy
      typenames := types;
      qualifiers := quals;
      lbindings := [];
+     maxif_depth := nested;
      let sols = synthesize 0 gamma sigma delta spec  in 
      let bindingExp = Syn.exp4tuples (List.rev (!lbindings)) in 
-     Message.show (Syn.rewrite bindingExp);
-     let _ = List.iter 
-            (fun tmi -> 
+     (* Message.show (Syn.rewrite bindingExp); *)
+     let out = List.fold_left 
+            (fun acc tmi -> 
 
                 let tmi = Syn.expand (!lbindings) tmi.expMon in 
                 (* let tmi = tmi.expMon in  *)
                 (* Message.show ("***********\n "^(Syn.rewrite bindingExp)^"\n"^(Syn.rewrite tmi))) sols in  *)
-                Message.show ("***********\n"^(Syn.rewrite tmi))) sols in 
-     sols       
+                acc^"\n (* Program *) \n"^(Syn.rewrite tmi)) "" sols in 
+     (out, sols)       
         
-    
+     
 
 
 end

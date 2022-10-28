@@ -472,8 +472,7 @@ let rec rewrite (m:monExp) : (string) =
         | Evar v -> 
                 if (String.equal v "Cons") then "::"
                 else if (String.equal v "Nil") then "[]"
-                else 
-                (v)
+                else (v)
         | Elet (v, e1, e2) -> ("\n let "^(rewrite v)^" = "^(rewrite e1)^" in "^(rewrite e2))
         | Ecapp (cname, argls) -> (cname)^" "^(
                                 List.fold_left (fun accstr ai -> 
@@ -487,17 +486,25 @@ let rec rewrite (m:monExp) : (string) =
                 ("\n \t match "^(monExp_toString matchingArg.expMon)^" with "^caselist_toString)
         | Eapp (fun1, arglist) -> 
             if not (String.equal (rewrite fun1) "::" || String.equal (rewrite fun1) "[]") then 
-                (" ( "^(rewrite fun1)^" "^
-                (List.fold_left 
-                    (fun accStr argi -> accStr^" "^(rewrite argi)) ""  arglist))^" ) "        
-            else
+                if (String.equal (rewrite fun1) "Node") then  
+                    (
+                    " ( "^(rewrite fun1)^" ( "^
+                    (List.fold_left 
+                     (fun accStr argi -> accStr^", "^(rewrite argi)) (rewrite (List.hd arglist))  
+                        (List.tl arglist))
+                    ) 
+                else    
+                    (" ( "^(rewrite fun1)^" "^
+                        (List.fold_left 
+                            (fun accStr argi -> accStr^" "^(rewrite argi)) ""  arglist))^" ) "        
+            else                            
                 (assert (List.length arglist == 2);
-                let funName = rewrite fun1 in
+                let funName = (rewrite fun1) in
                 (List.fold_left 
                     (fun accStr argi -> accStr^" "^(funName)^" "^(rewrite argi)) (rewrite (List.hd arglist))  
                                 (List.tl arglist))
                 )                        
-            
+        
 
 
         | Eite (bi, ttr, tfl) -> 

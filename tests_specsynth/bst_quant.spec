@@ -1,26 +1,61 @@
 
+qualifier tlen : tree :-> int;
+qualifier sortedtree : tree :-> bool;
+qualifier tmem : tree :-> int :-> bool;
 
 
-gt_eq_int_gen : (n3: int) -> {v : int | [v > n3] \/ [v=n3]}; 
+lt_eq_one : (s : int) -> {v : bool | [v=true] <=> not [s > 1] /\ 
+                            [v=false] <=> [s>1]};
 
 
 decrement : (n : {v : int | true}) ->  {v : int | v == n -- 1};
 
+int_range : (a : int) -> (b : int) -> {v : int | not [a > v] /\ not [v > b]};
 
 
 increment : (n : {v : int | true}) ->  {v : int | v == n + 1};
 
 
-leaf : {v : tree | \(u : int).
-                    tmem (v, u) = false /\ sortedtree (v) = true};
+Leaf : {v : tree | \(u : int).
+                    tmem (v, u) = false /\ 
+                    sortedtree (v) = true /\
+                    tlen (v) == 0};
 
 
 
-node : (root : int) -> (sizel : {v : int | ([v>0] \/ [v=0])} -> 
-                       (ltree : {v : tree | \(u:int). 
-                                (tmem (v, u) = true => [root > u] /\ (u > root -- sizel) ) /\ sortedtree (v) = true }) -> 
-                       (sizer : {v : int | ([v>0] \/ [v=0])} -> 
-                       (rtree : {v : tree | \(u:int). 
-                                (tmem (v, u) = true =>  [u > root] /\(root > u -- sizer) ) /\ sortedtree (v) = true }) ->
-                       {v: tree | \(u : int). (tmem (v, u) => (u > (soot -- sizel) /\ root > u -- sizer)) 
-                                  /\ sortedtree (v) = true    
+Node : (root : { v : int | [v>0] \/ [v=0]}) -> 
+                    (ltree : {v : tree | tlen (v) > 0 \/ tlen (v) == 0 }) -> 
+                    (rtree : {v : tree | tlen (v) > 0 \/ tlen (v) == 0}) -> 
+                {v : tree | 
+                    \(ul:int), (ur : int), (u:int), (sizel : int), (sizer : int). 
+                (
+                    (
+                        (tmem (ltree, ul) = true /\ tlen (ltree) == sizel)  => 
+                        ([root > ul] /\ (ul > root -- sizel))
+                    )/\ sortedtree (ltree) = true
+                )/\
+                (
+                    (
+                        (tmem (rtree, ur) = true /\ tlen (rtree) == sizer)  => 
+                        ([ur > root] /\ (root > ur -- sizer))
+                    )/\ sortedtree (rtree) = true
+                )
+                /\
+                (tmem (v, u) = true => 
+                        (u > (root -- sizel) /\ root > (u -- sizer))) 
+                                  /\ sortedtree (v) = true};    
+
+goal : (d : {v : int | [v >0] \/ [v=0]}) -> 
+        (lo : int) -> 
+        (hi : { v : int | v == lo + d}) -> 
+        {v : tree | \(u : int).
+            (hi == (lo + d)) => 
+            
+            (
+                (tmem (v, u) = true => 
+                ([u > lo] /\ [hi > u]) 
+                ) /\
+                sortedtree (v) = true /\
+                ([d > u] => tlen (v) == u)
+            )   
+            };
