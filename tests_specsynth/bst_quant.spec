@@ -4,6 +4,12 @@ qualifier sortedtree : tree :-> bool;
 qualifier tmem : tree :-> int :-> bool;
 
 
+dummy : {v : unit | true};
+
+bool_gen : (u:unit) -> {v : bool | [v=true] <=>[v=true] /\
+                                    [v=false] <=> [v=false]};
+
+
 lt_eq_one : (s : int) -> {v : bool | [v=true] <=> not [s > 1] /\ 
                             [v=false] <=> [s>1]};
 
@@ -49,7 +55,8 @@ goal : (d : {v : int | [v >0] \/ [v=0]}) ->
         (lo : int) -> 
         (hi : { v : int | v == lo + d}) -> 
         {v : tree | \(u : int).
-            (hi == (lo + d)) => 
+            
+            (hi == (lo + d)) /\ 
             
             (
                 (tmem (v, u) = true => 

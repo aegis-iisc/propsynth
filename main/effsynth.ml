@@ -69,7 +69,7 @@ let () =
   let () = List.iter (fun (qi) -> Printf.printf "%s" 
                       ("\n "^(SpecLang.RelSpec.Qualifier.toString qi))) quals in 
 
-  let (outstring, synthterm) = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter !nestedif in   
+  let (size, outstring, synthterm) = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter !nestedif in   
     (*run the initial environment builder*)    
     match synthterm with 
         | [] -> 
@@ -84,6 +84,8 @@ let () =
             close_out outchannel;
             let _ = Printf.originalPrint "%s" ("\n *************************") in 
             let _ = Printf.originalPrint "%s" ("\n Success : ") in 
+            let _ = Printf.originalPrint "%s" ("\n Number of synthesized programs : "^(string_of_int size)) in 
+            
             let _ = Printf.originalPrint "%s" ("\n ************************* : ") in 
             
             ()

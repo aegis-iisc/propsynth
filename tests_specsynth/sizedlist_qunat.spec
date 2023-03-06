@@ -29,4 +29,4 @@ Cons : (x : {v : int | [v>0] \/ [v=0]}) ->
 
 goal : (size : { v : int | true}) -> 
                     {v : list | \(u : int). 
-                            (slen (v) == u => ( ([u > 0] \/ [u = 0]) /\  ([u = size]))};
+            (slen (v) == u => ( ([u > 0] \/ [u = 0]) /\  ([u = size])))};

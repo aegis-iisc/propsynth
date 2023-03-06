@@ -492,7 +492,7 @@ let rec rewrite (m:monExp) : (string) =
                     (List.fold_left 
                      (fun accStr argi -> accStr^", "^(rewrite argi)) (rewrite (List.hd arglist))  
                         (List.tl arglist))
-                    ) 
+                    )^" ) )" 
                 else    
                     (" ( "^(rewrite fun1)^" "^
                         (List.fold_left 
