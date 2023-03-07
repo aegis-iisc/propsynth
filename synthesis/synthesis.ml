@@ -677,9 +677,9 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
 
                                 (*Randomize the choices of the argument  *)  
                                 let possible_args_lists = 
-                                    if (List.length possible_args_lists > 20) then 
+                                    if (List.length possible_args_lists > 200) then 
                                         (* (raise (SynthesisException "STOP"); *)
-                                        rand_select possible_args_lists 5  
+                                        rand_select possible_args_lists 200 
                                     else possible_args_lists     
                                 in      
                                 Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 

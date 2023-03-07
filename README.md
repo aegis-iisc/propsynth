@@ -74,7 +74,7 @@ The above build script will create a native executable `effsynth.native` in the 
 
 Cobalt takes the following arguments: 
 ```
-$ ./effsynth.native [-cdcl] [-bi] [-k] [-nested] <path_to_specfile>
+$ ./effsynth.native [-cdcl] [-bi] [-k *default 3*] [-nested *default 1*] <path_to_specfile>
 
 $ ./effsynth.native -cdcl -bi -k 5 tests_specsynth/ulist_quant.spec
 
@@ -90,5 +90,13 @@ Run the following command to generate the programs used in Poirot for UniqueList
 ```
 $ ./effsynth.native -cdcl -bi -k 5 tests_specsynth/Poirot_benchmarks/Poirot_uniquelist.spec
 ```
+This will generate a file `output/tests_specsynth/Poirot_benchmaks/Poirot_uniquelist.spec` containing the required programs.
 
-This will generate a file `output/tests_specsynth/Poirot_benchmaks/Poirot_uniquelist.spc` containing the required programs.
+Similarly following commands for different benchmarks:
+```
+$ ./effsynth.native -cdcl -bi -k 4 -nested 3 tests_specsynth/Poirot_benchmarks/Poirot_sizedlist.spec
+$ ./effsynth.native -cdcl -bi -k 4 -nested 2 tests_specsynth/Poirot_benchmarks/Poirot_sortedlist.spec
+$ ./effsynth.native -cdcl -bi -k 4 -nested 3 tests_specsynth/Poirot_benchmarks/Poirot_sizedbst.spec
+...
+```
+
