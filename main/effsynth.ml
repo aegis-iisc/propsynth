@@ -14,6 +14,7 @@ let anon_fun specfile =
     spec_file := specfile
 let maxPathlength = ref 3   
 let nestedif = ref 1
+let sizedbst = ref false
 
 module Printf = struct 
   let printf d s = Printf.printf d s
@@ -45,6 +46,12 @@ let () =
   let () = Printf.printf "%s" ("\n EXPLORED Nested If :: "^(string_of_int (!nestedif))) in 
 
   (* raise (CompilerExc "Forced"); *)
+  let _ = if (String.equal (!spec_file) ("tests_specsynth/Poirot_benchmarks/Poirot_sizedbst.spec"))then 
+           sizedbst := true 
+          else sizedbst := false  
+  in  
+
+  
 
   let ast = SEL.parseLSpecFile !spec_file in 
   let string_ast = RelSpec.toString ast in 
@@ -69,7 +76,7 @@ let () =
   let () = List.iter (fun (qi) -> Printf.printf "%s" 
                       ("\n "^(SpecLang.RelSpec.Qualifier.toString qi))) quals in 
 
-  let (size, outstring, synthterm) = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter !nestedif in   
+  let (size, outstring, synthterm) = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter !nestedif !sizedbst in   
     (*run the initial environment builder*)    
     match synthterm with 
         | [] -> 

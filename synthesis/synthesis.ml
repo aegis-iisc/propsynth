@@ -76,6 +76,7 @@ module Bidirectional : sig
   val currentApp : (Var.t list) ref
   val formals : (Var.t list) ref  
   val seenguards : (string list) ref
+  val issizedbst : (bool) ref
   type ('a, 'b) result = 
             Success of 'a 
             | Fail of 'b
@@ -89,7 +90,7 @@ module Bidirectional : sig
  
  val isynthesizeMatch : int -> VC.vctybinds -> Sigma.t -> Predicate.t -> (Var.t * RefTy.t) -> RefTy.t ->  Syn.typedMonExp option 
  val isynthesizeFun : int -> VC.vctybinds -> Sigma.t -> Predicate.t -> RefTy.t  -> Syn.typedMonExp list
- val toplevel :  VC.vctybinds -> Sigma.t -> Predicate.t-> (Var.t list) -> (RelSpec.Qualifier.t list) ->  RefTy.t -> bool -> bool -> int -> bool -> int ->   (int * string * Syn.typedMonExp list)  
+ val toplevel :  VC.vctybinds -> Sigma.t -> Predicate.t-> (Var.t list) -> (RelSpec.Qualifier.t list) ->  RefTy.t -> bool -> bool -> int -> bool -> int -> bool ->   (int * string * Syn.typedMonExp list)  
  val synthesize : int ->  VC.vctybinds -> Sigma.t -> Predicate.t-> RefTy.t -> Syn.typedMonExp list 
 
 
@@ -132,7 +133,7 @@ let count_chosen = ref 0
 let seenguards = ref [] 
 let typenames = ref []
 let qualifiers = ref []
-
+let issizedbst = ref false 
 let maxPathLength = ref 0
 type ('a, 'b) result = 
             Success of 'a 
@@ -673,13 +674,13 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                 let possible_args_lists = chooseArgs es in 
 
                                 Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 
-                                Message.show ("HERE");    
+                              
 
                                 (*Randomize the choices of the argument  *)  
                                 let possible_args_lists = 
-                                    if (List.length possible_args_lists > 10) then 
+                                    if (List.length possible_args_lists > 20) then 
                                         (* (raise (SynthesisException "STOP"); *)
-                                        rand_select possible_args_lists 10 
+                                        rand_select possible_args_lists 20 
                                     else possible_args_lists     
                                 in      
                                 Message.show ("# of Possible Argument Options for "^(vi)^" "^(string_of_int (List.length possible_args_lists))); 
@@ -806,10 +807,17 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                             Message.show (" ###################################################");    
                                             Message.show (" The Choice of Function "^(Var.toString vi)^" Was Succefull for "^(RefTy.toString spec)^" Continuing for completeness");
                                             Message.show (" ###################################################");    
-                                                
+                                            if (!issizedbst) then 
+                                               (* let _ =  raise (SynthesisException "Forced") in *)
+                                                (gamma, (List.append synthesizedexps correctExpressions))  
+                                            else   
+                                                choice xs gamma sigma delta  (List.append synthesizedexps correctExpressions)
+     
                                             (* (gamma, (List.append synthesizedexps correctExpressions))                        *)
-                                           
-                                            choice xs gamma sigma delta  (List.append synthesizedexps correctExpressions)
+                                            (* if (List.length synthesizedexps > 2) then 
+                                                (gamma, (List.append synthesizedexps correctExpressions))
+                                            else  *)
+                                                (* choice xs gamma sigma delta  (List.append synthesizedexps correctExpressions) *)
                                             (* (gamma, correctExpressions) EXT : Even in this case we need to look for all the terms, i.e. other function *)
                                     )                         
                                     
@@ -911,8 +919,17 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                         Message.show (" ###################################################");    
                                         Message.show (" The Choice of Function "^(Var.toString vi)^" Was Succefull for "^(RefTy.toString spec)^" Continuing for completeness");
                                         Message.show (" ###################################################");    
-                                                
-                                        choice xs gamma sigma delta  (List.append synthesizedexps pureappexps)
+                                        
+                                        if (!issizedbst) then 
+                                            (* let _ = raise (SynthesisException "Forced") in  *)
+                                            (gamma, (List.append synthesizedexps pureappexps))
+                                        else
+                                            choice xs gamma sigma delta  (List.append synthesizedexps pureappexps) 
+                                        
+                                            (* if (List.length synthesizedexps > 2) then 
+                                            (gamma, (List.append synthesizedexps pureappexps))
+                                        else 
+                                            choice xs gamma sigma delta  (List.append synthesizedexps pureappexps) *)
                                         (* (gamma, (List.append synthesizedexps pureappexps)) *)
                                         (* (gamma, pureappexps) EXT : Even in this case we need to look for all the terms *)
 
@@ -1470,7 +1487,7 @@ and  synthesize depth gamma sigma delta spec : Syn.typedMonExp list =
 
 
 
-let toplevel gamma sigma delta types quals spec learning bi maxVal efilter nested : (int * string * Syn.typedMonExp list) = 
+let toplevel gamma sigma delta types quals spec learning bi maxVal efilter nested sizedbst : (int * string * Syn.typedMonExp list) = 
      (*set the global parameters *)
      learningOn := learning;
      bidirectionalOn := bi;
@@ -1481,6 +1498,7 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter neste
      qualifiers := quals;
      lbindings := [];
      maxif_depth := nested;
+     issizedbst := sizedbst;
      let sols = synthesize 0 gamma sigma delta spec  in 
      let bindingExp = Syn.exp4tuples (List.rev (!lbindings)) in 
      (* Message.show (Syn.rewrite bindingExp); *)
