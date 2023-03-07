@@ -75,7 +75,9 @@ let () =
   let () = Printf.printf "%s" "\n Qualifiers \n " in 
   let () = List.iter (fun (qi) -> Printf.printf "%s" 
                       ("\n "^(SpecLang.RelSpec.Qualifier.toString qi))) quals in 
-
+  
+  
+   
   let (size, outstring, synthterm) = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter !nestedif !sizedbst in   
     (*run the initial environment builder*)    
     match synthterm with 
@@ -85,7 +87,14 @@ let () =
             let _ = Printf.originalPrint "%s" ("\n Failed without Result : ") in 
             Printf.originalPrint "%s" ("\n ************************* : ") 
         | _ :: _ -> 
-            let outfile = ("output/"^(!spec_file)) in 
+            let out_directory = "output" in
+            let _ = if (not (Sys.file_exists out_directory)) then  
+                    Unix.mkdir out_directory 0o777 
+                  else () in 
+            let specfilelist = String.split_on_char '/' !spec_file in 
+            let filename = List.hd (List.rev (specfilelist)) in 
+                    
+            let outfile = ("output/"^(filename)) in 
             let _ = if (Sys.file_exists outfile) then 
                         Sys.remove outfile
                     else
