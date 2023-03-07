@@ -1,12 +1,12 @@
-qualifier slen : list :-> int;
-qualifier ulist : list :-> bool;
-qualifier shd : list :-> int;
-qualifier smem : list :-> int :-> bool;
+qualifier slen : ulist :-> int;
+qualifier ulist : ulist :-> bool;
+qualifier shd : ulist :-> int;
+qualifier smem : ulist :-> int :-> bool;
 
 
 subs : (n : {v : int | true}) ->  {v : int | v == n -- 1};
 
-Unil : {v : list | \(u : int).
+Unil : {v : ulist | \(u : int).
                     smem (v, u) = false /\ 
                     not (shd (v) = u) /\
                     slen (v) == 0 /\
@@ -16,8 +16,8 @@ sizecheck : (s : int) ->
                     [v=false] <=> [s>0]};
 
 Ucons : (x : {v : int | [v>0] \/ [v=0]}) -> 
-       (xs : {v : list | ulist (v) = true}) -> 
-                {v : list | 
+       (xs : {v : ulist | ulist (v) = true}) -> 
+                {v : ulist | 
                     \(u : int). 
                         (smem (v, u) = true <=> (smem (xs, u) = true \/ [u = x])) /\
                         (shd (v) = u <=> [u = x]) /\
@@ -30,7 +30,7 @@ Ucons : (x : {v : int | [v>0] \/ [v=0]}) ->
 
 goal : (size: { v : int | true}) -> 
                 (x0 : {v : int | [v>0] \/ [v=0]}) -> 
-                    {v : list | \(u : int). 
+                    {v : ulist | \(u : int). 
                             slen (v) == size /\
                             ulist (v) = true /\    
                             (smem (v, u) = true => [u = x0])};

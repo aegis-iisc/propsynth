@@ -472,6 +472,7 @@ let rec rewrite (m:monExp) : (string) =
         | Evar v -> 
                 if (String.equal v "Cons") then "::"
                 else if (String.equal v "Nil") then "[]"
+                else if (String.equal v "Ucons") then "+::"     
                 else (v)
         | Elet (v, e1, e2) -> ("\n let "^(rewrite v)^" = "^(rewrite e1)^" in "^(rewrite e2))
         | Ecapp (cname, argls) -> (cname)^" "^(
@@ -485,7 +486,7 @@ let rec rewrite (m:monExp) : (string) =
                 in 
                 ("\n \t match "^(monExp_toString matchingArg.expMon)^" with "^caselist_toString)
         | Eapp (fun1, arglist) -> 
-            if not (String.equal (rewrite fun1) "::" || String.equal (rewrite fun1) "[]") then 
+            if not (String.equal (rewrite fun1) "::" || String.equal (rewrite fun1) "[]"|| String.equal (rewrite fun1) "+::") then 
                 if (String.equal (rewrite fun1) "Node") then  
                     (
                     " ( "^(rewrite fun1)^" ( "^

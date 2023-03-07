@@ -3,5 +3,5 @@
 *.swp
 *.out
 *.log
-
-**/_build/**
+*.DS**
+**_build/**
