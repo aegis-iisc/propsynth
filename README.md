@@ -76,7 +76,7 @@ Cobalt takes the following arguments:
 ```
 $ ./effsynth.native [-cdcl] [-bi] [-k] [-nested] <path_to_specfile>
 
-$ ./effsynth.native -cdcl -bi -k 3  tests_specsynth/ulist_quant.spec
+$ ./effsynth.native -cdcl -bi -k 5 tests_specsynth/ulist_quant.spec
 
 ```
  This should produce a list of synthesized programs in 
@@ -88,7 +88,7 @@ The 5 benchmarks in `Table2` in Poirot[https://github.com/zhezhouzz/underapproxi
 Run the following command to generate the programs used in Poirot for UniqueList: 
 
 ```
-$ ./effsynth.native -cdcl -bi -k 3 tests_specsynth/Poirot_benchmarks/Poirot_uniquelist.spc
+$ ./effsynth.native -cdcl -bi -k 5 tests_specsynth/Poirot_benchmarks/Poirot_uniquelist.spec
 ```
 
 This will generate a file `output/tests_specsynth/Poirot_benchmaks/Poirot_uniquelist.spc` containing the required programs.
