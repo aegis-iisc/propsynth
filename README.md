@@ -30,7 +30,7 @@ $ which ocaml
 /Users/.../.opam/4.03.0/bin/ocaml
 
 $ ocaml -version
-The OCaml toplevel, version 4.03.0
+The OCaml toplevel, version >= 4.03.0
 ```
 
 *  [Z3 SMT Solver](https://github.com/Z3Prover/z3)
