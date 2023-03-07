@@ -85,7 +85,13 @@ let () =
             let _ = Printf.originalPrint "%s" ("\n Failed without Result : ") in 
             Printf.originalPrint "%s" ("\n ************************* : ") 
         | _ :: _ -> 
-            let outchannel = open_out ("output/"^(!spec_file)) in
+            let outfile = ("output/"^(!spec_file)) in 
+            let _ = if (Sys.file_exists outfile) then 
+                        Sys.remove outfile
+                    else
+                        () in  
+
+            let outchannel = open_out (outfile) in
             Printf.fprintf outchannel "%s\n" ("(*generated using Cobalt *) \n"^(outstring));
             (* write something *)
             close_out outchannel;

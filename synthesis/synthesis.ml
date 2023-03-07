@@ -1502,7 +1502,9 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter neste
      let sols = synthesize 0 gamma sigma delta spec  in 
      let bindingExp = Syn.exp4tuples (List.rev (!lbindings)) in 
      (* Message.show (Syn.rewrite bindingExp); *)
-     Message.show ("Total Number of synthesized Program "^(string_of_int (List.length sols)));
+     Message.show ("Total Number of synthesized Program Random Programs "^(string_of_int (List.length sols)));
+     Message.show ("Selecting 400 Random Programs ");
+     
      let sols = 
             if (List.length sols > 400) then 
                     (* (raise (SynthesisException "STOP"); *)
