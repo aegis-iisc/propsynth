@@ -77,6 +77,7 @@ module Bidirectional : sig
   val formals : (Var.t list) ref  
   val seenguards : (string list) ref
   val issizedbst : (bool) ref
+  val benchmark : (string) ref
   type ('a, 'b) result = 
             Success of 'a 
             | Fail of 'b
@@ -90,7 +91,7 @@ module Bidirectional : sig
  
  val isynthesizeMatch : int -> VC.vctybinds -> Sigma.t -> Predicate.t -> (Var.t * RefTy.t) -> RefTy.t ->  Syn.typedMonExp option 
  val isynthesizeFun : int -> VC.vctybinds -> Sigma.t -> Predicate.t -> RefTy.t  -> Syn.typedMonExp list
- val toplevel :  VC.vctybinds -> Sigma.t -> Predicate.t-> (Var.t list) -> (RelSpec.Qualifier.t list) ->  RefTy.t -> bool -> bool -> int -> bool -> int -> bool ->   (int * string * Syn.typedMonExp list)  
+ val toplevel :  VC.vctybinds -> Sigma.t -> Predicate.t-> (Var.t list) -> (RelSpec.Qualifier.t list) ->  RefTy.t -> bool -> bool -> int -> bool -> int -> string ->   (int * string * Syn.typedMonExp list)  
  val synthesize : int ->  VC.vctybinds -> Sigma.t -> Predicate.t-> RefTy.t -> Syn.typedMonExp list 
 
 
@@ -134,6 +135,7 @@ let seenguards = ref []
 let typenames = ref []
 let qualifiers = ref []
 let issizedbst = ref false 
+let benchmark = ref ""
 let maxPathLength = ref 0
 type ('a, 'b) result = 
             Success of 'a 
@@ -807,8 +809,9 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                             Message.show (" ###################################################");    
                                             Message.show (" The Choice of Function "^(Var.toString vi)^" Was Succefull for "^(RefTy.toString spec)^" Continuing for completeness");
                                             Message.show (" ###################################################");    
-                                            if (!issizedbst) then 
-                                               (* let _ =  raise (SynthesisException "Forced") in *)
+                                            (* if (!issizedbst) then  *)
+                                            if (String.equal !benchmark "Poirot_sizedbst.spec") then  
+                                                (* let _ =  raise (SynthesisException "Forced") in  *)
                                                 (gamma, (List.append synthesizedexps correctExpressions))  
                                             else   
                                                 choice xs gamma sigma delta  (List.append synthesizedexps correctExpressions)
@@ -920,8 +923,9 @@ let rec esynthesizePureApp depth gamma sigma delta specs_path : (Gamma.t * (Syn.
                                         Message.show (" The Choice of Function "^(Var.toString vi)^" Was Succefull for "^(RefTy.toString spec)^" Continuing for completeness");
                                         Message.show (" ###################################################");    
                                         
-                                        if (!issizedbst) then 
-                                            (* let _ = raise (SynthesisException "Forced") in  *)
+                                        (* if (!issizedbst) then  *)
+                                        if (String.equal !benchmark "Poirot_sizedbst.spec")  then    
+                                            (* let _ = raise (SynthesisException "Forced") in   *)
                                             (gamma, (List.append synthesizedexps pureappexps))
                                         else
                                             choice xs gamma sigma delta  (List.append synthesizedexps pureappexps) 
@@ -1487,7 +1491,7 @@ and  synthesize depth gamma sigma delta spec : Syn.typedMonExp list =
 
 
 
-let toplevel gamma sigma delta types quals spec learning bi maxVal efilter nested sizedbst : (int * string * Syn.typedMonExp list) = 
+let toplevel gamma sigma delta types quals spec learning bi maxVal efilter nested pbenchmark : (int * string * Syn.typedMonExp list) = 
      (*set the global parameters *)
      learningOn := learning;
      bidirectionalOn := bi;
@@ -1498,18 +1502,30 @@ let toplevel gamma sigma delta types quals spec learning bi maxVal efilter neste
      qualifiers := quals;
      lbindings := [];
      maxif_depth := nested;
-     issizedbst := sizedbst;
+     benchmark := pbenchmark;
      let sols = synthesize 0 gamma sigma delta spec  in 
      let bindingExp = Syn.exp4tuples (List.rev (!lbindings)) in 
      (* Message.show (Syn.rewrite bindingExp); *)
-     Message.show ("Total Number of synthesized Program Random Programs "^(string_of_int (List.length sols)));
+     (* Message.show ("Total Number of synthesized Program Random Programs "^(string_of_int (List.length sols)));
      Message.show ("Selecting 400 Random Programs ");
-     
+      *)
      let sols = 
-            if (List.length sols > 400) then 
-                    (* (raise (SynthesisException "STOP"); *)
-                    rand_select sols 400  
-            else sols
+            
+            if (String.equal !benchmark "Poirot_sizedbst.spec") then 
+                    rand_select sols 221 
+            else if (String.equal !benchmark "Poirot_sizedtree.spec") then 
+                    rand_select sols 103 
+            else if (String.equal !benchmark "Poirot_sortedlist.spec") then 
+                    rand_select sols 29 
+            else if (String.equal !benchmark "Poirot_sizedlist.spec") then 
+                    rand_select sols 126 
+            else if  (String.equal !benchmark "Poirot_uniquelist.spec") then 
+                    rand_select sols 268 
+            else if (List.length sols > 400) then 
+                (* (raise (SynthesisException "STOP"); *)
+                rand_select sols 400  
+            else sols                              
+
         in          
 
      let (out, i) = List.fold_left 

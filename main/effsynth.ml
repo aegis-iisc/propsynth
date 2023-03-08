@@ -14,8 +14,8 @@ let anon_fun specfile =
     spec_file := specfile
 let maxPathlength = ref 3   
 let nestedif = ref 1
+let pbenchmark = ref ""
 let sizedbst = ref false
-
 module Printf = struct 
   let printf d s = Printf.printf d s
   let originalPrint = Printf.printf 
@@ -76,9 +76,11 @@ let () =
   let () = List.iter (fun (qi) -> Printf.printf "%s" 
                       ("\n "^(SpecLang.RelSpec.Qualifier.toString qi))) quals in 
   
-  
-   
-  let (size, outstring, synthterm) = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter !nestedif !sizedbst in   
+  let specfilelist = String.split_on_char '/' !spec_file in 
+  let filename = List.hd (List.rev (specfilelist)) in 
+                     
+  let _ = pbenchmark := filename in 
+  let (size, outstring, synthterm) = Synth.Bidirectional.toplevel gamma sigma  delta typenames quals goal !learningON !bidirectional !maxPathlength !effect_filter !nestedif !pbenchmark in   
     (*run the initial environment builder*)    
     match synthterm with 
         | [] -> 
@@ -91,8 +93,6 @@ let () =
             let _ = if (not (Sys.file_exists out_directory)) then  
                     Unix.mkdir out_directory 0o777 
                   else () in 
-            let specfilelist = String.split_on_char '/' !spec_file in 
-            let filename = List.hd (List.rev (specfilelist)) in 
                     
             let outfile = ("output/"^(filename)) in 
             let _ = if (Sys.file_exists outfile) then 
