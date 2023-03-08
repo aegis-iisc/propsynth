@@ -473,6 +473,7 @@ let rec rewrite (m:monExp) : (string) =
                 if (String.equal v "Cons") then "::"
                 else if (String.equal v "Nil") then "[]"
                 else if (String.equal v "Ucons") then "+::"     
+                else if (String.equal v "un") then "()"   
                 else (v)
         | Elet (v, e1, e2) -> ("\n let "^(rewrite v)^" = "^(rewrite e1)^" in "^(rewrite e2))
         | Ecapp (cname, argls) -> (cname)^" "^(
