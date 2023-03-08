@@ -10,7 +10,7 @@ qualifier high : int :-> bool;
 
 dummy : {v : unit | true};
 
-bool_gen : (u:unit) -> {v : bool | [v=true] <=>[v=true] /\
+bool_gen : (un :unit) -> {v : bool | [v=true] <=>[v=true] /\
                                     [v=false] <=> [v=false]};
 
 
@@ -60,7 +60,7 @@ Node :
 
 
 goal : (d : {v : int | [v >0] \/ [v=0]}) -> 
-        (s0 : {v : int | not [d > v]}) ->
+        (size : {v : int | not [d > v]}) ->
         (lo : { v : int | true}) -> 
         (hi : { v : int | v == lo + d}) -> 
         {v : tree | \(u : int).

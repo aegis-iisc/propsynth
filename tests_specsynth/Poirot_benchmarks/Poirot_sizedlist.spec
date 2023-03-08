@@ -11,7 +11,7 @@ un : unit;
 subs : (n : {v : int | true}) ->  {v : int | v == n -- 1};
 
 
-gt_eq_int_gen : (n3: int) -> {v : int | [v > n3] \/ [v = n3]}; 
+gt_eq_int_gen : (n: int) -> {v : int | [v > n] \/ [v = n]}; 
 
 bool_gen : (u : unit) -> {v : bool | [v=true] <=>[v=true] /\
                                     [v=false] <=> [v=false]};

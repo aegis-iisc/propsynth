@@ -474,6 +474,10 @@ let rec rewrite (m:monExp) : (string) =
                 else if (String.equal v "Nil") then "[]"
                 else if (String.equal v "Ucons") then "+::"     
                 else if (String.equal v "un") then "()"   
+                else if (String.equal v "s" || String.equal v "size1" ) then "size"
+                else if (String.equal v "n" || String.equal v "n0" || String.equal v "n1") then "size"        
+                else if (String.equal v "a" || String.equal v "b") then "d"        
+                
                 else (v)
         | Elet (v, e1, e2) -> ("\n let "^(rewrite v)^" = "^(rewrite e1)^" in "^(rewrite e2))
         | Ecapp (cname, argls) -> (cname)^" "^(

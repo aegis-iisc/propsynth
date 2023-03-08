@@ -2,7 +2,7 @@
 qualifier tlen : tree :-> int;
 
 Leaf : {v : tree | \(u : int). (tlen (v) == u) => [u=0]};
-dummy : {v : unit | true};
+un : {v : unit | true};
 
 bool_gen : (d:unit) -> {v : bool | [v=true] <=>[v=true] /\
                                     [v=false] <=> [v=false]};
@@ -27,9 +27,9 @@ Node : (root : {v : int | true}) ->
 
 
 
-goal : (s0 : { v : int | true} ) -> 
+goal : (size : { v : int | true} ) -> 
             {v : tree | \(u:int). 
                (tlen (v) == u) => (([u > 0] \/ [u = 0]) /\ 
-                              not [u > s0])};
+                              not [u > size])};
 
 
