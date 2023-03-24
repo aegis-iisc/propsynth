@@ -1084,7 +1084,7 @@ let logf = Z3.Log.open_ "z3log.log" in
 let expressions_list = Solver.get_assertions solverDischarged  in   
 
 let () = Printf.originalPrint "%s" ("\n# of Final Z3 expressions "^(string_of_int (List.length expressions_list))) in   
-let () = Printf.originalPrint "%s" ("\n Final solver \n "^(Solver.to_string solverDischarged)) in   
+(* let () = Printf.originalPrint "%s" ("\n Final solver \n "^(Solver.to_string solverDischarged)) in    *)
 
 (* let () = Printf.originalPrint "%s" ("\n Stat solver \n "^(Statistics.to_string (Solver.get_statistics solverDischarged))) in 
    let () = Printf.originalPrint "%s" ("\n PARAM  \n "^(Z3.Params.ParamDescrs.to_string pdesc )) in  *)

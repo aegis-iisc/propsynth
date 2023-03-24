@@ -32,7 +32,7 @@ end
 
 
 module Printf = struct 
-  let printf d s = Printf.printf d s
+  let printf d s = Printf.printf d ""
   let originalPrint = Printf.printf 
 end  
 
