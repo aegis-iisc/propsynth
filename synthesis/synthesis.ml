@@ -1345,8 +1345,10 @@ and isynthesizeMatch depth gamma sigma delta argToMatch spec : Syn.typedMonExp o
     (gamma, ifsols)            
                
 
-(*Top level syntheis goals for Lambda, same as the traditional syntehsis rules
-calls the top-level macthing and application followed by if-rule and then the standard learning based rule *)
+(*Top level syntheis goals for Lambda, 
+same as the traditional syntehsis rules
+calls the top-level macthing and application followed 
+by if-rule and then the standard learning based rule *)
 and isynthesizeFun depth gamma sigma delta spec : Syn.typedMonExp list= 
   
   let uncurried_spec = RefTy.uncurry_Arrow spec in 
